@@ -1,6 +1,6 @@
 # Auckland CivicTech Hackathon · Waste B: Reuse, repair and recycling finder
 
-**Browny's Hackathon, hosted by Mayor Wayne Brown · Auckland Council · run by Creative HQ · closing Auckland Startup Week**
+**Browny's Hackathon, hosted by Mayor Wayne Brown · Auckland Council · facilitated by Creative HQ · closing Auckland Startup Week**
 Friday 16 October 2026 · The Annex, 10 Madden Street, Wynyard Quarter, and Media Design School
 
 > Private event repository. Replace this README with your own as you build;
@@ -100,8 +100,22 @@ One working prototype, built on the day. Code is due at **5:00pm**; the
 judges then visit each table for five minutes with a live demo. This
 repository is the submission.
 
-A narrow thing that works, with real Auckland data, beats a broad thing that
-does not demo.
+It is a proof of concept, not a finished product. Start from the whole problem,
+then home in on the area with the most useful data and the highest impact, and
+use it to prove the case. A narrow thing that works, with real Auckland data,
+beats a broad thing that does not demo.
+
+## Help on the day
+
+- **Your Council expert**: the problem, what Council needs, and the data behind it.
+- **Creative HQ facilitators**: working as a team, unpacking the problem, design,
+  and preparing your pitch.
+- **The technical team**: access to this repository, the data clients, getting
+  unstuck, and questions about AI coding tools.
+
+Use any AI coding tool you like, on your own accounts; the organisers do not
+provide accounts or credits for the day. Organisers look at repository activity during the
+day to see which teams might need a hand, so push early and often.
 
 ## What good looks like
 
@@ -140,8 +154,9 @@ Things worth knowing before they cost you an hour:
   or check `exceededTransferLimit`.
 - Some layers hold **millions of features**. Always pass a bbox; the clients
   have sample areas (`MT_ALBERT`, `DOMINION_RD`, `WESTERN_LINE`, `NEW_LYNN`).
-- Keys go in environment variables, never in code. A few sources need a free
-  key: `AT_API_KEY` ([Auckland Transport developer portal](https://dev-portal.at.govt.nz),
+- Keys go in environment variables, never in code. The organisers do not hand
+  out shared keys; register for your own free key where a source needs one:
+  `AT_API_KEY` ([Auckland Transport developer portal](https://dev-portal.at.govt.nz),
   realtime feeds), `LINZ_API_KEY` ([LINZ Data Service](https://data.linz.govt.nz),
   WFS and downloads), `TOMTOM_KEY` ([TomTom developer portal](https://developer.tomtom.com)).
   Export them in your shell or put them in a `.env` file, which git ignores.
@@ -237,6 +252,9 @@ Creative HQ's briefing for the judges:
 A tie goes to the team with the higher "better, faster, cheaper" score. The
 scores guide the panel, which has the final say.
 
+After 5:00pm the panel also gets a short AI-generated technical summary of
+each team's repository. It informs the judges; it is not a separate score.
+
 ## Submission checklist
 
 Before 5:00pm, when code is due, make sure `main` has:
@@ -277,5 +295,8 @@ Creative HQ's briefing pack for Council experts says:
 > Under the IP terms participants agreed to, what is built on the day belongs to Auckland Council and Auckland Startup Week, with a licence back to the participants.
 <!-- verbatim:end -->
 
-This is not an open-source project and there is no open-source licence. The
-formal licence text is TBC — ask Creative HQ. Do not add a LICENSE file. See [NOTICE](NOTICE).
+This is not an open-source project and there is no open-source licence.
+Creative HQ is confirming with Auckland Council what these terms mean in
+practice, including whether team repositories are made public after the event.
+Until then the formal licence text is TBC — ask Creative HQ.
+Do not add a LICENSE file. See [NOTICE](NOTICE).

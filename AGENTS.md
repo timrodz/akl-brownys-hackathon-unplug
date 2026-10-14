@@ -5,8 +5,8 @@ Context for coding assistants working in this repository.
 ## The event
 
 A one-day build with Auckland Council (Browny's Hackathon, hosted by Mayor
-Wayne Brown), run by Creative HQ to close Auckland Startup Week, on Friday 16
-October 2026. Six teams of about six people, one problem statement each,
+Wayne Brown), facilitated by Creative HQ for Auckland Council to close
+Auckland Startup Week, on Friday 16 October 2026. Six teams of about six people, one problem statement each,
 across transport, flood resilience and waste. This is Creative HQ team
 5. Each team builds one working prototype in about seven hours.
 Code is due at 5:00pm; what is on `main` then is judged, with a
@@ -16,7 +16,9 @@ works on real Council or open data; Council could realistically use it.
 
 Council's problem statement below is verbatim. Do not rewrite or "correct" it.
 
-Scope accordingly: a narrow thing that works with real Auckland data beats a
+This is a proof of concept, not a finished product. Scope accordingly: start
+from the whole problem, then home in on the area with the most useful data and
+the highest impact. A narrow thing that works with real Auckland data beats a
 broad thing that does not demo.
 
 ## This team's problem
@@ -123,6 +125,7 @@ or `akl-data.js` (ES module), next to `catalogue.json`. Find sources with
 `why` and `verified.note` explain what it is good for and any quirks. The data
 repo also has `skills/akl-data/SKILL.md` with the same rules in skill form.
 
+- Keys are each team's own; the organisers do not issue shared keys.
 - Request WGS84 (`outSR=4326`). Raw NZTM2000 coordinates are metres.
 - Requests are capped at 1,000 or 2,000 rows. Page with `all_features()`.
 - Always pass a bbox for big layers (flow paths, buildings, parcels, LiDAR).
@@ -143,7 +146,8 @@ repo also has `skills/akl-data/SKILL.md` with the same rules in skill form.
 
 ## Conventions
 
-- Commit early and often, with clear messages. Merge to `main` well before
+- Commit and push early and often, with clear messages; organisers look at
+  repository activity to see who needs a hand. Merge to `main` well before
   5:00pm.
 - Keep the README current: what it does, how to run it, data used, limitations.
 - Pin dependencies. Prefer few of them.
