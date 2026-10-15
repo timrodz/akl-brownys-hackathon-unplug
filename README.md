@@ -300,3 +300,33 @@ Creative HQ is confirming with Auckland Council what these terms mean in
 practice, including whether team repositories are made public after the event.
 Until then the formal licence text is TBC — ask Creative HQ.
 Do not add a LICENSE file. See [NOTICE](NOTICE).
+
+## EasyRe landing page (phase 1)
+
+Run `pnpm install --frozen-lockfile`, then `pnpm dev` and open http://localhost:3000.
+Check with `pnpm typecheck` and `pnpm build`.
+
+The responsive landing page accepts a camera/photo upload, editable item description,
+and either a four-digit NZ postcode or device coordinates. Geolocation needs HTTPS
+(or localhost) and browser permission. Entering a postcode clears device coordinates.
+Images are limited to JPG/PNG/WebP, 5 MB. The selected image stays in browser memory
+and is uploaded to the server for identification and again with form submission.
+`POST /api/analyse` uses Gemini to identify the photo; the user can correct its text.
+Set `Gemini_API_Key` in `.env.local` (existing `GEMINI_API_KEY` and
+`GOOGLE_GENERATIVE_AI_API_KEY` also work). Never expose keys with NEXT_PUBLIC_.
+No key is needed for text-only form submission; missing identification configuration
+has a visible manual-description fallback. AI identification can be inaccurate.
+
+`POST /api/submissions` validates multipart form data and returns HTTP 202 with
+`{ status: "scaffold", searchPerformed: false, persisted: false }`.
+It does not store photos, descriptions or locations, query a database, call Maps,
+or create results. `GOOGLE_MAPS_API_KEY` is reserved for the next phase. Before
+launch, apply platform body-size limits and rate limiting to the photo route.
+
+Repository analysis: Next.js App Router, React, Tailwind, Gemini via Vercel AI SDK,
+and Neon/Drizzle. The current database schema contains only `app_meta`; no searchable
+reuse/repair directory or seed data is in this checkout. AGENTS.md links the separate
+Auckland civic data catalogue as the data starting point. Results integration is
+intentionally deferred. The requested beta.automtax.co.nz reference did not resolve
+during development, so the cream/green visual direction is provisional rather than
+an asserted match to that style guide. No deployment was created in this phase.
