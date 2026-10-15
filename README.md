@@ -339,3 +339,11 @@ Configure a non-empty Gemini key in the deployment environment and redeploy to
 activate identification. Empty aliases no longer shadow another configured key.
 Run `node scripts/check-photo-fallback.cjs` after dependency installation to check
 the actual route's missing-key response with the Gemini provider stubbed out.
+
+### Gemini model availability
+The default is `gemini-3.8-flash`. Google restricts Gemini 2.5 models to projects
+that actively used them previously, which can cause a provider 404 for new projects.
+Set the optional server-only `GEMINI_MODEL` to override the model, then redeploy.
+Reference: https://ai.google.dev/gemini-api/docs/deprecations
+Local configuration regression: `node scripts/check-gemini-model.cjs`. This stubs
+the provider; a successful live photo request still needs verification in Vercel.
