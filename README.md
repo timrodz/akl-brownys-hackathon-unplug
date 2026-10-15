@@ -312,8 +312,7 @@ and either a four-digit NZ postcode or device coordinates. Geolocation needs HTT
 Images are limited to JPG/PNG/WebP, 5 MB. The selected image stays in browser memory
 and is uploaded to the server for identification and again with form submission.
 `POST /api/analyse` uses Gemini to identify the photo; the user can correct its text.
-Set `Gemini_API_Key` in `.env.local` (existing `GEMINI_API_KEY` and
-`GOOGLE_GENERATIVE_AI_API_KEY` also work). Never expose keys with NEXT_PUBLIC_.
+Set `GEMINI_API_KEY` in `.env.local` (`GOOGLE_GENERATIVE_AI_API_KEY` also works). Never expose keys with NEXT_PUBLIC_.
 No key is needed for text-only form submission; missing identification configuration
 has a visible manual-description fallback. AI identification can be inaccurate.
 
