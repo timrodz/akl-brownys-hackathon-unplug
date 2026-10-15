@@ -12,6 +12,7 @@ export type BusinessSummary = {
   id: string;
   name: string;
   suburb: string | null;
+  phone: string | null;
   website: string | null;
   sourceUrl: string | null;
 };

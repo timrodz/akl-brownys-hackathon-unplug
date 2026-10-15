@@ -382,3 +382,29 @@ Repair Network Aotearoa, TechCollect, Enviro NZ (Constellation RRC), etc.
 Stack: Next.js App Router, React, Tailwind, Gemini via Vercel AI SDK, Neon Postgres +
 Drizzle (`lib/db/schema.ts`). Domain terms: `GLOSSARY.md`. Photo storage: ADR
 `docs/adr/0001-submission-photo-in-postgres.md`.
+
+### Catalogue check and draft results
+`items` is a catalogue table, not an enum: id, source/external_id, title, keywords,
+hazard_alert, disposal_guidance and slug. `submission_items.item_id` records a match;
+`business_items.item_id` links it to accepting/servicing businesses. Phone and
+coordinates live on `businesses`; distance is stored on each recommendation.
+After image identification, `/api/analyse` reads the database catalogue and returns
+a suggested catalogue match for review. It never creates categories from AI text.
+Unavailable/empty catalogues and ambiguous descriptions are explicitly unmatched.
+Submission processing reruns the same matcher against the current edited description.
+Generic condition terms and partial words no longer steer the match; ties remain
+unmatched. This is a conservative keyword heuristic, not semantic certainty.
+
+`/results` is a draft results page. Without a submission it shows clearly labelled
+placeholder rows; after submission it shows up to three distinct matched businesses,
+ranked in existing pathway order and then distance within each pathway. The table
+contains rank, business name, straight-line distance and telephone. Demo phone numbers
+are displayed as sample contacts, not presented as verified call targets. Missing
+phones/distances are labelled. Results are held in tab-local sessionStorage for the
+page transition (without image bytes or coordinates); start a new submission to refresh.
+The postcode form already offers `Use my location`, which requests browser permission
+on click and falls back to manual postcode entry if denied, timed out or unavailable.
+
+Checks: `node scripts/check-item-matching.cjs`, `node scripts/check-photo-fallback.cjs`,
+and `node scripts/check-gemini-model.cjs`. Full dependency installation, build and
+browser verification remain blocked by the local dependency release-age policy.
