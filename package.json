@@ -12,11 +12,14 @@
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
-    "db:seed": "tsx scripts/seed-catalogue.ts"
+    "db:seed": "tsx scripts/seed-catalogue.ts",
+    "db:setup": "drizzle-kit push && tsx scripts/seed-catalogue.ts",
+    "db:up": "docker compose up -d db",
+    "db:down": "docker compose down"
   },
   "dependencies": {
     "@ai-sdk/google": "4.0.98",
-    "@neondatabase/serverless": "1.2.0",
+    "postgres": "3.4.7",
     "ai": "7.0.107",
     "drizzle-orm": "0.45.4",
     "next": "16.3.5",
@@ -35,5 +38,5 @@
     "tsx": "4.20.5",
     "typescript": "5.9.3"
   },
-  "packageManager": "pnpm@10.32.1"
+  "packageManager": "bun@1.2.0"
 }

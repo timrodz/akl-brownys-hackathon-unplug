@@ -1,4 +1,4 @@
-import type { NeonHttpDatabase } from "drizzle-orm/neon-http";
+import type { PostgresJsDatabase } from "drizzle-orm/postgres-js";
 
 import * as schema from "@/lib/db/schema";
 import {
@@ -19,7 +19,7 @@ export type SeedCatalogueResult = {
   businessItems: number;
 };
 
-type Db = NeonHttpDatabase<typeof schema>;
+type Db = PostgresJsDatabase<typeof schema>;
 
 export async function seedCatalogueWithDb(
   database: Db,

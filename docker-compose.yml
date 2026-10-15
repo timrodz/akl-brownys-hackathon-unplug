@@ -1,0 +1,19 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: easyre
+      POSTGRES_PASSWORD: easyre
+      POSTGRES_DB: easyre
+    ports:
+      - "5432:5432"
+    volumes:
+      - easyre_pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U easyre -d easyre"]
+      interval: 2s
+      timeout: 5s
+      retries: 15
+
+volumes:
+  easyre_pg_data:
