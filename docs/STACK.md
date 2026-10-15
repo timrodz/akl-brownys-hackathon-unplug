@@ -11,6 +11,7 @@
 cp .env.example .env.local
 pnpm install
 pnpm db:push   # when DATABASE_URL is set
+pnpm db:seed   # demo catalogue: 5 items, 3 businesses
 pnpm dev
 ```
 

@@ -301,41 +301,68 @@ practice, including whether team repositories are made public after the event.
 Until then the formal licence text is TBC — ask Creative HQ.
 Do not add a LICENSE file. See [NOTICE](NOTICE).
 
-## EasyRe landing page (phase 1)
+## EasyRe prototype (persist + 4R recommendations)
 
-Run `pnpm install --frozen-lockfile`, then `pnpm dev` and open http://localhost:3000.
+### Run locally
+
+```bash
+cp .env.example .env.local   # set DATABASE_URL (Neon) and optional GEMINI_API_KEY
+pnpm install --frozen-lockfile
+pnpm db:push                 # when DATABASE_URL is set
+pnpm db:seed                 # optional: load 5 demo items + 3 businesses
+pnpm dev                     # http://localhost:3000
+```
+
 Check with `pnpm typecheck` and `pnpm build`.
 
-The responsive landing page accepts a camera/photo upload, editable item description,
-and either a four-digit NZ postcode or device coordinates. Geolocation needs HTTPS
-(or localhost) and browser permission. Entering a postcode clears device coordinates.
-Images are limited to JPG/PNG/WebP, 5 MB. The selected image stays in browser memory
-and is uploaded to the server for identification and again with form submission.
+The responsive **Unplug** landing page accepts a camera/photo upload, editable item
+description, and either a four-digit NZ postcode or device coordinates. Geolocation
+needs HTTPS (or localhost) and browser permission. Entering a postcode clears device
+coordinates. Images are limited to JPG/PNG/WebP, 5 MB. The selected image stays in
+browser memory and is uploaded to the server for identification and again with form
+submission. On **Go**, `POST /api/submissions` persists the **submission** (including
+optional photo bytes), keyword-matches one catalogue **item**, writes ordered
+**recommendations**, and returns JSON for the UI. The first successful submit also
+upserts the demo catalogue if the database is empty.
+
 `POST /api/analyse` uses Gemini to identify the photo; the user can correct its text.
-Set `GEMINI_API_KEY` in `.env.local` (`GOOGLE_GENERATIVE_AI_API_KEY` also works). Never expose keys with NEXT_PUBLIC_.
-No key is needed for text-only form submission; missing identification configuration
-has a visible manual-description fallback. AI identification can be inaccurate.
+Set `GEMINI_API_KEY` in `.env.local` (`GOOGLE_GENERATIVE_AI_API_KEY` also works).
+Never expose keys with `NEXT_PUBLIC_`. No key is needed for text-only form submission;
+missing identification configuration has a visible manual-description fallback. AI
+identification can be inaccurate.
 
-`POST /api/submissions` validates multipart form data and returns HTTP 202 with
-`{ status: "scaffold", searchPerformed: false, persisted: false }`.
-It does not store photos, descriptions or locations, query a database, call Maps,
-or create results. `GOOGLE_MAPS_API_KEY` is reserved for the next phase. Before
-launch, apply platform body-size limits and rate limiting to the photo route.
-
-Repository analysis: Next.js App Router, React, Tailwind, Gemini via Vercel AI SDK,
-and Neon/Drizzle. The current database schema contains only `app_meta`; no searchable
-reuse/repair directory or seed data is in this checkout. AGENTS.md links the separate
-Auckland civic data catalogue as the data starting point. Results integration is
-intentionally deferred. The requested beta.automtax.co.nz reference did not resolve
-during development, so the cream/green visual direction is provisional rather than
-an asserted match to that style guide. No deployment was created in this phase.
+Photo analyse does not persist until submit.
 
 ### Unplug update
-The app is now named Unplug and uses a centred single-column form. If Gemini is
-not configured, photo identification returns an explicit `status: "manual"`
-response and the UI keeps the attached photo with a prompt for a description.
-This replaces the earlier missing-key HTTP 503; it does not simulate AI analysis.
-Configure a non-empty Gemini key in the deployment environment and redeploy to
-activate identification. Empty aliases no longer shadow another configured key.
-Run `node scripts/check-photo-fallback.cjs` after dependency installation to check
-the actual route's missing-key response with the Gemini provider stubbed out.
+
+The app is named **Unplug** and uses a centred single-column form. If Gemini is not
+configured, photo identification returns an explicit `status: "manual"` response and
+the UI keeps the attached photo with a prompt for a description. This replaces the
+earlier missing-key HTTP 503; it does not simulate AI analysis. Configure a
+non-empty Gemini key in the deployment environment and redeploy to activate
+identification. Empty aliases no longer shadow another configured key. Run
+`node scripts/check-photo-fallback.cjs` after dependency installation to check the
+actual route's missing-key response with the Gemini provider stubbed out.
+
+### Data sources (this build)
+
+| Layer | Source | Notes |
+|---|---|---|
+| Demo catalogue | `lib/catalogue/seed-data.ts` | **Synthetic sample** shaped like Council/community listings: 5 **items**, 3 **businesses**, join rows. Labelled in the UI. |
+| Future civic import | [akl-civic-data](https://github.com/Auckland-Hackathons/akl-civic-data) | RecycleMap markers, repair cafés, TechCollect, Council directory — not wired in this slice; replace/extend seed job. |
+| Postcode → map point | `lib/location/geocode.ts` | **Approximate** Auckland postcode centres for distance (not Google Maps). |
+
+Publishers to credit when you add live feeds: Auckland Council, RecycleMap NZ,
+Repair Network Aotearoa, TechCollect, Enviro NZ (Constellation RRC), etc.
+
+### Limitations
+
+- Catalogue rows are **demo seed data**, not a live scrape of Council’s directory.
+- Item matching is **keyword-based** (no Gemini match yet); low-confidence matches are labelled.
+- Distances use haversine km from postcode centres or GPS; outside Auckland may warn.
+- No resident accounts, submission history UI, or admin editor.
+- `GOOGLE_MAPS_API_KEY` is reserved for a future geocoder; not used here.
+
+Stack: Next.js App Router, React, Tailwind, Gemini via Vercel AI SDK, Neon Postgres +
+Drizzle (`lib/db/schema.ts`). Domain terms: `GLOSSARY.md`. Photo storage: ADR
+`docs/adr/0001-submission-photo-in-postgres.md`.
