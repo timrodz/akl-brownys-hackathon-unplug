@@ -351,15 +351,6 @@ Reference: https://ai.google.dev/gemini-api/docs/deprecations
 Local configuration regression: `node scripts/check-gemini-model.cjs`. This stubs
 the provider; a successful live photo request still needs verification in Vercel.
 
-The app is named **Unplug** and uses a centred single-column form. If Gemini is not
-configured, photo identification returns an explicit `status: "manual"` response and
-the UI keeps the attached photo with a prompt for a description. This replaces the
-earlier missing-key HTTP 503; it does not simulate AI analysis. Configure a
-non-empty Gemini key in the deployment environment and redeploy to activate
-identification. Empty aliases no longer shadow another configured key. Run
-`node scripts/check-photo-fallback.cjs` after dependency installation to check the
-actual route's missing-key response with the Gemini provider stubbed out.
-
 ### Data sources (this build)
 
 | Layer | Source | Notes |
