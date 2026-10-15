@@ -217,6 +217,7 @@ export async function processSubmission(
               id: business.id,
               name: business.name,
               suburb: business.suburb,
+              phone: business.phone,
               website: business.website,
               sourceUrl: business.sourceUrl,
             }

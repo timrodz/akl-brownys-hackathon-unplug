@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { SubmissionResults } from "@/app/components/submission-results";
 import type { SubmissionSuccessResponse } from "@/lib/submissions/types";
 import { useRef, useState, type FormEvent } from "react";
@@ -28,6 +29,7 @@ function Icon({ camera = false }: { camera?: boolean }) {
 }
 
 export default function HomePage() {
+  const router = useRouter();
   const [description, setDescription] = useState("");
   const [postcode, setPostcode] = useState("");
   const [coordinates, setCoordinates] = useState<{
@@ -77,7 +79,7 @@ export default function HomePage() {
       }
       if (edits.current === edit) setDescription(data.description);
       setPhotoMessage(
-        "Photo ready. Check the description and add any details.",
+        data.catalogueMatch ? `Catalogue item: ${data.catalogueMatch.title}. Please check this fits your photo.` : (data.catalogueWarning || "No catalogue match yet. Check the description and use a specific item name."),
       );
     } catch (error) {
       if (request === version.current) {
@@ -135,6 +137,7 @@ export default function HomePage() {
       const data = await response.json();
       if (!response.ok) throw new Error(data.error);
       setResult(data as SubmissionSuccessResponse);
+      try { sessionStorage.setItem("unplug-results", JSON.stringify(data)); router.push("/results"); } catch { /* Keep inline results if browser storage is unavailable. */ }
       if (data.status === "results_ready") {
         setMessage("Here are your next steps, ordered by pathway.");
       } else {
