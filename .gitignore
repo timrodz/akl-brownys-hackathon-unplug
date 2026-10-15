@@ -18,3 +18,14 @@ build/
 # misc
 .DS_Store
 *.log
+
+# next.js
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+.vercel
+
+# env (keep .env.example)
+.env*
+!.env.example
