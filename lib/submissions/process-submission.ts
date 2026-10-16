@@ -228,6 +228,9 @@ export async function processSubmission(
               phone: business.phone,
               website: business.website,
               sourceUrl: business.sourceUrl,
+              streetAddress: business.streetAddress,
+              latitude: business.latitude,
+              longitude: business.longitude,
             }
           : null,
       };
