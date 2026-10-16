@@ -303,17 +303,32 @@ Do not add a LICENSE file. See [NOTICE](NOTICE).
 
 ## EasyRe prototype (persist + 4R recommendations)
 
-### Run locally
+## Setup
+
+Local Postgres runs in Docker (not Neon). CLI scripts (`db:push`, `db:seed`, Drizzle Studio) load **`.env`** then **`.env.local`** (local wins).
+
+**Prerequisites:** [Docker](https://docs.docker.com/get-docker/) running, [Bun](https://bun.sh/) 1.4.2 (see `packageManager` in `package.json`).
+
+**First time** (start Postgres + schema + demo data):
 
 ```bash
-cp .env.example .env.local   # set DATABASE_URL (Neon) and optional GEMINI_API_KEY
-pnpm install --frozen-lockfile
-pnpm db:push                 # when DATABASE_URL is set
-pnpm db:seed                 # optional: load 5 demo items + 3 businesses
-pnpm dev                     # http://localhost:3000
+cp .env.example .env.local   # DATABASE_URL=postgresql://easyre:easyre@localhost:5432/easyre
+bun install
+bun db:up                    # Postgres 16 on localhost:5432 (user/db/password: easyre)
+bun db:setup                 # drizzle push + seed (exits when done)
+bun dev                      # http://localhost:3000
 ```
 
-Check with `pnpm typecheck` and `pnpm build`.
+**Already running** (`docker compose` up and `DATABASE_URL` set in `.env.local` or the shell):
+
+```bash
+bun db:setup                 # or: bun db:push && bun db:seed
+bun dev
+```
+
+Stop the database container with `bun db:down`. Data is kept in a Docker volume until you remove it.
+
+Check with `bun typecheck` and `bun run build`.
 
 The responsive **Unplug** landing page accepts a camera/photo upload, editable item
 description, and either a four-digit NZ postcode or device coordinates. Geolocation
@@ -370,8 +385,8 @@ Repair Network Aotearoa, TechCollect, Enviro NZ (Constellation RRC), etc.
 - No resident accounts, submission history UI, or admin editor.
 - `GOOGLE_MAPS_API_KEY` is reserved for a future geocoder; not used here.
 
-Stack: Next.js App Router, React, Tailwind, Gemini via Vercel AI SDK, Neon Postgres +
-Drizzle (`lib/db/schema.ts`). Domain terms: `GLOSSARY.md`. Photo storage: ADR
+Stack: Next.js App Router, React, Tailwind, Gemini via Vercel AI SDK, Postgres +
+Drizzle (`lib/db/schema.ts`, local via `docker-compose.yml`). Domain terms: `GLOSSARY.md`. Photo storage: ADR
 `docs/adr/0001-submission-photo-in-postgres.md`.
 
 ### Catalogue check and draft results

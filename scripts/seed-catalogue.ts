@@ -1,29 +1,35 @@
 /**
- * Load demo catalogue (5 items, 3 businesses) into Neon.
- * Usage: DATABASE_URL=... pnpm db:seed
+ * Load demo catalogue (5 items, 3 businesses) into Postgres.
+ * Usage: bun db:seed (reads .env / .env.local)
  */
-import { neon } from "@neondatabase/serverless";
-import { drizzle } from "drizzle-orm/neon-http";
-
 import { seedCatalogueWithDb } from "../lib/catalogue/seed-core";
-import * as schema from "../lib/db/schema";
+import { createScriptDb } from "../lib/db/create-client";
+import { loadProjectEnv } from "./load-env";
 
-const url = process.env.DATABASE_URL;
-if (!url) {
-  console.error("Set DATABASE_URL before seeding.");
-  process.exit(1);
+async function run(): Promise<void> {
+  loadProjectEnv();
+
+  const url = process.env.DATABASE_URL;
+  if (!url) {
+    console.error("Set DATABASE_URL before seeding.");
+    process.exit(1);
+  }
+
+  const { db, close } = createScriptDb(url);
+
+  try {
+    const result = await seedCatalogueWithDb(db);
+    console.log(
+      `Seeded ${result.items} items, ${result.businesses} businesses, ${result.businessItems} business-item links.`,
+    );
+  } catch (error) {
+    console.error(error);
+    process.exitCode = 1;
+  } finally {
+    await close();
+  }
+
+  process.exit(process.exitCode ?? 0);
 }
 
-const cliDb = drizzle(neon(url), { schema });
-
-async function main() {
-  const result = await seedCatalogueWithDb(cliDb);
-  console.log(
-    `Seeded ${result.items} items, ${result.businesses} businesses, ${result.businessItems} business-item links.`,
-  );
-}
-
-main().catch((error) => {
-  console.error(error);
-  process.exit(1);
-});
+run();

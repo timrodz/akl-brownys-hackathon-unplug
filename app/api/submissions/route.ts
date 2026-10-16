@@ -14,7 +14,7 @@ export async function POST(request: Request) {
     return Response.json(
       {
         error:
-          "Database is not configured yet. Set DATABASE_URL and run pnpm db:push.",
+          "Database is not configured yet. Set DATABASE_URL and run bun db:push.",
       },
       { status: 503 },
     );
