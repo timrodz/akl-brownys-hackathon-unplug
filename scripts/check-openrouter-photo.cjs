@@ -7,7 +7,7 @@ const code = ts.transpileModule(fs.readFileSync('lib/ai/classify-photo.ts', 'utf
 }).outputText;
 const classifier = {};
 // A synthetic key only: no local or deployment credentials are loaded.
-const env = { OPENROUTER: 'test-only-key' };
+const env = { OPENROUTER_API_KEY: 'test-only-key' };
 let sent, mode = 'success', calls = 0;
 vm.runInNewContext(code, {
   exports: classifier, process: { env }, Buffer, AbortSignal, console,
@@ -43,7 +43,7 @@ vm.runInNewContext(code, {
   await assert.rejects(() => classifier.classifyPhoto(photo, 'reference'), error => error.statusCode === 429 && !JSON.stringify(error).includes('private provider body'));
   mode = 'empty';
   await assert.rejects(() => classifier.classifyPhoto(photo, 'reference'), { name: 'AI_NoOutputGeneratedError' });
-  env.OPENROUTER = ' ';
+  env.OPENROUTER_API_KEY = ' ';
   assert.equal(classifier.hasImageApiKey(), false);
   const previousCalls = calls;
   await assert.rejects(() => classifier.classifyPhoto(photo, 'reference'));

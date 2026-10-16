@@ -3,11 +3,11 @@ import "server-only";
 import { diagnosticFetch } from "@/lib/diagnostics";
 
 export const IMAGE_MODEL_ID = "openrouter/free";
-export const hasImageApiKey = () => Boolean(process.env.OPENROUTER?.trim());
+export const hasImageApiKey = () => Boolean(process.env.OPENROUTER_API_KEY?.trim());
 
 /** Send photo bytes only to free vision models; never fall back to a paid model. */
 export async function classifyPhoto(photo: File, reference: string, cataloguePrompt?: string): Promise<string> {
-  const apiKey = process.env.OPENROUTER?.trim();
+  const apiKey = process.env.OPENROUTER_API_KEY?.trim();
   if (!apiKey) throw new Error("Image identification is not configured.");
 
   const providerFetch = diagnosticFetch(reference, IMAGE_MODEL_ID);
