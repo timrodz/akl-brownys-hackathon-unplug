@@ -2,6 +2,11 @@ import { BusinessResultRow } from "./business-result-row";
 import type { SubmissionSuccessResponse } from "@/lib/submissions/types";
 export function SubmissionResults({result}:{result:SubmissionSuccessResponse}) {
  const {item,warnings,recommendations}=result;
+ if (!item) return <section className="results-panel" aria-labelledby="results-heading">
+   <h2 id="results-heading">We could not match your e-waste.</h2>
+   <p>Please review the resource below to find the right option.</p>
+   <a className="results-link" href="https://www.aucklandcouncil.govt.nz/en/rubbish-recycling/get-rid-unwanted-items.html" target="_blank" rel="noopener noreferrer">How to get rid of unwanted items ↗</a>
+ </section>;
  const seen=new Set<string>();
  const businesses=recommendations.filter(rec=>{if(!rec.business||seen.has(rec.business.id))return false;seen.add(rec.business.id);return true;}).slice(0,3);
  const guidance=recommendations.filter(rec=>!rec.business);
