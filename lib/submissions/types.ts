@@ -9,6 +9,7 @@ export type SubmissionItemSummary = {
 };
 
 export type BusinessSummary = {
+  cost?: string | null;
   id: string;
   name: string;
   suburb: string | null;
