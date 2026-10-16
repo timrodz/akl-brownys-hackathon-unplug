@@ -1,16 +1,26 @@
 import { existsSync, readFileSync } from "node:fs";
-import { resolve } from "node:path";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
+
+/** Repo root (parent of `scripts/`), not the shell cwd. */
+export const projectRoot = resolve(
+  dirname(fileURLToPath(import.meta.url)),
+  "..",
+);
 
 function applyEnvFile(filePath: string, override: boolean) {
   if (!existsSync(filePath)) {
     return;
   }
 
-  const content = readFileSync(filePath, "utf8");
+  const content = readFileSync(filePath, "utf8").replace(/^\uFEFF/, "");
   for (const line of content.split("\n")) {
-    const trimmed = line.trim();
+    let trimmed = line.trim();
     if (!trimmed || trimmed.startsWith("#")) {
       continue;
+    }
+    if (trimmed.startsWith("export ")) {
+      trimmed = trimmed.slice("export ".length).trim();
     }
 
     const equalsAt = trimmed.indexOf("=");
@@ -36,7 +46,13 @@ function applyEnvFile(filePath: string, override: boolean) {
 
 /** Load `.env` then `.env.local` (local overrides) for CLI scripts and drizzle-kit. */
 export function loadProjectEnv(): void {
-  const root = process.cwd();
-  applyEnvFile(resolve(root, ".env"), false);
-  applyEnvFile(resolve(root, ".env.local"), true);
+  applyEnvFile(resolve(projectRoot, ".env"), false);
+  applyEnvFile(resolve(projectRoot, ".env.local"), true);
+}
+
+export function projectEnvFilePaths(): { env: string; local: string } {
+  return {
+    env: resolve(projectRoot, ".env"),
+    local: resolve(projectRoot, ".env.local"),
+  };
 }
