@@ -4,6 +4,8 @@
 
 # data supplied for the day: keep it out of git unless told otherwise
 private-data/
+auckland-unplugged/
+
 
 # python
 __pycache__/
