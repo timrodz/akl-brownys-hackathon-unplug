@@ -107,6 +107,38 @@ export const postcodeCentroids = pgTable("postcode_centroids", {
   importedAt: timestamp("imported_at", { withTimezone: true }).defaultNow().notNull(),
 });
 
+/** Lookup: `data/business_types.csv` */
+export const businessTypes = pgTable("business_types", {
+  businessTypeId: text("business_type_id").primaryKey(),
+  businessTypeName: text("business_type_name").notNull(),
+  nextLifeLevel: smallint("next_life_level"),
+  description: text("description"),
+});
+
+/** Lookup: `data/item_types.csv` */
+export const itemTypes = pgTable("item_types", {
+  itemTypeId: text("item_type_id").primaryKey(),
+  itemTypeName: text("item_type_name").notNull(),
+  description: text("description"),
+});
+
+/** Field glossary: `data/data_dictionary.csv` */
+export const dataDictionary = pgTable(
+  "data_dictionary",
+  {
+    entity: text("entity").notNull(),
+    columnName: text("column_name").notNull(),
+    description: text("description"),
+    example: text("example"),
+  },
+  (table) => [
+    uniqueIndex("data_dictionary_entity_column_uidx").on(
+      table.entity,
+      table.columnName,
+    ),
+  ],
+);
+
 export const items = pgTable(
   "items",
   {

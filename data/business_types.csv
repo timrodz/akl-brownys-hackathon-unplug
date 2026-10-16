@@ -1,0 +1,9 @@
+business_type_id,business_type_name,next_life_level,description
+BT08,Community recycling centre / resource recovery,3,Community Recycling Centre or zero-waste hub: reuse shop plus drop-off for recycling (often e-waste and batteries).
+BT09,Transfer station,6,"Council or commercial refuse transfer station; may take e-waste, whiteware, scrap metal or batteries (often for a fee)."
+BT10,Battery drop-off point,6,"Public or retail collection bin for household batteries (e.g. hardware stores, supermarkets, libraries)."
+BT11,E-waste / phone drop-off point,6,"Retail or public drop-off for e-waste or mobile phones (e.g. phone network stores, TechCollect partner sites)."
+BT12,E-waste recycler,6,Commercial e-waste recycler that processes electronics (may charge per item or kg).
+BT13,Battery recycler,6,"Company that collects and processes batteries (household, lithium-ion, lead-acid)."
+BT14,Scrap metal dealer,6,"Scrap metal yard; often accepts whiteware, lead-acid car batteries and metal-rich appliances."
+BT16,Hazardous waste drop-off,7,"Council hazardous household waste service, for damaged or swollen batteries, vapes and chemicals."

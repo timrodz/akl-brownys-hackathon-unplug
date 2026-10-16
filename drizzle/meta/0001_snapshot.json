@@ -1,5 +1,5 @@
 {
-  "id": "48117aa8-7a56-4f2a-b738-49b95c7ac535",
+  "id": "093ea71e-c088-4a7d-8c00-e5c0228b6b4c",
   "prevId": "706181f4-dd3f-48ae-bb92-53065c81600b",
   "version": "7",
   "dialect": "postgresql",
@@ -120,6 +120,43 @@
           "onUpdate": "no action"
         }
       },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.business_types": {
+      "name": "business_types",
+      "schema": "",
+      "columns": {
+        "business_type_id": {
+          "name": "business_type_id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "business_type_name": {
+          "name": "business_type_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "next_life_level": {
+          "name": "next_life_level",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "policies": {},
@@ -342,6 +379,96 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
+    "public.data_dictionary": {
+      "name": "data_dictionary",
+      "schema": "",
+      "columns": {
+        "entity": {
+          "name": "entity",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "column_name": {
+          "name": "column_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "example": {
+          "name": "example",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "data_dictionary_entity_column_uidx": {
+          "name": "data_dictionary_entity_column_uidx",
+          "columns": [
+            {
+              "expression": "entity",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "column_name",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.item_types": {
+      "name": "item_types",
+      "schema": "",
+      "columns": {
+        "item_type_id": {
+          "name": "item_type_id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "item_type_name": {
+          "name": "item_type_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
     "public.items": {
       "name": "items",
       "schema": "",
@@ -449,74 +576,6 @@
           "with": {}
         }
       },
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "public.postcode_centroids": {
-      "name": "postcode_centroids",
-      "schema": "",
-      "columns": {
-        "postcode": {
-          "name": "postcode",
-          "type": "text",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "latitude": {
-          "name": "latitude",
-          "type": "double precision",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "longitude": {
-          "name": "longitude",
-          "type": "double precision",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "locality_count": {
-          "name": "locality_count",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "localities": {
-          "name": "localities",
-          "type": "text[]",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "regions": {
-          "name": "regions",
-          "type": "text[]",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "source_url": {
-          "name": "source_url",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "source_sha256": {
-          "name": "source_sha256",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "imported_at": {
-          "name": "imported_at",
-          "type": "timestamp with time zone",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        }
-      },
-      "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},

@@ -12,8 +12,15 @@
     {
       "idx": 1,
       "version": "7",
-      "when": 1792111237256,
-      "tag": "0001_nz-postcode-centroids",
+      "when": 1792112275054,
+      "tag": "0001_catalogue_lookup_tables",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1792112275055,
+      "tag": "0002_nz-postcode-centroids",
       "breakpoints": true
     }
   ]

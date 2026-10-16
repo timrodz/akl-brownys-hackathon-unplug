@@ -1,0 +1,61 @@
+item_id,item_name,hazard,disposal_guidance,slug
+IT01,Laptop,Lithium-ion battery: fire risk if damaged,"Best next life: Keep using: Replace battery, charger or keyboard; reinstall OS; upgrade RAM/SSD. Preparation: Back up data; Sign out of accounts; Factory reset / wipe drive; Remove battery if loose and swollen",laptop
+IT02,Mobile phone,Lithium-ion battery: fire risk if damaged,Best next life: Keep using: Replace screen or battery; use a case. Preparation: Back up; Remove SIM and memory card; Sign out (iCloud/Google) and factory reset,mobile-phone
+IT03,Tablet,Lithium-ion battery,Best next life: Keep using: Replace battery/screen. Preparation: Back up; Sign out and factory reset,tablet
+IT04,Desktop computer,,"Best next life: Keep using: Upgrade parts (SSD, RAM). Preparation: Back up; Wipe or remove the hard drive",desktop-computer
+IT05,Computer monitor,Older CRT monitors contain leaded glass,Best next life: Repair: Repair power board,computer-monitor
+IT06,Television,CRT tubes contain lead; smart TVs store account logins,Best next life: Repair: TV repairer. Preparation: Sign out of apps and factory reset smart TVs,television
+IT07,Printer / scanner,Toner dust,"Best next life: Keep using: Clean print heads, replace parts. Preparation: Remove cartridges (recycle separately); Clear stored scans and contacts",printer-scanner
+IT08,Cables & chargers,,Best next life: Keep using: Keep spares for reuse. Preparation: Bundle cables together,cables-chargers
+IT09,Keyboard / mouse,,Best next life: Keep using: Clean or replace switches. Preparation: Remove batteries,keyboard-mouse
+IT10,Wi-Fi router / modem,,Best next life: Pass on: Pass on (reset). Preparation: Factory reset to clear Wi-Fi passwords; Check if your ISP wants it returned,wi-fi-router-modem
+IT11,Game console,,Best next life: Repair: Repair shop. Preparation: Sign out and factory reset,game-console
+IT12,Headphones / earbuds,Small lithium cells in wireless earbuds,Best next life: Keep using: Replace ear pads or cable,headphones-earbuds
+IT13,Smartwatch / fitness tracker,Lithium battery,Best next life: Repair: Manufacturer battery service. Preparation: Unpair and factory reset,smartwatch-fitness-tracker
+IT14,Camera,,Best next life: Repair: Camera repairer. Preparation: Remove memory card and battery,camera
+IT15,Speaker / stereo,,Best next life: Repair: Repair café. Preparation: Remove batteries,speaker-stereo
+IT16,DVD / Blu-ray player,,Best next life: Repair: Repair café,dvd-blu-ray-player
+IT17,Electric kettle,,Best next life: Keep using: Descale; replace the base. Preparation: Descale; empty,electric-kettle
+IT18,Toaster,,Best next life: Repair: Repair café. Preparation: Empty crumbs,toaster
+IT19,Microwave oven,Capacitor holds a high-voltage charge: do not dismantle,Best next life: Repair: Appliance repairer,microwave-oven
+IT20,Vacuum cleaner,Cordless models contain lithium packs,"Best next life: Keep using: Replace the filter, belt or battery. Preparation: Empty the dust bin; Remove the battery pack from cordless models",vacuum-cleaner
+IT21,Heater,Oil-filled heaters contain oil,Best next life: Repair: Repair café,heater
+IT22,Hair dryer / straightener,,Best next life: Repair: Repair café,hair-dryer-straightener
+IT23,Electric fan,,Best next life: Repair: Repair café,electric-fan
+IT24,Iron,,Best next life: Repair: Repair café. Preparation: Empty water,iron
+IT25,Blender / food processor,Blades,Best next life: Keep using: Replace jug or blade,blender-food-processor
+IT26,Coffee machine,,Best next life: Keep using: Descale; replace seals. Preparation: Descale; empty,coffee-machine
+IT27,Rice cooker / slow cooker,,Best next life: Repair: Repair café,rice-cooker-slow-cooker
+IT28,Power tool (corded),,Best next life: Keep using: Replace brushes or cord,power-tool-corded
+IT29,Cordless power tool,Lithium-ion pack,Best next life: Keep using: Replace the battery pack. Preparation: Remove the battery pack,cordless-power-tool
+IT30,Lawn mower / garden tool (electric),,Best next life: Repair: Mower repairer. Preparation: Remove the battery,lawn-mower-garden-tool-electric
+IT31,E-bike / e-scooter battery,High fire risk if damaged; never put in bins,Best next life: Keep using: Cell rebuild or replacement pack. Preparation: Tape terminals; Store cool and dry; Do not charge if damaged,e-bike-e-scooter-battery
+IT32,E-bike / e-scooter,Lithium pack,Best next life: Keep using: Service; replace tyres. Preparation: Remove the battery,e-bike-e-scooter
+IT33,Vape (e-cigarette),Lithium battery and nicotine residue; council treats as hazardous,Best next life: Recycle: Battery drop-off that accepts vapes. Preparation: Never put in rubbish or recycling bins,vape-e-cigarette
+IT34,AA / AAA batteries (single-use),Low; tape 9V terminals,Best next life: Keep using: Switch to rechargeables. Preparation: Tape 9V terminals,aa-aaa-batteries-single-use
+IT35,Rechargeable AA / AAA,Low,Best next life: Keep using: Keep recharging. Preparation: Tape terminals,rechargeable-aa-aaa
+IT36,Button / coin cell,Dangerous if swallowed by children,Best next life: Recycle: Battery drop-off. Preparation: Tape both sides,button-coin-cell
+IT37,Loose lithium-ion battery,Fire risk; tape terminals,Best next life: Recycle: Battery drop-off or battery recycler. Preparation: Tape terminals; Bag individually,loose-lithium-ion-battery
+IT38,Power bank,Fire risk,Best next life: Pass on: Pass on if working,power-bank
+IT39,Car battery (lead-acid),Acid and lead,Best next life: Sell / trade-in: Scrap dealers may pay. Preparation: Keep upright,car-battery-lead-acid
+IT40,Fridge / freezer,Refrigerant gas must be degassed,Best next life: Repair: Appliance repairer. Preparation: Defrost; empty,fridge-freezer
+IT41,Washing machine / dryer,,Best next life: Repair: Appliance repairer. Preparation: Drain water,washing-machine-dryer
+IT42,Oven / stove,,Best next life: Repair: Appliance repairer,oven-stove
+IT43,Dehumidifier / air conditioner,Contains refrigerant,Best next life: Repair: Appliance repairer,dehumidifier-air-conditioner
+IT44,Electric toothbrush / shaver,Internal battery,Best next life: Keep using: Replace the head or battery,electric-toothbrush-shaver
+IT45,Light bulbs (CFL / fluorescent tube),Contains mercury,Best next life: Recycle: Bulb recycling drop-off. Preparation: Keep unbroken,light-bulbs-cfl-fluorescent-tube
+IT46,LED light / lamp,,Best next life: Keep using: Replace the bulb,led-light-lamp
+IT47,Smoke alarm,Ionisation alarms contain a tiny radioactive source,Best next life: Recycle: Check manufacturer take-back. Preparation: Remove battery,smoke-alarm
+IT48,Electronic toy,Batteries,Best next life: Repair: Repair café. Preparation: Remove batteries,electronic-toy
+IT49,Electronic piano / keyboard,,Best next life: Repair: Repairer,electronic-piano-keyboard
+IT50,Hard drive / USB stick / SD card,,Best next life: Keep using: Reuse as storage. Preparation: Wipe securely or physically destroy,hard-drive-usb-stick-sd-card
+IT51,Landline / cordless phone,,Best next life: Pass on: Pass on. Preparation: Remove batteries,landline-cordless-phone
+IT52,Solar panel / inverter,,Best next life: Pass on: Resell working panels,solar-panel-inverter
+IT53,Incandescent light bulb,Glass can break; wrap if sharp,Best next life: Safe disposal: Wrap in paper and put in the rubbish bin,incandescent-light-bulb
+IT55,"Other batteries (mercury, nickel, zinc)",Batteries can cause truck fires,Best next life: Recycle: Take to a battery recycler,other-batteries-mercury-nickel-zinc
+IT57,Photocopier,Heavy; may store scanned documents,Best next life: Pass on: Donate to a Community Recycling Centre or op shop,photocopier
+IT58,Waste disposal unit,,Best next life: Pass on: Donate to a Community Recycling Centre or op shop,waste-disposal-unit
+IT59,Range hood,,Best next life: Pass on: Donate to a Community Recycling Centre or op shop,range-hood
+IT60,Sewing machine,,Best next life: Pass on: Donate to a Community Recycling Centre or op shop,sewing-machine
+IT61,Uninterrupted power supply (UPS),Contains a battery; council lists as hazardous,Best next life: Recycle: Take to a transfer station,uninterrupted-power-supply-ups
+IT62,Electric blanket,,Best next life: Pass on: Donate to a Community Recycling Centre or op shop,electric-blanket
