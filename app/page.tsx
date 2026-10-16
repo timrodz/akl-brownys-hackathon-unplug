@@ -77,7 +77,7 @@ export default function HomePage() {
       }
       if (edits.current === edit) setDescription(data.description);
       setPhotoMessage(
-        data.catalogueMatch ? `Catalogue item: ${data.catalogueMatch.title}. Please check this fits your photo.` : (data.catalogueWarning || "No catalogue match yet. Check the description and use a specific item name."),
+        data.catalogueMatch ? `Suggested catalogue item: ${data.catalogueMatch.title}${data.suggestedItemType ? ` · ${data.suggestedItemType.name}` : ""}. Please check this fits your photo.` : (data.catalogueWarning || "No catalogue match yet. Check the description and use a specific item name."),
       );
     } catch (error) {
       if (request === version.current) {
@@ -205,10 +205,13 @@ export default function HomePage() {
               <span className="plus">+</span>
             </label>
             <p className="help">
-              JPG, PNG or WebP · Up to 5 MB. Photos are sent to Google Gemini
+              JPG, PNG or WebP · Up to 5 MB. Photos are sent to OpenRouter
               for identification.
             </p>
-            <p className="feedback" role="status">{photoMessage}</p>
+            <p className={`feedback${analysing ? " photo-identifying" : ""}`} role="status" aria-live="polite">
+              {analysing ? <span className="photo-spinner" aria-hidden="true" /> : null}
+              {photoMessage}
+            </p>
             <label className="field-label" htmlFor="description">
               Your item <span>— or just describe it</span>
             </label>

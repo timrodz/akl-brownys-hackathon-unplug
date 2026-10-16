@@ -7,7 +7,7 @@ const source = fs.readFileSync('app/api/analyse/route.ts', 'utf8');
 const diagnosticModule={};vm.runInNewContext(ts.transpileModule(fs.readFileSync('lib/diagnostics.ts','utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText,{exports:diagnosticModule});
 const code = ts.transpileModule(source, {compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText;
 const routeExports = {};
-vm.runInNewContext(code, {exports:routeExports, Response, Request, File, FormData, AbortSignal, Uint8Array, require(name){if(name==='@/lib/diagnostics')return diagnosticModule;
+vm.runInNewContext(code, {exports:routeExports, Response, Request, File, FormData, AbortSignal, Uint8Array, require(name){if(name==='@/lib/catalogue/load-photo-catalogue')return {loadPhotoCatalogue:async()=>null};if(name==='@/lib/catalogue/photo-selection'){const result={};vm.runInNewContext(ts.transpileModule(fs.readFileSync('lib/catalogue/photo-selection.ts','utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText,{exports:result});return result;}if(name==='@/lib/diagnostics')return diagnosticModule;
  if(name==='ai')return {generateText(){throw Error('OpenRouter must not be called without a key');}};
  if(name==='@/lib/ai/classify-photo')return {classifyPhoto:()=>{throw Error("Must not classify without key");},hasImageApiKey:()=>false};
  if(name==='@/lib/forms/validation')return {photoError:()=>null};

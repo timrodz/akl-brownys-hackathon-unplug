@@ -1,6 +1,7 @@
 import { classifyPhoto, hasImageApiKey, IMAGE_MODEL_ID } from "@/lib/ai/classify-photo";
 import { photoError } from "@/lib/forms/validation";
 import { safeFailure as failureDetails } from "@/lib/diagnostics";
+import { photoSelectionPrompt, parsePhotoSelection, type PhotoCatalogue } from "@/lib/catalogue/photo-selection";
 export async function POST(request: Request) {
     let stage = "upload";
     const started = Date.now();
@@ -17,10 +18,18 @@ export async function POST(request: Request) {
         if (!hasImageApiKey())
             return Response.json({ status: "manual", message: "Your photo is attached. Automatic identification is not configured yet. Please describe your item below." });
         console.info("[analyse]", {event:"photo_validated",reference,bytes:photo.size,mediaType:photo.type});
+        let catalogue: PhotoCatalogue | null = null;
+        try {
+            const { loadPhotoCatalogue } = await import("@/lib/catalogue/load-photo-catalogue");
+            catalogue = await loadPhotoCatalogue();
+        } catch (cause) {
+            console.error("[analyse]", {reference, stage:"load_photo_catalogue", ...failureDetails(cause)});
+        }
         stage = "openrouter";
-        const text = await classifyPhoto(photo, reference);
+        const text = await classifyPhoto(photo, reference, catalogue ? photoSelectionPrompt(catalogue) : undefined);
         console.info("[analyse]", {event:"identification_completed",reference,elapsedMs:Date.now()-started,outputCharacters:text.length});
         if (!text.trim()) throw Object.assign(new Error(), { name: "AI_NoOutputGeneratedError" });
+        if (catalogue) return Response.json(parsePhotoSelection(text, catalogue));
         stage = "catalogue";
         const description = text.trim().slice(0, 1000);
         try {

@@ -446,3 +446,13 @@ Business addresses and coordinates are passed from the existing database fields.
 Missing or invalid coordinates show a map-unavailable message. Existing stored results without location fields remain usable; submit a new search for maps. Catalogue pins are not independently verified; check addresses before travelling. Business coordinates are included in tab-local stored results.
 
 Checks: `node scripts/check-business-maps.cjs` and `node scripts/check-submission-flow.cjs`.
+
+### Photo progress and catalogue classification
+
+Photo identification displays an animated spinner beside the status below the image; reduced-motion preferences disable rotation. The status ends on success, manual fallback or error. Selecting a newer photo keeps older requests from replacing its result, and editing the description protects the resident's own text.
+
+When the database catalogue is available, the image classifier receives non-demo Items (IDs, names and keywords) and Item Types (IDs, names and descriptions). It chooses the most likely existing Item and may suggest an existing Item Type. These tables currently have no item-to-type foreign key, so the type is a model suggestion, not a stored relationship. The server validates both returned IDs and rejects low-confidence, unknown or malformed selections. A valid selection fills the editable description with the canonical catalogue name. Submission processing still matches the final edited description against the current catalogue.
+
+Catalogue text is sent to OpenRouter with the photo; no database credentials or resident location are sent. If the catalogue cannot load, the existing general-description and catalogue-check fallback remains, with manual review warnings. If the catalogue is available but the photo has no confident matching item, the user is asked for a manual description; no category is invented. Qualitative model confidence is not a calibrated probability.
+
+Checks: `node scripts/check-photo-catalogue.cjs`, `node scripts/check-openrouter-photo.cjs`, and the photo fallback/diagnostics/file-part scripts.
