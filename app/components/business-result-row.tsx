@@ -40,9 +40,10 @@ export function BusinessResultRow({ recommendation, rank }: {
       </td>
       <td>{recommendation.distanceKm == null ? "Not available" : `Approx. ${recommendation.distanceKm.toFixed(1)} km`}</td>
       <td>{business.phone ? <a className="results-link" href={`tel:${business.phone.replace(/[^+0-9]/g, "")}`}>{business.phone}</a> : "Not supplied"}</td>
+      <td>{business.cost?.trim() || "Not supplied"}</td>
     </tr>
     <tr hidden={!expanded} className="business-location-row">
-      <td colSpan={4}>
+      <td colSpan={5}>
         <div id={panelId} className="business-location" role="region" aria-label={`${business.name} location`}>
           {expanded ? <>
             <p><strong>Address:</strong> {business.streetAddress || "Address not supplied"}</p>
