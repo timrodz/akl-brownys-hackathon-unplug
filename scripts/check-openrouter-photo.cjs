@@ -10,7 +10,7 @@ const classifier = {};
 const env = { OPENROUTER: 'test-only-key' };
 let sent, mode = 'success', calls = 0;
 vm.runInNewContext(code, {
-  exports: classifier, process: { env }, Buffer, AbortSignal,
+  exports: classifier, process: { env }, Buffer, AbortSignal, console,
   require(name) {
     if (name === 'server-only') return {};
     if (name === '@/lib/diagnostics') return {
@@ -18,7 +18,8 @@ vm.runInNewContext(code, {
         calls++;
         sent = { url, ...init, body: JSON.parse(init.body) };
         if (mode === 'rate-limit') return Response.json({ error: 'private provider body' }, { status: 429 });
-        return Response.json({ choices: [{ message: { content: mode === 'empty' ? '' : 'A metal toaster' } }] });
+        const empty = mode === 'empty' || (mode === 'empty-once' && calls === 1);
+        return Response.json({ choices: [{ finish_reason: empty ? 'length' : 'stop', message: { content: empty ? '' : 'A metal toaster' } }] });
       },
     };
     throw Error(name);
@@ -31,8 +32,13 @@ vm.runInNewContext(code, {
   assert.equal(sent.headers.Authorization, 'Bearer test-only-key');
   assert.equal(sent.body.model, 'openrouter/free');
   assert.equal(sent.body.messages[0].content[1].image_url.url, 'data:image/png;base64,iVBORw==');
-  assert.equal(sent.body.max_tokens, 180);
+  assert.equal(sent.body.max_tokens, 1024);
   assert.ok(sent.signal instanceof AbortSignal);
+  mode = 'empty-once'; calls = 0;
+  assert.equal(await classifier.classifyPhoto(photo, 'reference'), 'A metal toaster', 'HTTP 200 with empty content should retry once');
+  assert.equal(calls, 2);
+  assert.equal(sent.body.reasoning.enabled, false);
+  assert.ok(sent.body.max_tokens >= 1024);
   mode = 'rate-limit';
   await assert.rejects(() => classifier.classifyPhoto(photo, 'reference'), error => error.statusCode === 429 && !JSON.stringify(error).includes('private provider body'));
   mode = 'empty';
