@@ -1,9 +1,8 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { SubmissionResults } from "@/app/components/submission-results";
-import type { SubmissionSuccessResponse } from "@/lib/submissions/types";
 import { useRef, useState, type FormEvent } from "react";
+import { RESULTS_STORAGE_KEY } from "@/lib/results-storage";
 
 function Icon({ camera = false }: { camera?: boolean }) {
   return (
@@ -44,7 +43,6 @@ export default function HomePage() {
   const [message, setMessage] = useState("");
   const [photoMessage, setPhotoMessage] = useState("");
   const [locationMessage, setLocationMessage] = useState("");
-  const [result, setResult] = useState<SubmissionSuccessResponse | null>(null);
   const version = useRef(0);
   const edits = useRef(0);
 
@@ -65,7 +63,6 @@ export default function HomePage() {
     setAnalysing(true);
     setPhotoMessage("Identifying your item…");
     setMessage("");
-    setResult(null);
     try {
       const body = new FormData();
       body.set("photo", file);
@@ -126,7 +123,6 @@ export default function HomePage() {
     event.preventDefault();
     setSending(true);
     setMessage("");
-    setResult(null);
     try {
       const body = new FormData();
       body.set("description", description.trim());
@@ -136,20 +132,19 @@ export default function HomePage() {
       const response = await fetch("/api/submissions", { method: "POST", body });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error);
-      setResult(data as SubmissionSuccessResponse);
-      try { sessionStorage.setItem("unplug-live-results", JSON.stringify(data)); router.push("/results"); } catch { /* Keep inline results if browser storage is unavailable. */ }
-      if (data.status === "results_ready") {
-        setMessage("Here are your next steps, ordered by pathway.");
-      } else {
-        setMessage("Submission saved, but we need a clearer description.");
+      try {
+        sessionStorage.setItem(RESULTS_STORAGE_KEY, JSON.stringify(data));
+      } catch {
+        // sessionStorage may be unavailable (e.g. private browsing); the
+        // results page falls back to its empty state in that case.
       }
+      router.push("/results");
     } catch (error) {
       setMessage(
         error instanceof Error
           ? error.message
           : "Something went wrong. Please try again.",
       );
-    } finally {
       setSending(false);
     }
   }
@@ -274,7 +269,6 @@ export default function HomePage() {
               <Icon />
             </button>
             <p className="feedback submission" role="status">{message}</p>
-            {result ? <SubmissionResults result={result} /> : null}
           </form>
           <div className="prototype-note">
             Options are matched against the item and business records in our database.
