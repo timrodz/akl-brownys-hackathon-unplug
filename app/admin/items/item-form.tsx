@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { DATA_SOURCE_OPTIONS } from "@/lib/admin/business-ref-data";
+import { DATA_SOURCE_OPTIONS } from "@/lib/admin/data-source-options";
 import type { ItemTypeOption } from "@/lib/admin/item-ref-data";
 import { createItem, updateItem, deleteItem } from "./actions";
 
