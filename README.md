@@ -307,7 +307,7 @@ Do not add a LICENSE file. See [NOTICE](NOTICE).
 
 Local Postgres runs in Docker (not Neon). CLI scripts (`db:push`, `db:seed`, Drizzle Studio) load **`.env`** then **`.env.local`** (local wins).
 
-**Prerequisites:** [Docker](https://docs.docker.com/get-docker/) running, [Bun](https://bun.sh/) 1.1+.
+**Prerequisites:** [Docker](https://docs.docker.com/get-docker/) running, [Bun](https://bun.sh/) 1.4.2 (see `packageManager` in `package.json`).
 
 **First time** (start Postgres + schema + demo data):
 
