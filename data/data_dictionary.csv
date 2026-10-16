@@ -1,0 +1,29 @@
+entity,column_name,description,example
+Business Type,business_type_id,Identifier,BT08
+Business Type,business_type_name,Name of the kind of business,Community recycling centre / resource recovery
+Business Type,next_life_level,"Next Life level 1-7 (1 keep using, 2 repair, 3 pass on, 4 sell/trade-in, 5 harvest parts, 6 recycle, 7 safe disposal)",3
+Business Type,description,What this kind of business does,Reuse shop plus drop-off for recycling
+Business,business_id,Identifier,B0350
+Business,business_name,Name,Tāmaki Zero Waste Hub
+Business,business_type_id,Main business type,BT08
+Business,address,Street address,"153 Pilkington Road, Point England, Auckland"
+Business,suburb,Suburb,Point England
+Business,latitude,Latitude (WGS84),-36.8880836
+Business,longitude,Longitude (WGS84),174.8570329
+Business,opening_hours,Opening hours in plain text,Thursday to Saturday: 9am to 3pm
+Business,cost,Cost in plain words (from sources only),Free / $4 / Unknown
+Business,cost_type,How cost is charged: free | per_item | per_kg | per_load | koha | unknown,free
+Business,website,Website,https://tamakizerowastehub.nz/
+Business,phone,Phone,09 421 9111
+Item Type,item_type_id,Identifier,ET01
+Item Type,item_type_name,Name of the group,Computers & IT
+Item Type,description,What is in the group,"Computers, printers, networking gear and data storage."
+Item,item_id,Identifier,IT01
+Item,item_name,Name,Laptop
+Item,item_type_id,Item type,ET01
+Item,holds_personal_data,Stores personal data? yes / no,yes
+Item,hazard,Safety hazard (blank if none),Lithium-ion battery: fire risk if damaged
+Item,prep_before_drop_off,What to do first,Back up data; Factory reset
+Item,best_next_life,"Most circular option, plain words",Keep using: Replace battery
+Business Item,business_id,Business that accepts the item,B0350
+Business Item,item_id,Item it accepts,IT01
