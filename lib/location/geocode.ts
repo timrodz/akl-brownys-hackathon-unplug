@@ -1,21 +1,17 @@
-/** Postcode lookup uses Google Maps; no synthetic postcode coordinates. */
+import postcodeData from "@/data/postcodes/nz-postcode-centroids.json";
+/** Source-derived postcode lookup. No per-request Google Maps calls. */
 export type SearchPoint = { latitude: number; longitude: number; inAucklandRegion: boolean | null };
 export async function geocodePostcode(postcode: string): Promise<SearchPoint | null> {
- const apiKey=process.env.GOOGLE_MAPS_API_KEY?.trim();
- if(!apiKey || !/^\d{4}$/.test(postcode))return null;
+ if(!/^\d{4}$/.test(postcode))return null;
  try {
-  const url=new URL("https://maps.googleapis.com/maps/api/geocode/json");
-  url.searchParams.set("components",`postal_code:${postcode}|country:NZ`);
-  url.searchParams.set("key",apiKey);
-  const response=await fetch(url,{signal:AbortSignal.timeout(8000),cache:"no-store"});
-  if(!response.ok)return null;
-  const data=await response.json();
-  if(data.status!=="OK" || !Array.isArray(data.results))return null;
-  const result=data.results.find((row: {address_components?: {long_name:string;short_name:string;types:string[]}[]})=>row.address_components?.some(c=>c.types.includes("postal_code")&&c.long_name===postcode)&&row.address_components?.some(c=>c.types.includes("country")&&c.short_name==="NZ"));
-  const location=result?.geometry?.location;
-  if(typeof location?.lat!=="number"||typeof location?.lng!=="number"||!Number.isFinite(location.lat)||!Number.isFinite(location.lng)||Math.abs(location.lat)>90||Math.abs(location.lng)>180)return null;
-  return {latitude:location.lat,longitude:location.lng,inAucklandRegion:result.address_components.some((c:{long_name:string;types:string[]})=>c.types.includes("administrative_area_level_1")&&c.long_name==="Auckland")};
- }catch{return null;}
+  const [{db},{postcodeCentroids},{eq}] = await Promise.all([import("@/lib/db"),import("@/lib/db/schema"),import("drizzle-orm")]);
+  if(db) {
+   const [row]=await db.select().from(postcodeCentroids).where(eq(postcodeCentroids.postcode,postcode)).limit(1);
+   if(row&&Number.isFinite(row.latitude)&&Number.isFinite(row.longitude)&&row.latitude!==0&&row.longitude!==0&&Math.abs(row.latitude)<=90&&Math.abs(row.longitude)<=180) return {latitude:row.latitude,longitude:row.longitude,inAucklandRegion:row.regions.includes("Auckland")};
+  }
+ }catch { /* Genuine downloaded data supports rollout before the postcode table is imported. */ }
+ const row=postcodeData.centroids.find(row=>row.postcode===postcode);
+ return row?{latitude:row.latitude,longitude:row.longitude,inAucklandRegion:row.regions.includes("Auckland")}:null;
 }
 export function pointFromCoordinates(latitude: number,longitude: number): SearchPoint {
  // Region membership is unknown for device coordinates without reverse geocoding.

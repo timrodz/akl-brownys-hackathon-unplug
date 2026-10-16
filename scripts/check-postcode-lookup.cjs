@@ -1,23 +1,11 @@
-const fs = require('fs');
-const vm = require('vm');
-const assert = require('assert/strict');
-const ts = require('typescript');
-const code = ts.transpileModule(fs.readFileSync('lib/location/geocode.ts', 'utf8'), { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 } }).outputText;
-const result = {};
-const env = {};
-let calls = 0;
-let valid = true;
-vm.runInNewContext(code, { exports: result, process: { env }, URL, AbortSignal, fetch: async url => {
-  calls++;
-  assert.equal(url.searchParams.get('components'), 'postal_code:1010|country:NZ');
-  return { ok: true, json: async () => ({ status: 'OK', results: [{ geometry: { location: { lat: 0, lng: 0 } }, address_components: [{ long_name: valid ? '1010' : '9999', types: ['postal_code'] }, { short_name: 'NZ', types: ['country'] }] }] }) };
-} });
-(async () => {
-  assert.equal(await result.geocodePostcode('1010'), null);
-  assert.equal(calls, 0, 'No key means no fabricated location and no provider call');
-  env.GOOGLE_MAPS_API_KEY = 'test-fixture-key';
-  assert.equal((await result.geocodePostcode('1010')).latitude, 0);
-  valid = false;
-  assert.equal(await result.geocodePostcode('1010'), null, 'Reject a response for a different postcode');
-  console.log('PASS: Maps postcode lookup uses provider coordinates, returns no fabricated location without a key, and rejects mismatched postcodes.');
-})().catch(error => { console.error(error.message); process.exitCode = 1; });
+const fs=require('fs');const vm=require('vm');const assert=require('assert/strict');const ts=require('typescript');const crypto=require('crypto');
+const dataset=JSON.parse(fs.readFileSync('data/postcodes/nz-postcode-centroids.json','utf8'));
+const raw=fs.readFileSync('data/postcodes/newzealand-postcodes.source.json','utf8');
+assert.equal(crypto.createHash('sha256').update(raw).digest('hex'),dataset.sourceSha256);
+function compile(file){return ts.transpileModule(fs.readFileSync(file,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022,esModuleInterop:true}}).outputText;}
+const core={};vm.runInNewContext(compile('lib/location/postcode-centroids.ts'),{exports:core});
+const regenerated=core.buildPostcodeCentroids(JSON.parse(raw));assert.equal(JSON.stringify(regenerated.centroids),JSON.stringify(dataset.centroids));
+assert.ok(dataset.centroids.every(row=>/^\d{4}$/.test(row.postcode)&&row.latitude!==0&&row.longitude!==0));
+const fixture=core.buildPostcodeCentroids([{postcode:600,lat:-40,long:170},{postcode:'0600',lat:-42,long:172},{postcode:'0600',lat:0,long:0},{postcode:'0600',lat:'',long:172}]);assert.equal(fixture.centroids[0].postcode,'0600');assert.equal(fixture.centroids[0].latitude,-41);assert.equal(fixture.centroids[0].longitude,171);assert.equal(fixture.rejectedRows,2);
+let dbMode='missing';const lookup={};vm.runInNewContext(compile('lib/location/geocode.ts'),{exports:lookup,require(name){if(name==='@/data/postcodes/nz-postcode-centroids.json')return dataset;if(name==='@/lib/db')return {db:dbMode==='missing'?null:{select:()=>({from:()=>({where:()=>({limit:async()=>{if(dbMode==='error')throw Error('Fixture table missing');return [{postcode:'0600',latitude:-41,longitude:171,regions:['Auckland']}];}})})})}};if(name==='@/lib/db/schema')return {postcodeCentroids:{postcode:'postcode'}};if(name==='drizzle-orm')return {eq:()=>({})};throw Error(name);},fetch(){throw Error('Postcode runtime must not call external services');}});
+(async()=>{const known=dataset.centroids.find(row=>row.postcode==='0600');assert.ok(known);assert.equal((await lookup.geocodePostcode('0600')).latitude,known.latitude);assert.equal(await lookup.geocodePostcode('600'),null);assert.equal(await lookup.geocodePostcode('xxxx'),null);dbMode='configured';assert.equal((await lookup.geocodePostcode('0600')).latitude,-41);dbMode='error';assert.equal((await lookup.geocodePostcode('0600')).latitude,known.latitude);console.log('PASS: source hash and all '+dataset.centroids.length+' generated centroids verified; leading zeroes, averages, invalid rows, database lookup and real-data fallback checked.');})().catch(error=>{console.error(error);process.exitCode=1;});

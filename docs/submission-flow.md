@@ -18,11 +18,12 @@ an appropriate item and business links. No fallback business is invented.
 Existing seed utilities remain for historical development use; do not run them
 against the live database. The results page no longer contains placeholder rows.
 
-Postcodes are resolved with Google Maps Geocoding using server-only
-`GOOGLE_MAPS_API_KEY`. There is no hard-coded postcode coordinate map. If Maps
-is unavailable or the postcode cannot be resolved, the submission is still saved
-and results explicitly omit distances. Device coordinates can provide distances
-without postcode lookup. Postcode distances use an area centre, not a street address.
+Postcodes are resolved from `postcode_centroids`, with the downloaded public-domain
+postcode JSON as a real-data fallback. See [postcode data/import runbook](../data/postcodes/README.md).
+There is no per-request Maps geocoding or synthetic postcode coordinate map.
+Unknown postcodes still save the submission with distances omitted. Device coordinates
+can provide distances without postcode lookup. Distances are approximate and results
+are ordered nearest first; postcode coordinates are area centres, not street addresses.
 
 Photos use Gemini with `GEMINI_API_KEY` and optional `GEMINI_MODEL`. A successful
 identification is returned even if catalogue checking subsequently fails, so the

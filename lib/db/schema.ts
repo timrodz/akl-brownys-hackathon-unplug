@@ -94,6 +94,19 @@ export const submissions = pgTable(
   ],
 );
 
+/** Public-domain locality means; postcode is text to preserve leading zeroes. */
+export const postcodeCentroids = pgTable("postcode_centroids", {
+  postcode: text("postcode").primaryKey(),
+  latitude: doublePrecision("latitude").notNull(),
+  longitude: doublePrecision("longitude").notNull(),
+  localityCount: integer("locality_count").notNull(),
+  localities: text("localities").array().notNull(),
+  regions: text("regions").array().notNull(),
+  sourceUrl: text("source_url").notNull(),
+  sourceSha256: text("source_sha256").notNull(),
+  importedAt: timestamp("imported_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
 export const items = pgTable(
   "items",
   {
