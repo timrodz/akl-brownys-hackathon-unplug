@@ -10,8 +10,6 @@ export type BusinessTypeOption = {
   description: string | null;
 };
 
-
-
 export async function loadBusinessTypes(): Promise<BusinessTypeOption[]> {
   if (!db) return [];
   try {

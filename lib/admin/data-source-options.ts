@@ -1,3 +1,4 @@
+/** Shared catalogue source labels (safe for client components). */
 export const DATA_SOURCE_OPTIONS = [
   { value: "manual", label: "Manual (Community / Local Entry)" },
   { value: "council_directory", label: "Auckland Council Directory" },

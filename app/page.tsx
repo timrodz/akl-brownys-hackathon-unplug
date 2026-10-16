@@ -144,7 +144,11 @@ export default function HomePage() {
         // sessionStorage may be unavailable (e.g. private browsing); the
         // results page falls back to its empty state in that case.
       }
-      router.push("/results");
+      router.push(
+        typeof data.submissionId === "string"
+          ? `/results/${data.submissionId}`
+          : "/results",
+      );
     } catch (error) {
       setMessage(
         error instanceof Error
