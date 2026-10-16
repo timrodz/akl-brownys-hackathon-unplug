@@ -18,6 +18,7 @@ export type BusinessSummary = {
 };
 
 export type RecommendationSummary = {
+  acceptanceNote?: string;
   id: string;
   pathway: string;
   sortOrder: number;

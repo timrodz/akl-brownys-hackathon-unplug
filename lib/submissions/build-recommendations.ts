@@ -77,7 +77,20 @@ export function buildRecommendations(
     });
   }
 
-  const withDistance = linkedBusinesses
+  // Callers supply exact item links, not businesses guessed from broad categories.
+  // Missing household eligibility is unknown; explicit refusals/closed listings are excluded.
+  const eligible = linkedBusinesses.filter(row => row.business.acceptsHousehold !== false
+    && !["closed", "permanently closed", "temporarily closed", "inactive", "archived", "removed", "demo"].includes(row.business.status?.trim().toLowerCase() ?? "")
+    && !row.business.externalId?.startsWith("demo-"));
+  const distinct = new Map<string, BusinessWithRole>();
+  for (const row of eligible) {
+    const previous = distinct.get(row.business.id);
+    if (!previous) { distinct.set(row.business.id, { ...row }); continue; }
+    const notes = [...new Set([previous.notes, row.notes].filter(Boolean))].join(" ") || null;
+    const best = pathwayRank((row.role && ROLE_TO_PATHWAY[row.role]) ?? "recycle") < pathwayRank((previous.role && ROLE_TO_PATHWAY[previous.role]) ?? "recycle") ? row : previous;
+    distinct.set(row.business.id, { ...best, notes });
+  }
+  const withDistance = [...distinct.values()]
     .map((row) => {
       const lat = row.business.latitude;
       const lng = row.business.longitude;

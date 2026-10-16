@@ -213,6 +213,9 @@ export async function processSubmission(
       const business = rec.businessId
         ? businessById.get(rec.businessId)
         : undefined;
+      const acceptanceNotes = business ? [...new Set(links
+        .filter(link => link.business.id === business.id)
+        .map(link => link.notes).filter(Boolean))].join(" ") : "";
       return {
         id: rec.id,
         pathway: rec.pathway,
@@ -220,6 +223,11 @@ export async function processSubmission(
         title: rec.title,
         body: rec.body,
         distanceKm: rec.distanceKm,
+        acceptanceNote: business ? [
+          `Catalogue lists this business for ${match.item.title}.`,
+          business.acceptsHousehold === true ? "Household items accepted according to the catalogue." : "Household acceptance is not confirmed; check before travelling.",
+          acceptanceNotes, business.dropOffNotes,
+        ].filter(Boolean).join(" ") : undefined,
         business: business
           ? {
               id: business.id,

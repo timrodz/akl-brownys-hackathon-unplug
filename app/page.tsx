@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { SubmissionResults } from "@/app/components/submission-results";
+import { isValidNzPostcode, POSTCODE_ERROR } from "@/lib/location/valid-postcode";
 import type { SubmissionSuccessResponse } from "@/lib/submissions/types";
 import { useRef, useState, type FormEvent } from "react";
 
@@ -124,6 +125,11 @@ export default function HomePage() {
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (postcode && !isValidNzPostcode(postcode)) {
+      setLocationMessage(POSTCODE_ERROR);
+      document.getElementById("postcode")?.focus();
+      return;
+    }
     setSending(true);
     setMessage("");
     setResult(null);
@@ -139,7 +145,7 @@ export default function HomePage() {
       setResult(data as SubmissionSuccessResponse);
       try { sessionStorage.setItem("unplug-live-results", JSON.stringify(data)); router.push("/results"); } catch { /* Keep inline results if browser storage is unavailable. */ }
       if (data.status === "results_ready") {
-        setMessage("Here are your next steps, ordered by pathway.");
+        setMessage("Here are businesses listed for your item, ordered by distance.");
       } else {
         setMessage("Submission saved, but we need a clearer description.");
       }
@@ -245,20 +251,23 @@ export default function HomePage() {
               inputMode="numeric"
               pattern="[0-9]{4}"
               maxLength={4}
+              aria-describedby="postcode-help postcode-feedback"
+              aria-invalid={postcode.length === 4 && !isValidNzPostcode(postcode)}
               required={!coordinates}
               value={postcode}
               disabled={sending}
               onChange={(e) => {
-                setPostcode(e.target.value);
+                const value = e.target.value.replace(/\D/g, "").slice(0, 4);
+                setPostcode(value);
                 setCoordinates(null);
-                setLocationMessage("");
+                setLocationMessage(value.length === 4 && !isValidNzPostcode(value) ? POSTCODE_ERROR : "");
               }}
             />
-            <p className="help">
+            <p className="help" id="postcode-help">
               So we can look for options near you. Your location is only shared
               when you press Go.
             </p>
-            <p className="feedback" role="status">{locationMessage}</p>
+            <p className="feedback" id="postcode-feedback" role="status">{locationMessage}</p>
             <button
               className="go-button"
               disabled={analysing || locating || sending}

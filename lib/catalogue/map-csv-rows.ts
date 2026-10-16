@@ -25,6 +25,13 @@ function parseOptionalFloat(raw: string | undefined): number | null {
   return Number.isFinite(n) ? n : null;
 }
 
+function parseOptionalBoolean(raw: string | undefined): boolean | null {
+  const value = emptyToNull(raw)?.toLowerCase();
+  if (["true", "yes", "1"].includes(value ?? "")) return true;
+  if (["false", "no", "0"].includes(value ?? "")) return false;
+  return null;
+}
+
 function parseOptionalSmallInt(raw: string | undefined): number | null {
   const text = emptyToNull(raw);
   if (text === null) return null;
@@ -177,8 +184,8 @@ export function mapBusinessCsvRow(
     name,
     description: emptyToNull(row.description),
     businessType: emptyToNull(row.business_type ?? row.businessType),
-    acceptsHousehold: null,
-    acceptsCommercial: null,
+    acceptsHousehold: parseOptionalBoolean(row.accepts_household ?? row.acceptsHousehold),
+    acceptsCommercial: parseOptionalBoolean(row.accepts_commercial ?? row.acceptsCommercial),
     streetAddress: emptyToNull(row.address ?? row.streetAddress),
     suburb: emptyToNull(row.suburb),
     latitude: parseOptionalFloat(row.latitude),
