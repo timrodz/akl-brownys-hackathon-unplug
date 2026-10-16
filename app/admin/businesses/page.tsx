@@ -1,5 +1,7 @@
+import Link from "next/link";
 import { listParamsFromSearch, loadBusinessesList } from "@/lib/admin/entities";
 import { isDatabaseConfigured } from "@/lib/db";
+import { Button } from "@/components/ui/button";
 
 import { AdminEntityPage } from "../components/admin-entity-page";
 import { DbUnavailable } from "../components/db-unavailable";
@@ -22,6 +24,12 @@ export default async function AdminBusinessesPage({ searchParams }: PageProps) {
       tableName="businesses"
       basePath="/admin/businesses"
       result={result}
+      headerAction={
+        <Button size="sm" render={<Link href="/admin/businesses/new" />}>
+          + Add New Business
+        </Button>
+      }
+      rowActionHref={(row) => `/admin/businesses/${row.id}`}
     />
   );
 }
