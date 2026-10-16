@@ -194,6 +194,8 @@ async function importItems(
           hazardAlert: mapped.hazardAlert,
           disposalGuidance: mapped.disposalGuidance,
           slug: mapped.slug,
+          approxCost: mapped.approxCost,
+          costType: mapped.costType,
           updatedAt: new Date(),
         },
       });

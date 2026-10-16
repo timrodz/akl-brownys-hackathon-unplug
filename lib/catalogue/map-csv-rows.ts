@@ -52,6 +52,8 @@ type ItemInsert = Pick<
   | "hazardAlert"
   | "disposalGuidance"
   | "slug"
+  | "approxCost"
+  | "costType"
 >;
 
 type BusinessInsert = Pick<
@@ -162,6 +164,8 @@ export function mapItemCsvRow(
       row.disposal_guidance ?? row.disposalGuidance,
     ),
     slug: emptyToNull(row.slug),
+    approxCost: emptyToNull(row.approx_cost ?? row.approxCost ?? row.cost),
+    costType: emptyToNull(row.cost_type ?? row.costType),
   };
 }
 

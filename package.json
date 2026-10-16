@@ -20,7 +20,8 @@
     "db:up": "docker compose up -d db",
     "db:down": "docker compose down",
     "db:import-postcodes": "tsx scripts/import-postcodes.ts",
-    "db:geocode-businesses": "tsx scripts/geocode-businesses.ts"
+    "db:geocode-businesses": "tsx scripts/geocode-businesses.ts",
+    "db:update-costs": "tsx scripts/update-item-costs.ts"
   },
   "dependencies": {
     "@ai-sdk/google": "4.0.98",
