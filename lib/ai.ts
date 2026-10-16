@@ -1,5 +1,6 @@
 import "server-only";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
+import { diagnosticFetch } from "@/lib/diagnostics";
 export const GEMINI_MODEL_ID = process.env.GEMINI_MODEL?.trim() || "gemini-3.8-flash";
 const apiKey = [process.env.GEMINI_API_KEY, process.env.GOOGLE_GENERATIVE_AI_API_KEY].find(value => value?.trim())?.trim();
 if (!apiKey) {
@@ -9,5 +10,9 @@ const google = createGoogleGenerativeAI({
     apiKey: apiKey ?? "",
 });
 export const defaultModel = google(GEMINI_MODEL_ID);
+export const createAnalysisModel = (reference: string) => createGoogleGenerativeAI({
+    apiKey: apiKey ?? "",
+    fetch: diagnosticFetch(reference, GEMINI_MODEL_ID),
+})(GEMINI_MODEL_ID);
 export const hasGeminiApiKey = (): boolean => Boolean(apiKey);
 export { google };

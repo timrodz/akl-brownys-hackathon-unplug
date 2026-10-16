@@ -1,5 +1,10 @@
 # Auckland CivicTech Hackathon · Waste B: Reuse, repair and recycling finder
 
+**Current live flow:** [submission flow and configuration](docs/submission-flow.md).
+Requests now use database records only; automatic demo seeding, placeholder
+results, and hard-coded postcode coordinates have been removed from the live flow.
+The historical prototype notes below may still describe the earlier demo.
+
 **Browny's Hackathon, hosted by Mayor Wayne Brown · Auckland Council · facilitated by Creative HQ · closing Auckland Startup Week**
 Friday 16 October 2026 · The Annex, 10 Madden Street, Wynyard Quarter, and Media Design School
 
