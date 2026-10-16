@@ -345,8 +345,8 @@ optional photo bytes), keyword-matches one catalogue **item**, writes ordered
 **recommendations**, and returns JSON for the UI. The first successful submit also
 upserts the demo catalogue if the database is empty.
 
-`POST /api/analyse` uses Gemini to identify the photo; the user can correct its text.
-Set `GEMINI_API_KEY` in `.env.local` (`GOOGLE_GENERATIVE_AI_API_KEY` also works).
+`POST /api/analyse` uses OpenRouter `openrouter/free` to identify the photo; the user can correct its text.
+Set the server-only `OPENROUTER` API key in Vercel for the deployment environment and redeploy. For local development, set `OPENROUTER` in `.env.local`. The Vercel value is not automatically available locally.
 Never expose keys with `NEXT_PUBLIC_`. No key is needed for text-only form submission;
 missing identification configuration has a visible manual-description fallback. AI
 identification can be inaccurate.
@@ -354,16 +354,19 @@ identification can be inaccurate.
 Photo analyse does not persist until submit.
 
 ### Unplug update
-The app is now named Unplug and uses a centred single-column form. If Gemini is
+The app is now named Unplug and uses a centred single-column form. If OpenRouter is
 not configured, photo identification returns an explicit `status: "manual"`
 response and the UI keeps the attached photo with a prompt for a description.
 This replaces the earlier missing-key HTTP 503; it does not simulate AI analysis.
-Configure a non-empty Gemini key in the deployment environment and redeploy to
+Configure a non-empty `OPENROUTER` key in the deployment environment and redeploy to
 activate identification. Empty aliases no longer shadow another configured key.
 Run `node scripts/check-photo-fallback.cjs` after dependency installation to check
-the actual route's missing-key response with the Gemini provider stubbed out.
+the actual route's missing-key response with the photo classifier stubbed out.
 
-### Gemini model availability
+### Photo model availability
+Photo identification always uses [OpenRouter Free Models Router](https://openrouter.ai/openrouter/free), which selects a free model supporting image input. Free models have availability and usage limits; failures keep the manual-description path available. Photos are sent to OpenRouter and its selected provider. No paid model fallback is configured.
+
+### Other Gemini calls
 The default is `gemini-3.8-flash`. Google restricts Gemini 2.5 models to projects
 that actively used them previously, which can cause a provider 404 for new projects.
 Set the optional server-only `GEMINI_MODEL` to override the model, then redeploy.
