@@ -456,3 +456,10 @@ When the database catalogue is available, the image classifier receives non-demo
 Catalogue text is sent to OpenRouter with the photo; no database credentials or resident location are sent. If the catalogue cannot load, the existing general-description and catalogue-check fallback remains, with manual review warnings. If the catalogue is available but the photo has no confident matching item, the user is asked for a manual description; no category is invented. Qualitative model confidence is not a calibrated probability.
 
 Checks: `node scripts/check-photo-catalogue.cjs`, `node scripts/check-openrouter-photo.cjs`, and the photo fallback/diagnostics/file-part scripts.
+### Use my location fills the postcode
+
+The location button fills the postcode input using the nearest checked-in postcode centroid within 5 km, only when the browser reports accuracy within 2 km. The dataset is loaded on demand in the browser; no reverse-geocoding service or API key is used and device coordinates are not sent externally during lookup. Success leaves the status area empty. The field label identifies the postcode as estimated because centroid proximity cannot establish the exact postcode or boundary. Residents can correct the value manually.
+
+Permission denial, unavailable geolocation, poor accuracy, missing nearby centroids and lookup failures show an error and retain manual postcode entry. A delayed lookup cannot overwrite a manual edit. Successful lookup retains device coordinates for distance ranking on Go; editing the postcode clears those coordinates and uses the entered postcode instead.
+
+Check: `node scripts/check-location-postcode.cjs` covers the actual form handlers with browser geolocation fixtures, sourced postcode lookup, silent success, delayed-response handling and failures. Real device permissions and visual browser rendering are not exercised by this check.

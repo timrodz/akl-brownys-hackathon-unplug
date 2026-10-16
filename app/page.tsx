@@ -46,6 +46,7 @@ export default function HomePage() {
   const [locationMessage, setLocationMessage] = useState("");
   const version = useRef(0);
   const edits = useRef(0);
+  const locationVersion = useRef(0);
 
   async function choosePhoto(file?: File) {
     if (!file) return;
@@ -93,6 +94,8 @@ export default function HomePage() {
   }
 
   function locate() {
+    const request = ++locationVersion.current;
+    setLocationMessage("");
     if (!navigator.geolocation) {
       setLocationMessage(
         "Enter your postcode instead. Location is unavailable.",
@@ -101,16 +104,27 @@ export default function HomePage() {
     }
     setLocating(true);
     navigator.geolocation.getCurrentPosition(
-      (p) => {
-        setCoordinates({
-          latitude: p.coords.latitude,
-          longitude: p.coords.longitude,
-        });
-        setPostcode("");
-        setLocationMessage("Current location selected.");
-        setLocating(false);
+      async (p) => {
+        try {
+          const { nearestPostcode } = await import("@/lib/location/nearest-postcode");
+          if (request !== locationVersion.current) return;
+          const estimate = p.coords.accuracy <= 2000 ? nearestPostcode(p.coords.latitude, p.coords.longitude) : null;
+          if (!estimate) {
+            setCoordinates(null);
+            setLocationMessage("Couldn't determine a nearby postcode accurately enough. Please enter your postcode.");
+            return;
+          }
+          setCoordinates({ latitude: p.coords.latitude, longitude: p.coords.longitude });
+          setPostcode(estimate);
+          setLocationMessage("");
+        } catch {
+          if (request === locationVersion.current) setLocationMessage("Couldn't look up your postcode. Please enter it manually.");
+        } finally {
+          if (request === locationVersion.current) setLocating(false);
+        }
       },
       () => {
+        if (request !== locationVersion.current) return;
         setLocationMessage(
           "Couldn't access your location. Enter your postcode instead.",
         );
@@ -234,6 +248,7 @@ export default function HomePage() {
             <div className="location-heading">
               <label className="field-label" htmlFor="postcode">
                 Where are you?
+                {coordinates ? <span> · Estimated postcode — check before submitting</span> : null}
               </label>
               <button
                 type="button"
@@ -246,9 +261,7 @@ export default function HomePage() {
             <input
               id="postcode"
               className="postcode"
-              placeholder={
-                coordinates ? "Current location selected" : "NZ postcode, e.g. 1010"
-              }
+              placeholder="NZ postcode, e.g. 1010"
               autoComplete="postal-code"
               inputMode="numeric"
               pattern="[0-9]{4}"
@@ -259,6 +272,8 @@ export default function HomePage() {
               value={postcode}
               disabled={sending}
               onChange={(e) => {
+                locationVersion.current++;
+                setLocating(false);
                 const value = e.target.value.replace(/\D/g, "").slice(0, 4);
                 setPostcode(value);
                 setCoordinates(null);
