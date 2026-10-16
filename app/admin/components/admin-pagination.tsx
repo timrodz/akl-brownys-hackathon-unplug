@@ -21,8 +21,7 @@ function pageHref(basePath: string, page: number, filterId?: string): string {
 }
 
 export function AdminPagination({ result, basePath }: Props) {
-  const { page, totalPages, totalRows, showingFrom, showingTo, filterId } =
-    result;
+  const { page, totalPages, totalRows, showingFrom, showingTo, filterId } = result;
 
   return (
     <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -32,21 +31,19 @@ export function AdminPagination({ result, basePath }: Props) {
           <>
             {" "}
             · filtered by id{" "}
-            <Link
-              href={basePath}
-              className="text-primary underline-offset-4 hover:underline"
-            >
+            <Link href={basePath} className="text-primary underline-offset-4 hover:underline">
               clear filter
             </Link>
           </>
         ) : null}
       </p>
-      <nav
-        aria-label="Pagination"
-        className="flex items-center gap-2"
-      >
+      <nav aria-label="Pagination" className="flex items-center gap-2">
         {page > 1 ? (
-          <Button variant="outline" size="sm" render={<Link href={pageHref(basePath, page - 1, filterId)} />}>
+          <Button
+            variant="outline"
+            size="sm"
+            render={<Link href={pageHref(basePath, page - 1, filterId)} />}
+          >
             Previous
           </Button>
         ) : (
@@ -58,7 +55,11 @@ export function AdminPagination({ result, basePath }: Props) {
           Page {page} of {totalPages}
         </span>
         {page < totalPages ? (
-          <Button variant="outline" size="sm" render={<Link href={pageHref(basePath, page + 1, filterId)} />}>
+          <Button
+            variant="outline"
+            size="sm"
+            render={<Link href={pageHref(basePath, page + 1, filterId)} />}
+          >
             Next
           </Button>
         ) : (

@@ -3,7 +3,14 @@
 import Link from "next/link";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { DATA_SOURCE_OPTIONS } from "@/lib/admin/data-source-options";
 import type { ItemTypeOption } from "@/lib/admin/item-ref-data";
 import { createItem, updateItem, deleteItem } from "./actions";
@@ -150,7 +157,8 @@ export function ItemForm({ itemTypes, initialData }: ItemFormProps) {
                   className={inputStyle}
                 />
                 <p className="text-[11px] text-muted-foreground mt-1">
-                  If set, this will be highlighted with a safety warning badge in resident recommendations.
+                  If set, this will be highlighted with a safety warning badge in resident
+                  recommendations.
                 </p>
               </div>
 

@@ -12,12 +12,7 @@ import {
   submissions,
 } from "@/lib/db/schema";
 
-import {
-  ADMIN_PAGE_SIZE,
-  adminPageRange,
-  parseAdminPage,
-  parseOptionalUuid,
-} from "./pagination";
+import { ADMIN_PAGE_SIZE, adminPageRange, parseAdminPage, parseOptionalUuid } from "./pagination";
 
 export type AdminEntitySlug =
   | "submissions"
@@ -107,21 +102,14 @@ async function countWhere(
   return Number(row?.value ?? 0);
 }
 
-export async function loadSubmissionsList(
-  params: ListParams,
-): Promise<AdminListResult> {
+export async function loadSubmissionsList(params: ListParams): Promise<AdminListResult> {
   if (!db) {
     throw new Error("Database not configured");
   }
 
-  const where = params.filterId
-    ? eq(submissions.id, params.filterId)
-    : undefined;
+  const where = params.filterId ? eq(submissions.id, params.filterId) : undefined;
   const totalRows = await countWhere(submissions, where);
-  const { offset, totalPages, showingFrom, showingTo } = adminPageRange(
-    params.page,
-    totalRows,
-  );
+  const { offset, totalPages, showingFrom, showingTo } = adminPageRange(params.page, totalRows);
 
   const rows = await db
     .select({
@@ -186,10 +174,7 @@ export async function loadItemsList(params: ListParams): Promise<AdminListResult
 
   const where = params.filterId ? eq(items.id, params.filterId) : undefined;
   const totalRows = await countWhere(items, where);
-  const { offset, totalPages, showingFrom, showingTo } = adminPageRange(
-    params.page,
-    totalRows,
-  );
+  const { offset, totalPages, showingFrom, showingTo } = adminPageRange(params.page, totalRows);
 
   const rows = await db
     .select()
@@ -239,21 +224,14 @@ export async function loadItemsList(params: ListParams): Promise<AdminListResult
   };
 }
 
-export async function loadSubmissionItemsList(
-  params: ListParams,
-): Promise<AdminListResult> {
+export async function loadSubmissionItemsList(params: ListParams): Promise<AdminListResult> {
   if (!db) {
     throw new Error("Database not configured");
   }
 
-  const where = params.filterId
-    ? eq(submissionItems.id, params.filterId)
-    : undefined;
+  const where = params.filterId ? eq(submissionItems.id, params.filterId) : undefined;
   const totalRows = await countWhere(submissionItems, where);
-  const { offset, totalPages, showingFrom, showingTo } = adminPageRange(
-    params.page,
-    totalRows,
-  );
+  const { offset, totalPages, showingFrom, showingTo } = adminPageRange(params.page, totalRows);
 
   const rows = await db
     .select()
@@ -297,21 +275,14 @@ export async function loadSubmissionItemsList(
   };
 }
 
-export async function loadBusinessesList(
-  params: ListParams,
-): Promise<AdminListResult> {
+export async function loadBusinessesList(params: ListParams): Promise<AdminListResult> {
   if (!db) {
     throw new Error("Database not configured");
   }
 
-  const where = params.filterId
-    ? eq(businesses.id, params.filterId)
-    : undefined;
+  const where = params.filterId ? eq(businesses.id, params.filterId) : undefined;
   const totalRows = await countWhere(businesses, where);
-  const { offset, totalPages, showingFrom, showingTo } = adminPageRange(
-    params.page,
-    totalRows,
-  );
+  const { offset, totalPages, showingFrom, showingTo } = adminPageRange(params.page, totalRows);
 
   const rows = await db
     .select()
@@ -365,21 +336,14 @@ export async function loadBusinessesList(
   };
 }
 
-export async function loadBusinessItemsList(
-  params: ListParams,
-): Promise<AdminListResult> {
+export async function loadBusinessItemsList(params: ListParams): Promise<AdminListResult> {
   if (!db) {
     throw new Error("Database not configured");
   }
 
-  const where = params.filterId
-    ? eq(businessItems.id, params.filterId)
-    : undefined;
+  const where = params.filterId ? eq(businessItems.id, params.filterId) : undefined;
   const totalRows = await countWhere(businessItems, where);
-  const { offset, totalPages, showingFrom, showingTo } = adminPageRange(
-    params.page,
-    totalRows,
-  );
+  const { offset, totalPages, showingFrom, showingTo } = adminPageRange(params.page, totalRows);
 
   const rows = await db
     .select()
@@ -414,21 +378,14 @@ export async function loadBusinessItemsList(
   };
 }
 
-export async function loadRecommendationsList(
-  params: ListParams,
-): Promise<AdminListResult> {
+export async function loadRecommendationsList(params: ListParams): Promise<AdminListResult> {
   if (!db) {
     throw new Error("Database not configured");
   }
 
-  const where = params.filterId
-    ? eq(recommendations.id, params.filterId)
-    : undefined;
+  const where = params.filterId ? eq(recommendations.id, params.filterId) : undefined;
   const totalRows = await countWhere(recommendations, where);
-  const { offset, totalPages, showingFrom, showingTo } = adminPageRange(
-    params.page,
-    totalRows,
-  );
+  const { offset, totalPages, showingFrom, showingTo } = adminPageRange(params.page, totalRows);
 
   const rows = await db
     .select()

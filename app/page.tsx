@@ -78,14 +78,15 @@ export default function HomePage() {
       }
       if (edits.current === edit) setDescription(data.description);
       setPhotoMessage(
-        data.catalogueMatch ? `Suggested catalogue item: ${data.catalogueMatch.title}${data.suggestedItemType ? ` · ${data.suggestedItemType.name}` : ""}. Please check this fits your photo.` : (data.catalogueWarning || "No catalogue match yet. Check the description and use a specific item name."),
+        data.catalogueMatch
+          ? `Suggested catalogue item: ${data.catalogueMatch.title}${data.suggestedItemType ? ` · ${data.suggestedItemType.name}` : ""}. Please check this fits your photo.`
+          : data.catalogueWarning ||
+              "No catalogue match yet. Check the description and use a specific item name.",
       );
     } catch (error) {
       if (request === version.current) {
         setPhotoMessage(
-          error instanceof Error
-            ? error.message
-            : "Please describe your item below.",
+          error instanceof Error ? error.message : "Please describe your item below.",
         );
       }
     } finally {
@@ -97,9 +98,7 @@ export default function HomePage() {
     const request = ++locationVersion.current;
     setLocationMessage("");
     if (!navigator.geolocation) {
-      setLocationMessage(
-        "Enter your postcode instead. Location is unavailable.",
-      );
+      setLocationMessage("Enter your postcode instead. Location is unavailable.");
       return;
     }
     setLocating(true);
@@ -108,26 +107,30 @@ export default function HomePage() {
         try {
           const { nearestPostcode } = await import("@/lib/location/nearest-postcode");
           if (request !== locationVersion.current) return;
-          const estimate = p.coords.accuracy <= 2000 ? nearestPostcode(p.coords.latitude, p.coords.longitude) : null;
+          const estimate =
+            p.coords.accuracy <= 2000
+              ? nearestPostcode(p.coords.latitude, p.coords.longitude)
+              : null;
           if (!estimate) {
             setCoordinates(null);
-            setLocationMessage("Couldn't determine a nearby postcode accurately enough. Please enter your postcode.");
+            setLocationMessage(
+              "Couldn't determine a nearby postcode accurately enough. Please enter your postcode.",
+            );
             return;
           }
           setCoordinates({ latitude: p.coords.latitude, longitude: p.coords.longitude });
           setPostcode(estimate);
           setLocationMessage("");
         } catch {
-          if (request === locationVersion.current) setLocationMessage("Couldn't look up your postcode. Please enter it manually.");
+          if (request === locationVersion.current)
+            setLocationMessage("Couldn't look up your postcode. Please enter it manually.");
         } finally {
           if (request === locationVersion.current) setLocating(false);
         }
       },
       () => {
         if (request !== locationVersion.current) return;
-        setLocationMessage(
-          "Couldn't access your location. Enter your postcode instead.",
-        );
+        setLocationMessage("Couldn't access your location. Enter your postcode instead.");
         setLocating(false);
       },
       { timeout: 10000, maximumAge: 300000, enableHighAccuracy: false },
@@ -159,15 +162,11 @@ export default function HomePage() {
         // results page falls back to its empty state in that case.
       }
       router.push(
-        typeof data.submissionId === "string"
-          ? `/results/${data.submissionId}`
-          : "/results",
+        typeof data.submissionId === "string" ? `/results/${data.submissionId}` : "/results",
       );
     } catch (error) {
       setMessage(
-        error instanceof Error
-          ? error.message
-          : "Something went wrong. Please try again.",
+        error instanceof Error ? error.message : "Something went wrong. Please try again.",
       );
       setSending(false);
     }
@@ -177,7 +176,9 @@ export default function HomePage() {
     <div className="site-shell">
       <header className="site-header">
         <h1 className="brand-heading">
-          <a href="/" className="wordmark" aria-label="Unplug home">Unplug</a>
+          <a href="/" className="wordmark" aria-label="Unplug home">
+            Unplug
+          </a>
         </h1>
       </header>
       <main id="main" className="landing">
@@ -187,8 +188,8 @@ export default function HomePage() {
           </div>
           <h2 id="form-heading">What have you got?</h2>
           <p className="card-description">
-            Does it have a plug? Most people think e-waste is just for computers.
-            Any electric item can find a new home or use.
+            Does it have a plug? Most people think e-waste is just for computers. Any electric item
+            can find a new home or use.
           </p>
           <form onSubmit={submit}>
             <label className="photo-upload">
@@ -211,22 +212,19 @@ export default function HomePage() {
                 </span>
               )}
               <span>
-                <strong>
-                  {preview ? "Change your photo" : "Take or upload a photo"}
-                </strong>
-                <small>
-                  {preview
-                    ? photo?.name
-                    : "Snap it. We’ll help identify it."}
-                </small>
+                <strong>{preview ? "Change your photo" : "Take or upload a photo"}</strong>
+                <small>{preview ? photo?.name : "Snap it. We’ll help identify it."}</small>
               </span>
               <span className="plus">+</span>
             </label>
             <p className="help">
-              JPG, PNG or WebP · Up to 5 MB. Photos are sent to OpenRouter
-              for identification.
+              JPG, PNG or WebP · Up to 5 MB. Photos are sent to OpenRouter for identification.
             </p>
-            <p className={`feedback${analysing ? " photo-identifying" : ""}`} role="status" aria-live="polite">
+            <p
+              className={`feedback${analysing ? " photo-identifying" : ""}`}
+              role="status"
+              aria-live="polite"
+            >
               {analysing ? <span className="photo-spinner" aria-hidden="true" /> : null}
               {photoMessage}
             </p>
@@ -250,11 +248,7 @@ export default function HomePage() {
                 Where are you?
                 {coordinates ? <span> · Estimated postcode — check before submitting</span> : null}
               </label>
-              <button
-                type="button"
-                onClick={locate}
-                disabled={locating || sending}
-              >
+              <button type="button" onClick={locate} disabled={locating || sending}>
                 {locating ? "Locating…" : "⌖ Use my location"}
               </button>
             </div>
@@ -277,29 +271,24 @@ export default function HomePage() {
                 const value = e.target.value.replace(/\D/g, "").slice(0, 4);
                 setPostcode(value);
                 setCoordinates(null);
-                setLocationMessage(value.length === 4 && !isValidNzPostcode(value) ? POSTCODE_ERROR : "");
+                setLocationMessage(
+                  value.length === 4 && !isValidNzPostcode(value) ? POSTCODE_ERROR : "",
+                );
               }}
             />
             <p className="help" id="postcode-help">
-              So we can look for options near you. Your location is only shared
-              when you press Go.
+              So we can look for options near you. Your location is only shared when you press Go.
             </p>
-            <p className="feedback" id="postcode-feedback" role="status">{locationMessage}</p>
-            <button
-              className="go-button"
-              disabled={analysing || locating || sending}
-              type="submit"
-            >
-              <span>
-                {sending
-                  ? "Finding options…"
-                  : analysing
-                    ? "Identifying photo…"
-                    : "Go"}
-              </span>
+            <p className="feedback" id="postcode-feedback" role="status">
+              {locationMessage}
+            </p>
+            <button className="go-button" disabled={analysing || locating || sending} type="submit">
+              <span>{sending ? "Finding options…" : analysing ? "Identifying photo…" : "Go"}</span>
               <Icon />
             </button>
-            <p className="feedback submission" role="status">{message}</p>
+            <p className="feedback submission" role="status">
+              {message}
+            </p>
           </form>
           <div className="prototype-note">
             Options are matched against the item and business records in our database.

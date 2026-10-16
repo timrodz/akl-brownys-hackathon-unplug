@@ -21,7 +21,7 @@ export async function createItem(formData: FormData) {
   }
 
   const title = String(formData.get("title") || "").trim();
-  const source = (String(formData.get("source") || "manual")) as DataSource;
+  const source = String(formData.get("source") || "manual") as DataSource;
   let externalId = String(formData.get("externalId") || "").trim();
   if (!externalId) {
     externalId = `IT-${Date.now().toString().slice(-6)}`;
@@ -68,7 +68,7 @@ export async function updateItem(id: string, formData: FormData) {
   }
 
   const title = String(formData.get("title") || "").trim();
-  const source = (String(formData.get("source") || "manual")) as DataSource;
+  const source = String(formData.get("source") || "manual") as DataSource;
   const externalId = String(formData.get("externalId") || "").trim();
   const categoryName = String(formData.get("categoryName") || "").trim();
   const hazardAlert = String(formData.get("hazardAlert") || "").trim() || null;

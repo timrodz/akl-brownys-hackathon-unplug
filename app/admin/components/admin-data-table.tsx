@@ -34,11 +34,7 @@ export function AdminDataTable({ result, rowActionHref }: Props) {
     <Table>
       <TableHeader>
         <TableRow>
-          {rowActionHref && (
-            <TableHead className="font-mono text-xs w-[80px]">
-              Actions
-            </TableHead>
-          )}
+          {rowActionHref && <TableHead className="font-mono text-xs w-[80px]">Actions</TableHead>}
           {columns.map((column) => (
             <TableHead key={column} className="font-mono text-xs">
               {column}
@@ -51,10 +47,7 @@ export function AdminDataTable({ result, rowActionHref }: Props) {
           const rowId = row.id != null ? String(row.id) : String(index);
           const highlighted = filterId && row.id === filterId;
           return (
-            <TableRow
-              key={rowId}
-              data-state={highlighted ? "selected" : undefined}
-            >
+            <TableRow key={rowId} data-state={highlighted ? "selected" : undefined}>
               {rowActionHref && (
                 <TableCell className="align-top py-2">
                   <Link

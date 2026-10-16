@@ -1,10 +1,17 @@
 import Link from "next/link";
-import { asc, desc, eq, ilike, or, sql } from "drizzle-orm";
+import { asc, ilike, or, sql } from "drizzle-orm";
 import { db, isDatabaseConfigured } from "@/lib/db";
-import { items, itemTypes } from "@/lib/db/schema";
+import { items } from "@/lib/db/schema";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { DbUnavailable } from "../components/db-unavailable";
 import { loadItemTypes } from "@/lib/admin/item-ref-data";
 
@@ -27,9 +34,7 @@ export default async function AdminItemsPage({ searchParams }: PageProps) {
   const page = Math.max(1, Number.parseInt(String(sParams.page || "1"), 10) || 1);
   const q = String(sParams.q || "").trim();
 
-  // Load master reference categories
   const masterCategories = await loadItemTypes();
-  const categoryMap = new Map(masterCategories.map((c) => [c.name.toLowerCase(), c.name]));
 
   // Build query filter
   const filter = q
@@ -74,12 +79,17 @@ export default async function AdminItemsPage({ searchParams }: PageProps) {
                 </Badge>
               </div>
               <CardDescription>
-                Manage recyclable, repairable, and hazardous materials catalogued for Auckland residents.
+                Manage recyclable, repairable, and hazardous materials catalogued for Auckland
+                residents.
               </CardDescription>
             </div>
 
             <div className="flex items-center gap-3">
-              <Button size="default" className="font-medium" render={<Link href="/admin/items/new" />}>
+              <Button
+                size="default"
+                className="font-medium"
+                render={<Link href="/admin/items/new" />}
+              >
                 + Add New Item
               </Button>
             </div>
@@ -183,7 +193,9 @@ export default async function AdminItemsPage({ searchParams }: PageProps) {
                         {/* Disposal & Circular Guidance */}
                         <td className="py-3.5 px-4 align-top text-xs leading-relaxed text-foreground/90 max-w-[340px]">
                           {item.disposalGuidance || (
-                            <span className="text-muted-foreground italic">No specific guidance</span>
+                            <span className="text-muted-foreground italic">
+                              No specific guidance
+                            </span>
                           )}
                         </td>
 

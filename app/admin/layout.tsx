@@ -18,23 +18,13 @@ export default function AdminLayout({
               <Link href="/admin" className="text-xl font-bold tracking-tight">
                 EasyRe admin
               </Link>
-              <p className="text-sm text-muted-foreground">
-                Read-only database inspection
-              </p>
+              <p className="text-sm text-muted-foreground">Read-only database inspection</p>
             </div>
             <div className="flex flex-wrap items-center gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                render={<Link href="/admin" />}
-              >
+              <Button variant="outline" size="sm" render={<Link href="/admin" />}>
                 ← All tables
               </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                render={<Link href="/" />}
-              >
+              <Button variant="outline" size="sm" render={<Link href="/" />}>
                 Resident app
               </Button>
             </div>
@@ -44,11 +34,7 @@ export default function AdminLayout({
             <ul className="flex flex-wrap gap-2">
               {ADMIN_ENTITIES.map((entity) => (
                 <li key={entity.slug}>
-                  <Button
-                    variant="secondary"
-                    size="sm"
-                    render={<Link href={entity.path} />}
-                  >
+                  <Button variant="secondary" size="sm" render={<Link href={entity.path} />}>
                     {entity.glossaryLabel}
                   </Button>
                 </li>
@@ -56,7 +42,9 @@ export default function AdminLayout({
             </ul>
           </nav>
         </header>
-        <main id="main" className="py-8">{children}</main>
+        <main id="main" className="py-8">
+          {children}
+        </main>
       </div>
     </div>
   );

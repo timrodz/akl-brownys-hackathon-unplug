@@ -1,7 +1,4 @@
-import {
-  listParamsFromSearch,
-  loadBusinessItemsList,
-} from "@/lib/admin/entities";
+import { listParamsFromSearch, loadBusinessItemsList } from "@/lib/admin/entities";
 import { isDatabaseConfigured } from "@/lib/db";
 
 import { AdminEntityPage } from "../components/admin-entity-page";
@@ -11,9 +8,7 @@ type PageProps = {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 };
 
-export default async function AdminBusinessItemsPage({
-  searchParams,
-}: PageProps) {
+export default async function AdminBusinessItemsPage({ searchParams }: PageProps) {
   if (!isDatabaseConfigured()) {
     return <DbUnavailable />;
   }

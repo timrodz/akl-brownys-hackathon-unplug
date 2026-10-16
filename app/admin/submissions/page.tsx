@@ -1,7 +1,4 @@
-import {
-  listParamsFromSearch,
-  loadSubmissionsList,
-} from "@/lib/admin/entities";
+import { listParamsFromSearch, loadSubmissionsList } from "@/lib/admin/entities";
 import { isDatabaseConfigured } from "@/lib/db";
 
 import { AdminEntityPage } from "../components/admin-entity-page";

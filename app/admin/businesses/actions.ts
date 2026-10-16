@@ -14,7 +14,7 @@ export async function createBusiness(formData: FormData) {
   }
 
   const name = String(formData.get("name") || "").trim();
-  const source = (String(formData.get("source") || "manual")) as DataSource;
+  const source = String(formData.get("source") || "manual") as DataSource;
   let externalId = String(formData.get("externalId") || "").trim();
   if (!externalId) {
     externalId = `B-${Date.now().toString().slice(-6)}`;
@@ -78,7 +78,7 @@ export async function updateBusiness(id: string, formData: FormData) {
   }
 
   const name = String(formData.get("name") || "").trim();
-  const source = (String(formData.get("source") || "manual")) as DataSource;
+  const source = String(formData.get("source") || "manual") as DataSource;
   const externalId = String(formData.get("externalId") || "").trim();
   const businessType = String(formData.get("businessType") || "").trim() || null;
   const description = String(formData.get("description") || "").trim() || null;

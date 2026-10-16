@@ -9,10 +9,7 @@ export const catalogueSelectionSchema = z.object({
     .uuid()
     .nullable()
     .describe("Catalogue item id from CATALOGUE DATA, or null if no confident match"),
-  itemTypeId: z
-    .string()
-    .nullable()
-    .describe("Optional item type id from CATALOGUE DATA, or null"),
+  itemTypeId: z.string().nullable().describe("Optional item type id from CATALOGUE DATA, or null"),
   confidence: z
     .enum(["high", "medium", "low"])
     .describe("Qualitative confidence, not a probability"),

@@ -97,12 +97,8 @@
           "name": "business_items_business_id_businesses_id_fk",
           "tableFrom": "business_items",
           "tableTo": "businesses",
-          "columnsFrom": [
-            "business_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["business_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -110,12 +106,8 @@
           "name": "business_items_item_id_items_id_fk",
           "tableFrom": "business_items",
           "tableTo": "items",
-          "columnsFrom": [
-            "item_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["item_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -561,12 +553,8 @@
           "name": "recommendations_submission_id_submissions_id_fk",
           "tableFrom": "recommendations",
           "tableTo": "submissions",
-          "columnsFrom": [
-            "submission_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["submission_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -574,12 +562,8 @@
           "name": "recommendations_business_id_businesses_id_fk",
           "tableFrom": "recommendations",
           "tableTo": "businesses",
-          "columnsFrom": [
-            "business_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["business_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
@@ -662,12 +646,8 @@
           "name": "submission_items_submission_id_submissions_id_fk",
           "tableFrom": "submission_items",
           "tableTo": "submissions",
-          "columnsFrom": [
-            "submission_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["submission_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -675,12 +655,8 @@
           "name": "submission_items_item_id_items_id_fk",
           "tableFrom": "submission_items",
           "tableTo": "items",
-          "columnsFrom": [
-            "item_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["item_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
@@ -817,12 +793,7 @@
     "public.business_item_role": {
       "name": "business_item_role",
       "schema": "public",
-      "values": [
-        "drop_off",
-        "collection",
-        "repair",
-        "reuse"
-      ]
+      "values": ["drop_off", "collection", "repair", "reuse"]
     },
     "public.data_source": {
       "name": "data_source",
@@ -840,40 +811,22 @@
     "public.location_source": {
       "name": "location_source",
       "schema": "public",
-      "values": [
-        "postcode",
-        "geolocation"
-      ]
+      "values": ["postcode", "geolocation"]
     },
     "public.match_method": {
       "name": "match_method",
       "schema": "public",
-      "values": [
-        "keyword",
-        "ai",
-        "manual"
-      ]
+      "values": ["keyword", "ai", "manual"]
     },
     "public.pathway": {
       "name": "pathway",
       "schema": "public",
-      "values": [
-        "reduce",
-        "reuse",
-        "repair",
-        "recycle",
-        "dispose"
-      ]
+      "values": ["reduce", "reuse", "repair", "recycle", "dispose"]
     },
     "public.submission_status": {
       "name": "submission_status",
       "schema": "public",
-      "values": [
-        "received",
-        "matched",
-        "results_ready",
-        "failed"
-      ]
+      "values": ["received", "matched", "results_ready", "failed"]
     }
   },
   "schemas": {},

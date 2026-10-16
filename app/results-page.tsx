@@ -1,25 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { SubmissionResults } from "@/app/components/submission-results";
-import type { SubmissionSuccessResponse } from "@/lib/submissions/types";
-import { RESULTS_STORAGE_KEY } from "@/lib/results-storage";
+import { useStoredSubmissionResults } from "@/lib/results-storage";
 
 export default function ResultsPage() {
-  const [result, setResult] = useState<SubmissionSuccessResponse | null>(null);
-  const [loaded, setLoaded] = useState(false);
-
-  useEffect(() => {
-    try {
-      const raw = sessionStorage.getItem(RESULTS_STORAGE_KEY);
-      if (raw) setResult(JSON.parse(raw) as SubmissionSuccessResponse);
-    } catch {
-      // Ignore malformed or inaccessible storage; falls through to empty state.
-    } finally {
-      setLoaded(true);
-    }
-  }, []);
+  const { result, hydrated: loaded } = useStoredSubmissionResults();
 
   return (
     <div className="site-shell">
@@ -38,8 +24,8 @@ export default function ResultsPage() {
             <div className="results-panel">
               <h3 id="results-heading">No results to show</h3>
               <p className="results-warning" role="status">
-                We couldn&rsquo;t find a recent submission. Start a new search
-                to see reuse, recycle and repair options.
+                We couldn&rsquo;t find a recent submission. Start a new search to see reuse, recycle
+                and repair options.
               </p>
               <Link href="/" className="results-link">
                 ← Back to search

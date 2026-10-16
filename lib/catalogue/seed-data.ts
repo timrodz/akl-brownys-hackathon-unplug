@@ -41,15 +41,7 @@ export const SEED_ITEMS: SeedItem[] = [
   {
     externalId: "demo-lithium-batteries",
     title: "Lithium batteries (household)",
-    keywords: [
-      "battery",
-      "batteries",
-      "lithium",
-      "rechargeable",
-      "aa",
-      "aaa",
-      "power bank",
-    ],
+    keywords: ["battery", "batteries", "lithium", "rechargeable", "aa", "aaa", "power bank"],
     hazardAlert:
       "Do not put lithium batteries in kerbside rubbish or recycling. Tape terminals on loose cells.",
     disposalGuidance:
@@ -59,15 +51,7 @@ export const SEED_ITEMS: SeedItem[] = [
   {
     externalId: "demo-small-appliances",
     title: "Small electrical appliances",
-    keywords: [
-      "toaster",
-      "kettle",
-      "iron",
-      "appliance",
-      "electrical",
-      "e-waste",
-      "broken",
-    ],
+    keywords: ["toaster", "kettle", "iron", "appliance", "electrical", "e-waste", "broken"],
     disposalGuidance:
       "If it still works, offer it for reuse first. Otherwise use an e-waste drop-off — many items contain recoverable metals.",
     slug: "small-electrical-appliances",
@@ -75,16 +59,7 @@ export const SEED_ITEMS: SeedItem[] = [
   {
     externalId: "demo-clothing-textiles",
     title: "Clothing and textiles",
-    keywords: [
-      "clothes",
-      "clothing",
-      "textile",
-      "fabric",
-      "shirt",
-      "jeans",
-      "towel",
-      "linen",
-    ],
+    keywords: ["clothes", "clothing", "textile", "fabric", "shirt", "jeans", "towel", "linen"],
     disposalGuidance:
       "Good condition: donate or swap. Worn out: textile take-back or charity bags where accepted — not kerbside.",
     slug: "clothing-textiles",
@@ -92,15 +67,7 @@ export const SEED_ITEMS: SeedItem[] = [
   {
     externalId: "demo-furniture",
     title: "Household furniture",
-    keywords: [
-      "furniture",
-      "chair",
-      "table",
-      "desk",
-      "sofa",
-      "couch",
-      "wood",
-    ],
+    keywords: ["furniture", "chair", "table", "desk", "sofa", "couch", "wood"],
     disposalGuidance:
       "List for reuse or contact a community recycling centre. Large items may need inorganic booking through Council.",
     slug: "household-furniture",
@@ -108,15 +75,7 @@ export const SEED_ITEMS: SeedItem[] = [
   {
     externalId: "demo-mobile-phones",
     title: "Mobile phones and tablets",
-    keywords: [
-      "phone",
-      "mobile",
-      "cellphone",
-      "iphone",
-      "android",
-      "tablet",
-      "ipad",
-    ],
+    keywords: ["phone", "mobile", "cellphone", "iphone", "android", "tablet", "ipad"],
     disposalGuidance:
       "Wipe your data, then drop off at an e-waste collection point or trade-in programme.",
     slug: "mobile-phones-tablets",
@@ -137,8 +96,7 @@ export const SEED_BUSINESSES: SeedBusiness[] = [
     website: "https://www.repairnetworkaotearoa.org.nz/local-repair-cafes",
     dropOff: false,
     openingHours: "Monthly pop-up — check Repair Network Aotearoa for dates.",
-    sourceUrl:
-      "https://www.repairnetworkaotearoa.org.nz/local-repair-cafes",
+    sourceUrl: "https://www.repairnetworkaotearoa.org.nz/local-repair-cafes",
   },
   {
     externalId: "demo-constellation-rrc",
@@ -156,8 +114,7 @@ export const SEED_BUSINESSES: SeedBusiness[] = [
     dropOffNotes: "Fees may apply by material type.",
     chargesForDropOff: "See operator price list",
     openingHours: "Mon–Sun 7:00am–5:00pm (check operator for public holidays)",
-    sourceUrl:
-      "https://environz.co.nz/facilities/constellation-drive-resource-recovery-centre",
+    sourceUrl: "https://environz.co.nz/facilities/constellation-drive-resource-recovery-centre",
   },
   {
     externalId: "demo-techcollect-auckland",

@@ -7,8 +7,7 @@ Context for coding assistants working in this repository.
 A one-day build with Auckland Council (Browny's Hackathon, hosted by Mayor
 Wayne Brown), facilitated by Creative HQ for Auckland Council to close
 Auckland Startup Week, on Friday 16 October 2026. Six teams of about six people, one problem statement each,
-across transport, flood resilience and waste. This is Creative HQ team
-5. Each team builds one working prototype in about seven hours.
+across transport, flood resilience and waste. This is Creative HQ team 5. Each team builds one working prototype in about seven hours.
 Code is due at 5:00pm; what is on `main` then is judged, with a
 five-minute live demo at the table. Judges score four criteria (1 to 10 each):
 better, faster, cheaper; solves the real problem as Council described it;
@@ -25,13 +24,14 @@ broad thing that does not demo.
 
 ### Team 5 · Waste B · Reuse, repair and recycling finder
 
-*Waste · Creative HQ team 5 · Council expert on the day: TBC (Council to confirm)*
+_Waste · Creative HQ team 5 · Council expert on the day: TBC (Council to confirm)_
 
 #### Problem statement (as provided by Auckland Council)
 
 > Word for word from Creative HQ's "All problem statements 13.10" document (13 October 2026). Typos are Council's own. Email addresses and phone numbers are replaced with "(contact via Creative HQ)"; where the document gave only an address, the name in front of it is read from the address. An embedded presentation is replaced with a link to it, minus its contact slide.
 
 <!-- verbatim:start -->
+
 ##### Waste Problem Statement 2
 
 **Contact**
@@ -42,7 +42,7 @@ broad thing that does not demo.
 
 Directory for reuse, repair, recycling, and responsible disposal options
 
-People in Auckland often do not know where to take items at the end of their life for repair, reuse, recycling, or responsible disposal. Existing information sources, including council’s ‘where does it go?’ directory, can be incomplete, inaccessible, or quickly become outdated. How might we provide Aucklanders with accurate, accessible, and up-to-date guidance the helps materials keep circulating and minimising landfill.  Emerging tools such as this example from an industry organisation, Techcollect, or proprietary tools,such as Recyclemate, indicate the potential for scanning barcodes or using photos of items to source information required.
+People in Auckland often do not know where to take items at the end of their life for repair, reuse, recycling, or responsible disposal. Existing information sources, including council’s ‘where does it go?’ directory, can be incomplete, inaccessible, or quickly become outdated. How might we provide Aucklanders with accurate, accessible, and up-to-date guidance the helps materials keep circulating and minimising landfill. Emerging tools such as this example from an industry organisation, Techcollect, or proprietary tools,such as Recyclemate, indicate the potential for scanning barcodes or using photos of items to source information required.
 
 **Example solution directions**
 
@@ -83,8 +83,9 @@ Available Data: List specific datasets, APIs, and open data sources that teams c
 From the statements document's short list:
 
 <!-- verbatim:start -->
-| Statement | Contact | SME for day |
-|---|---|---|
+
+| Statement                                                                                                                 | Contact      | SME for day                                         |
+| ------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------------------------------------------- |
 | Waste #2<br>Creating better tools to help Aucklanders identify reuse, repair, recycling and responsible disposal options. | Nadine Wakim | Exact person TBC but confirmed will provide someone |
 
 <!-- verbatim:end -->

@@ -1,8 +1,5 @@
 import { isDatabaseConfigured } from "@/lib/db";
-import {
-  getSubmissionResults,
-  isSubmissionId,
-} from "@/lib/submissions/get-submission-results";
+import { getSubmissionResults, isSubmissionId } from "@/lib/submissions/get-submission-results";
 
 type RouteContext = {
   params: Promise<{ id: string }>;
@@ -16,10 +13,7 @@ export async function GET(_request: Request, context: RouteContext) {
   }
 
   if (!isDatabaseConfigured()) {
-    return Response.json(
-      { error: "Database is not configured yet." },
-      { status: 503 },
-    );
+    return Response.json({ error: "Database is not configured yet." }, { status: 503 });
   }
 
   const result = await getSubmissionResults(id);

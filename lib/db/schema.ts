@@ -34,10 +34,7 @@ export const submissionStatusEnum = pgEnum("submission_status", [
   "failed",
 ]);
 
-export const locationSourceEnum = pgEnum("location_source", [
-  "postcode",
-  "geolocation",
-]);
+export const locationSourceEnum = pgEnum("location_source", ["postcode", "geolocation"]);
 
 export const dataSourceEnum = pgEnum("data_source", [
   "council_directory",
@@ -49,11 +46,7 @@ export const dataSourceEnum = pgEnum("data_source", [
   "manual",
 ]);
 
-export const matchMethodEnum = pgEnum("match_method", [
-  "keyword",
-  "ai",
-  "manual",
-]);
+export const matchMethodEnum = pgEnum("match_method", ["keyword", "ai", "manual"]);
 
 export const businessItemRoleEnum = pgEnum("business_item_role", [
   "drop_off",
@@ -62,21 +55,13 @@ export const businessItemRoleEnum = pgEnum("business_item_role", [
   "reuse",
 ]);
 
-export const pathwayEnum = pgEnum("pathway", [
-  "reduce",
-  "reuse",
-  "repair",
-  "recycle",
-  "dispose",
-]);
+export const pathwayEnum = pgEnum("pathway", ["reduce", "reuse", "repair", "recycle", "dispose"]);
 
 export const submissions = pgTable(
   "submissions",
   {
     id: uuid("id").defaultRandom().primaryKey(),
-    createdAt: timestamp("created_at", { withTimezone: true })
-      .defaultNow()
-      .notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
     description: text("description").notNull(),
     postcode: text("postcode"),
     latitude: doublePrecision("latitude"),
@@ -131,12 +116,7 @@ export const dataDictionary = pgTable(
     description: text("description"),
     example: text("example"),
   },
-  (table) => [
-    uniqueIndex("data_dictionary_entity_column_uidx").on(
-      table.entity,
-      table.columnName,
-    ),
-  ],
+  (table) => [uniqueIndex("data_dictionary_entity_column_uidx").on(table.entity, table.columnName)],
 );
 
 export const items = pgTable(
@@ -152,18 +132,11 @@ export const items = pgTable(
     slug: text("slug"),
     approxCost: text("approx_cost"),
     costType: text("cost_type"),
-    createdAt: timestamp("created_at", { withTimezone: true })
-      .defaultNow()
-      .notNull(),
-    updatedAt: timestamp("updated_at", { withTimezone: true })
-      .defaultNow()
-      .notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
   },
   (table) => [
-    uniqueIndex("items_source_external_id_uidx").on(
-      table.source,
-      table.externalId,
-    ),
+    uniqueIndex("items_source_external_id_uidx").on(table.source, table.externalId),
     index("items_title_idx").on(table.title),
   ],
 );
@@ -182,13 +155,9 @@ export const submissionItems = pgTable(
     descriptionSnapshot: text("description_snapshot").notNull(),
     matchConfidence: real("match_confidence"),
     matchMethod: matchMethodEnum("match_method"),
-    createdAt: timestamp("created_at", { withTimezone: true })
-      .defaultNow()
-      .notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
   },
-  (table) => [
-    uniqueIndex("submission_items_submission_id_uidx").on(table.submissionId),
-  ],
+  (table) => [uniqueIndex("submission_items_submission_id_uidx").on(table.submissionId)],
 );
 
 export const businesses = pgTable(
@@ -219,18 +188,11 @@ export const businesses = pgTable(
     openingHours: text("opening_hours"),
     status: text("status"),
     sourceUrl: text("source_url"),
-    createdAt: timestamp("created_at", { withTimezone: true })
-      .defaultNow()
-      .notNull(),
-    updatedAt: timestamp("updated_at", { withTimezone: true })
-      .defaultNow()
-      .notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
   },
   (table) => [
-    uniqueIndex("businesses_source_external_id_uidx").on(
-      table.source,
-      table.externalId,
-    ),
+    uniqueIndex("businesses_source_external_id_uidx").on(table.source, table.externalId),
     index("businesses_name_idx").on(table.name),
   ],
 );
@@ -247,9 +209,7 @@ export const businessItems = pgTable(
       .references(() => items.id, { onDelete: "cascade" }),
     role: businessItemRoleEnum("role"),
     notes: text("notes"),
-    createdAt: timestamp("created_at", { withTimezone: true })
-      .defaultNow()
-      .notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
   },
   (table) => [
     uniqueIndex("business_items_business_item_role_uidx").on(
@@ -277,16 +237,11 @@ export const recommendations = pgTable(
       onDelete: "set null",
     }),
     distanceKm: real("distance_km"),
-    createdAt: timestamp("created_at", { withTimezone: true })
-      .defaultNow()
-      .notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
   },
   (table) => [
     index("recommendations_submission_id_idx").on(table.submissionId),
-    index("recommendations_submission_sort_idx").on(
-      table.submissionId,
-      table.sortOrder,
-    ),
+    index("recommendations_submission_sort_idx").on(table.submissionId, table.sortOrder),
   ],
 );
 
@@ -303,19 +258,16 @@ export const itemsRelations = relations(items, ({ many }) => ({
   businessItems: many(businessItems),
 }));
 
-export const submissionItemsRelations = relations(
-  submissionItems,
-  ({ one }) => ({
-    submission: one(submissions, {
-      fields: [submissionItems.submissionId],
-      references: [submissions.id],
-    }),
-    item: one(items, {
-      fields: [submissionItems.itemId],
-      references: [items.id],
-    }),
+export const submissionItemsRelations = relations(submissionItems, ({ one }) => ({
+  submission: one(submissions, {
+    fields: [submissionItems.submissionId],
+    references: [submissions.id],
   }),
-);
+  item: one(items, {
+    fields: [submissionItems.itemId],
+    references: [items.id],
+  }),
+}));
 
 export const businessesRelations = relations(businesses, ({ many }) => ({
   businessItems: many(businessItems),
@@ -333,16 +285,13 @@ export const businessItemsRelations = relations(businessItems, ({ one }) => ({
   }),
 }));
 
-export const recommendationsRelations = relations(
-  recommendations,
-  ({ one }) => ({
-    submission: one(submissions, {
-      fields: [recommendations.submissionId],
-      references: [submissions.id],
-    }),
-    business: one(businesses, {
-      fields: [recommendations.businessId],
-      references: [businesses.id],
-    }),
+export const recommendationsRelations = relations(recommendations, ({ one }) => ({
+  submission: one(submissions, {
+    fields: [recommendations.submissionId],
+    references: [submissions.id],
   }),
-);
+  business: one(businesses, {
+    fields: [recommendations.businessId],
+    references: [businesses.id],
+  }),
+}));

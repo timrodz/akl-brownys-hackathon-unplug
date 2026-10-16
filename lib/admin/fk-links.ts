@@ -8,10 +8,7 @@ export const ADMIN_FK_LINKS: Record<string, string> = {
   businessId: "/admin/businesses",
 };
 
-export function adminLinkForColumn(
-  columnKey: string,
-  value: unknown,
-): string | undefined {
+export function adminLinkForColumn(columnKey: string, value: unknown): string | undefined {
   const base = ADMIN_FK_LINKS[columnKey];
   if (!base || value == null) {
     return undefined;

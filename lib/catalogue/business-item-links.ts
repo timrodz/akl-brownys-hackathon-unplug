@@ -16,15 +16,14 @@ export async function clearBusinessItemPairs(
   const batchSize = 50;
   for (let i = 0; i < pairs.length; i += batchSize) {
     const chunk = pairs.slice(i, i + batchSize);
-    await database.delete(businessItems).where(
-      or(
-        ...chunk.map((p) =>
-          and(
-            eq(businessItems.businessId, p.businessId),
-            eq(businessItems.itemId, p.itemId),
+    await database
+      .delete(businessItems)
+      .where(
+        or(
+          ...chunk.map((p) =>
+            and(eq(businessItems.businessId, p.businessId), eq(businessItems.itemId, p.itemId)),
           ),
         ),
-      ),
-    );
+      );
   }
 }

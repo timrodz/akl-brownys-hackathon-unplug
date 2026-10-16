@@ -3,13 +3,7 @@ import "server-only";
 import { asc, eq, inArray } from "drizzle-orm";
 
 import { db } from "@/lib/db";
-import {
-  businesses,
-  items,
-  recommendations,
-  submissionItems,
-  submissions,
-} from "@/lib/db/schema";
+import { businesses, items, recommendations, submissionItems, submissions } from "@/lib/db/schema";
 
 import type {
   RecommendationSummary,
@@ -33,15 +27,12 @@ function mapStatus(
 }
 
 function buildWarnings(
-  submission: (typeof submissions.$inferSelect),
+  submission: typeof submissions.$inferSelect,
   item: SubmissionItemSummary | null,
 ): string[] {
   const warnings: string[] = [];
 
-  if (
-    item?.matchConfidence != null &&
-    item.matchConfidence < 0.55
-  ) {
+  if (item?.matchConfidence != null && item.matchConfidence < 0.55) {
     warnings.push(
       "This catalogue match is inferred from keywords — please check it fits your item.",
     );
@@ -65,18 +56,12 @@ function buildWarnings(
   return warnings;
 }
 
-export async function getSubmissionResults(
-  id: string,
-): Promise<SubmissionSuccessResponse | null> {
+export async function getSubmissionResults(id: string): Promise<SubmissionSuccessResponse | null> {
   if (!db || !isSubmissionId(id)) {
     return null;
   }
 
-  const [submission] = await db
-    .select()
-    .from(submissions)
-    .where(eq(submissions.id, id))
-    .limit(1);
+  const [submission] = await db.select().from(submissions).where(eq(submissions.id, id)).limit(1);
 
   if (!submission) {
     return null;
@@ -108,10 +93,7 @@ export async function getSubmissionResults(
 
   const businessRows =
     businessIds.length > 0
-      ? await db
-          .select()
-          .from(businesses)
-          .where(inArray(businesses.id, businessIds))
+      ? await db.select().from(businesses).where(inArray(businesses.id, businessIds))
       : [];
 
   const businessById = new Map(businessRows.map((business) => [business.id, business]));
@@ -126,15 +108,12 @@ export async function getSubmissionResults(
       disposalGuidance: submissionItemRow.item.disposalGuidance,
       matchConfidence,
       matchMethod: submissionItemRow.submissionItem.matchMethod,
-      lowConfidence:
-        matchConfidence != null ? matchConfidence < 0.55 : false,
+      lowConfidence: matchConfidence != null ? matchConfidence < 0.55 : false,
     };
   }
 
   const recommendationSummaries: RecommendationSummary[] = recRows.map((rec) => {
-    const business = rec.businessId
-      ? businessById.get(rec.businessId)
-      : undefined;
+    const business = rec.businessId ? businessById.get(rec.businessId) : undefined;
     return {
       id: rec.id,
       pathway: rec.pathway,
@@ -142,12 +121,18 @@ export async function getSubmissionResults(
       title: rec.title,
       body: rec.body,
       distanceKm: rec.distanceKm,
-      acceptanceNote: business ? [
-        `Saved catalogue recommendation for ${itemSummary?.title ?? "your item"}.`,
-        business.acceptsHousehold === true ? "Household items accepted according to the catalogue." : "Household acceptance is not confirmed; check before travelling.",
-        // The saved body retains the item-link restrictions used for this recommendation.
-        rec.body,
-      ].filter(Boolean).join(" ") : undefined,
+      acceptanceNote: business
+        ? [
+            `Saved catalogue recommendation for ${itemSummary?.title ?? "your item"}.`,
+            business.acceptsHousehold === true
+              ? "Household items accepted according to the catalogue."
+              : "Household acceptance is not confirmed; check before travelling.",
+            // The saved body retains the item-link restrictions used for this recommendation.
+            rec.body,
+          ]
+            .filter(Boolean)
+            .join(" ")
+        : undefined,
       business: business
         ? {
             id: business.id,

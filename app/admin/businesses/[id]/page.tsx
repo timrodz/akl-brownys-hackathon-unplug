@@ -26,11 +26,7 @@ export default async function EditBusinessPage({ params }: PageProps) {
 
   const { id } = await params;
 
-  const [business] = await db
-    .select()
-    .from(businesses)
-    .where(eq(businesses.id, id))
-    .limit(1);
+  const [business] = await db.select().from(businesses).where(eq(businesses.id, id)).limit(1);
 
   if (!business) {
     notFound();

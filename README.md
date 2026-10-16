@@ -15,13 +15,14 @@ Friday 16 October 2026 · The Annex, 10 Madden Street, Wynyard Quarter, and Medi
 
 ## Team 5 · Waste B · Reuse, repair and recycling finder
 
-*Waste · Creative HQ team 5 · Council expert on the day: TBC (Council to confirm)*
+_Waste · Creative HQ team 5 · Council expert on the day: TBC (Council to confirm)_
 
 ### Problem statement (as provided by Auckland Council)
 
 > Word for word from Creative HQ's "All problem statements 13.10" document (13 October 2026). Typos are Council's own. Email addresses and phone numbers are replaced with "(contact via Creative HQ)"; where the document gave only an address, the name in front of it is read from the address. An embedded presentation is replaced with a link to it, minus its contact slide.
 
 <!-- verbatim:start -->
+
 #### Waste Problem Statement 2
 
 **Contact**
@@ -32,7 +33,7 @@ Friday 16 October 2026 · The Annex, 10 Madden Street, Wynyard Quarter, and Medi
 
 Directory for reuse, repair, recycling, and responsible disposal options
 
-People in Auckland often do not know where to take items at the end of their life for repair, reuse, recycling, or responsible disposal. Existing information sources, including council’s ‘where does it go?’ directory, can be incomplete, inaccessible, or quickly become outdated. How might we provide Aucklanders with accurate, accessible, and up-to-date guidance the helps materials keep circulating and minimising landfill.  Emerging tools such as this example from an industry organisation, Techcollect, or proprietary tools,such as Recyclemate, indicate the potential for scanning barcodes or using photos of items to source information required.
+People in Auckland often do not know where to take items at the end of their life for repair, reuse, recycling, or responsible disposal. Existing information sources, including council’s ‘where does it go?’ directory, can be incomplete, inaccessible, or quickly become outdated. How might we provide Aucklanders with accurate, accessible, and up-to-date guidance the helps materials keep circulating and minimising landfill. Emerging tools such as this example from an industry organisation, Techcollect, or proprietary tools,such as Recyclemate, indicate the potential for scanning barcodes or using photos of items to source information required.
 
 **Example solution directions**
 
@@ -73,8 +74,9 @@ Available Data: List specific datasets, APIs, and open data sources that teams c
 From the statements document's short list:
 
 <!-- verbatim:start -->
-| Statement | Contact | SME for day |
-|---|---|---|
+
+| Statement                                                                                                                 | Contact      | SME for day                                         |
+| ------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------------------------------------------- |
 | Waste #2<br>Creating better tools to help Aucklanders identify reuse, repair, recycling and responsible disposal options. | Nadine Wakim | Exact person TBC but confirmed will provide someone |
 
 <!-- verbatim:end -->
@@ -172,33 +174,33 @@ The 25 best-graded sources for this problem from the wider
 search, best first. Grades run A to E (fit, usability, access, authority,
 freshness, granularity); spot-check before relying on them.
 
-| Grade | Source | Access | What it gives you |
-|---|---|---|---|
-| A | [South and East Auckland Waste, Recycling and Rehoming Directory](https://viewer.mapme.com/af29690b-4cd0-484f-a211-8f3e12fa51b4) | Open | Adds a community-run, searchable reuse and recycling directory for South and East Auckland that can complement item-specific advice. |
-| A | [Council waste service areas (inorganic contract areas, recycling collection weeks, refuse/food-scraps areas, litter areas)](https://services1.arcgis.com/n4yPwebTjJCmXB6W/arcgis/rest/services/CSRFS_ServiceArea_Query/FeatureServer/0) | Open | Which kerbside and inorganic collection service applies at an address. |
-| A | [Council 'How to get rid of unwanted items' directory (items + organisations)](https://www.aucklandcouncil.govt.nz/en/rubbish-recycling/get-rid-unwanted-items.html) | Open | The incumbent directory and its item-to-facility join. It is richer than it first looks: most orgs have street address, coordinates, hours and charges. |
-| A | [Auckland household battery recycling pilot at Woolworths stores](https://ourauckland.aucklandcouncil.govt.nz/news/2026/09/got-old-batteries-at-home/) | Open | Adds a new Auckland public return option for ordinary household batteries that can be clearly distinguished from solar/home-storage battery returns. |
-| B | [Enviro NZ Constellation Drive Resource Recovery Centre – operator hours, fees and accepted materials](https://environz.co.nz/facilities/constellation-drive-resource-recovery-centre?filter=resource-recovery-centre) | Open | Provides primary-operator price and acceptance data for a public Auckland disposal option, useful for checking or refreshing directory entries. |
-| B | [Auckland Resource Recovery Network — Find your local CRC](https://www.makingzerowastework.org.nz/find-your-local-crc) | Open | Purpose-built current locator for the Auckland CRC network, with addresses that can anchor local reuse and recycling recommendations. |
-| B | [Auckland Library of Tools (ALoT) public inventory](https://aucklandlibraryoftools.myturn.com/library/inventory/browse) | Open | Primary Auckland catalogue for matching item requests to category, availability, pickup location and borrowing cost. |
-| B | [HomeImprovement2day Auckland Region upholsterers directory](https://www.homeimprovement2day.co.nz/directory/category/furniture/furniture-upholstery/upholsterers/location/auckland-region/) | Open | Direct Auckland furniture-upholstery category with repair, restoration and recovery descriptions that help distinguish service types. |
-| B | [Nurturing Families — Auckland baby-item donation and car-seat eligibility list](https://www.nurturingfamilies.nz/donate) | Open | Auckland family-support reuse intake with a location and unusually specific car-seat safety criteria. |
-| B | [RecycleMap NZ - all markers by material map (WP Google Maps REST)](https://www.recyclemap.co.nz/wp-json/wpgmza/v1/markers) | Open | The best ready-made material-to-location dataset found: one call, coordinates included, already split by material. |
-| B | [Phoenix Recycling battery drop-off locations](https://www.phoenixrecycling.co.nz/battery-recycling-locations) | Open | Adds a distinct NZ battery collection network with downstream verification and battery acceptance/fee details beyond the existing household battery map. |
-| B | [Finda Auckland City Clothing Alterations & Repairs directory](https://www.finda.co.nz/clothing-alterations-repairs/auckland-city/) | Open | Its repair descriptions connect garment types and specific alteration or mending capabilities to Auckland businesses. |
-| B | [Little More — Auckland baby-item donation locations and acceptance list](https://littlemore.co.nz/donate-items/things-we-can-accept/) | Open | Potential Auckland reuse route with two public drop-off points; check its current page manually because automated access was blocked. |
-| B | [Safe 'n Snug — Pay It Forward child-seat rehoming](https://www.safensnug.co.nz/payitforward) | Open | Local reuse programme publishes concrete safety screening rules and a way to arrange handover. |
-| B | [Auckland Council: what you can put in roadside recycling](https://www.aucklandcouncil.govt.nz/en/rubbish-recycling/bin-requests/Pages/what-put-your-recycling.aspx) | Open | Adds Auckland-specific accepted-bin guidance alongside the national standards reference. |
-| B | [WasteHub NZ recycling services finder](https://www.wastehub.co.nz/nz-recycling-services-finder) | Open | NZ-wide finder for recycling services, including construction materials: a second directory to compare with and fill gaps in Council's own list. |
-| C | [WasteMINZ household battery drop-off locations (Google My Maps KML)](https://www.google.com/maps/d/kml?mid=1ncyWOEWbXMSiycgz48swYqMj4aHJnSE&forcekml=1) | Open | Authoritative battery drop-offs, with chemistries. |
-| C | [TechCollect NZ e-waste drop-off locations](https://www.techcollect.nz/recycle) | Open | The e-waste scheme the brief cites. A small list, so hand-copy it. |
-| C | [Tāmaki Zero Waste Hub — operator services and reuse distribution](https://localised.nz/our-enterprises/tamaki-zero-waste-hub) | Open | Provides current service-level detail and a useful e-waste exception that can prevent a directory from promising unavailable reuse options. |
-| C | [Whangaparāoa Community Recycling Centre — operator service details](https://localised.nz/our-enterprises/whangaparaoa-crc) | Open | Adds material-category and opening-hour data from the operator for matching residents to an appropriate local hub. |
-| C | [SeatSmart — Auckland child car-seat recycling locations and acceptance rules](https://seatsmart.co.nz/resources/sites-and-events/auckland/) | Open | Main Auckland end-of-life route, with locations, fees, accepted seat types and rejection conditions. |
-| C | [AS Colour and ImpacTex textile take-back collection points](https://www.ascolour.co.nz/textile-recycling/) | Open | Offers multiple Auckland drop-off options for worn or unwanted textiles and clear material acceptance rules. |
-| C | [Repair Network Aotearoa - Repair Café directory (Wix dynamic pages)](https://www.repairnetworkaotearoa.org.nz/dynamic-localrepaircafes_p_8500816c_6fb3_4424_8161_90ad1ae5b8b2_0_5000-sitemap.xml) | Open | The repair leg the council directory barely covers. |
-| C | [Open Food Facts / Open Products Facts barcode APIs](https://world.openfoodfacts.org/api/v3/product/{barcode}) | Open | Barcode lookups for packaged goods only. Don't build the demo on it: use photo-to-category classification instead. |
-| C | [Onehunga Community Recycling Centre — services and drop-off estimator](https://www.onehungacrc.nz/) | Open | Offers a live, operator-run service and pricing reference for household items, with an explicit warning that accepted donations may change when materials pile up. |
+| Grade | Source                                                                                                                                                                                                                                   | Access | What it gives you                                                                                                                                                  |
+| ----- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| A     | [South and East Auckland Waste, Recycling and Rehoming Directory](https://viewer.mapme.com/af29690b-4cd0-484f-a211-8f3e12fa51b4)                                                                                                         | Open   | Adds a community-run, searchable reuse and recycling directory for South and East Auckland that can complement item-specific advice.                               |
+| A     | [Council waste service areas (inorganic contract areas, recycling collection weeks, refuse/food-scraps areas, litter areas)](https://services1.arcgis.com/n4yPwebTjJCmXB6W/arcgis/rest/services/CSRFS_ServiceArea_Query/FeatureServer/0) | Open   | Which kerbside and inorganic collection service applies at an address.                                                                                             |
+| A     | [Council 'How to get rid of unwanted items' directory (items + organisations)](https://www.aucklandcouncil.govt.nz/en/rubbish-recycling/get-rid-unwanted-items.html)                                                                     | Open   | The incumbent directory and its item-to-facility join. It is richer than it first looks: most orgs have street address, coordinates, hours and charges.            |
+| A     | [Auckland household battery recycling pilot at Woolworths stores](https://ourauckland.aucklandcouncil.govt.nz/news/2026/09/got-old-batteries-at-home/)                                                                                   | Open   | Adds a new Auckland public return option for ordinary household batteries that can be clearly distinguished from solar/home-storage battery returns.               |
+| B     | [Enviro NZ Constellation Drive Resource Recovery Centre – operator hours, fees and accepted materials](https://environz.co.nz/facilities/constellation-drive-resource-recovery-centre?filter=resource-recovery-centre)                   | Open   | Provides primary-operator price and acceptance data for a public Auckland disposal option, useful for checking or refreshing directory entries.                    |
+| B     | [Auckland Resource Recovery Network — Find your local CRC](https://www.makingzerowastework.org.nz/find-your-local-crc)                                                                                                                   | Open   | Purpose-built current locator for the Auckland CRC network, with addresses that can anchor local reuse and recycling recommendations.                              |
+| B     | [Auckland Library of Tools (ALoT) public inventory](https://aucklandlibraryoftools.myturn.com/library/inventory/browse)                                                                                                                  | Open   | Primary Auckland catalogue for matching item requests to category, availability, pickup location and borrowing cost.                                               |
+| B     | [HomeImprovement2day Auckland Region upholsterers directory](https://www.homeimprovement2day.co.nz/directory/category/furniture/furniture-upholstery/upholsterers/location/auckland-region/)                                             | Open   | Direct Auckland furniture-upholstery category with repair, restoration and recovery descriptions that help distinguish service types.                              |
+| B     | [Nurturing Families — Auckland baby-item donation and car-seat eligibility list](https://www.nurturingfamilies.nz/donate)                                                                                                                | Open   | Auckland family-support reuse intake with a location and unusually specific car-seat safety criteria.                                                              |
+| B     | [RecycleMap NZ - all markers by material map (WP Google Maps REST)](https://www.recyclemap.co.nz/wp-json/wpgmza/v1/markers)                                                                                                              | Open   | The best ready-made material-to-location dataset found: one call, coordinates included, already split by material.                                                 |
+| B     | [Phoenix Recycling battery drop-off locations](https://www.phoenixrecycling.co.nz/battery-recycling-locations)                                                                                                                           | Open   | Adds a distinct NZ battery collection network with downstream verification and battery acceptance/fee details beyond the existing household battery map.           |
+| B     | [Finda Auckland City Clothing Alterations & Repairs directory](https://www.finda.co.nz/clothing-alterations-repairs/auckland-city/)                                                                                                      | Open   | Its repair descriptions connect garment types and specific alteration or mending capabilities to Auckland businesses.                                              |
+| B     | [Little More — Auckland baby-item donation locations and acceptance list](https://littlemore.co.nz/donate-items/things-we-can-accept/)                                                                                                   | Open   | Potential Auckland reuse route with two public drop-off points; check its current page manually because automated access was blocked.                              |
+| B     | [Safe 'n Snug — Pay It Forward child-seat rehoming](https://www.safensnug.co.nz/payitforward)                                                                                                                                            | Open   | Local reuse programme publishes concrete safety screening rules and a way to arrange handover.                                                                     |
+| B     | [Auckland Council: what you can put in roadside recycling](https://www.aucklandcouncil.govt.nz/en/rubbish-recycling/bin-requests/Pages/what-put-your-recycling.aspx)                                                                     | Open   | Adds Auckland-specific accepted-bin guidance alongside the national standards reference.                                                                           |
+| B     | [WasteHub NZ recycling services finder](https://www.wastehub.co.nz/nz-recycling-services-finder)                                                                                                                                         | Open   | NZ-wide finder for recycling services, including construction materials: a second directory to compare with and fill gaps in Council's own list.                   |
+| C     | [WasteMINZ household battery drop-off locations (Google My Maps KML)](https://www.google.com/maps/d/kml?mid=1ncyWOEWbXMSiycgz48swYqMj4aHJnSE&forcekml=1)                                                                                 | Open   | Authoritative battery drop-offs, with chemistries.                                                                                                                 |
+| C     | [TechCollect NZ e-waste drop-off locations](https://www.techcollect.nz/recycle)                                                                                                                                                          | Open   | The e-waste scheme the brief cites. A small list, so hand-copy it.                                                                                                 |
+| C     | [Tāmaki Zero Waste Hub — operator services and reuse distribution](https://localised.nz/our-enterprises/tamaki-zero-waste-hub)                                                                                                           | Open   | Provides current service-level detail and a useful e-waste exception that can prevent a directory from promising unavailable reuse options.                        |
+| C     | [Whangaparāoa Community Recycling Centre — operator service details](https://localised.nz/our-enterprises/whangaparaoa-crc)                                                                                                              | Open   | Adds material-category and opening-hour data from the operator for matching residents to an appropriate local hub.                                                 |
+| C     | [SeatSmart — Auckland child car-seat recycling locations and acceptance rules](https://seatsmart.co.nz/resources/sites-and-events/auckland/)                                                                                             | Open   | Main Auckland end-of-life route, with locations, fees, accepted seat types and rejection conditions.                                                               |
+| C     | [AS Colour and ImpacTex textile take-back collection points](https://www.ascolour.co.nz/textile-recycling/)                                                                                                                              | Open   | Offers multiple Auckland drop-off options for worn or unwanted textiles and clear material acceptance rules.                                                       |
+| C     | [Repair Network Aotearoa - Repair Café directory (Wix dynamic pages)](https://www.repairnetworkaotearoa.org.nz/dynamic-localrepaircafes_p_8500816c_6fb3_4424_8161_90ad1ae5b8b2_0_5000-sitemap.xml)                                       | Open   | The repair leg the council directory barely covers.                                                                                                                |
+| C     | [Open Food Facts / Open Products Facts barcode APIs](https://world.openfoodfacts.org/api/v3/product/{barcode})                                                                                                                           | Open   | Barcode lookups for packaged goods only. Don't build the demo on it: use photo-to-category classification instead.                                                 |
+| C     | [Onehunga Community Recycling Centre — services and drop-off estimator](https://www.onehungacrc.nz/)                                                                                                                                     | Open   | Offers a live, operator-run service and pricing reference for household items, with an explicit warning that accepted donations may change when materials pile up. |
 
 The full list is in the
 [source sheet](https://github.com/Auckland-Hackathons/akl-civic-data/blob/main/sheet/akl-civic-data-catalogue.xlsx): 3,250 sources, with a
@@ -214,25 +216,25 @@ From Creative HQ's run sheet. Two teams work at The Annex and four next door
 at Media Design School, two teams to a room; Creative HQ confirms rooms on the
 morning. Lunch, the share-back and the showcase are at The Annex.
 
-| Time | What |
-|---|---|
-| 8:30am | Arrive and register at The Annex: name tags, join the WhatsApp group |
-| 9:00am | Welcome: the Mayor's video, shape of the day, code of conduct, how judging works, technical briefing |
-| 9:30am | Build. Meet your Council expert and agree your one-line focus in the first hour |
-| 11:00am | Morning tea |
-| 11:15am | Build |
-| 12:30pm | Lunch at The Annex |
-| 1:00pm | **Share-back**: two minutes per team on what you have learned and the approach you are taking. Not a pitch |
-| 1:30pm | Build. Show your Council expert your build about once an hour |
-| 3:00pm | Afternoon tea |
-| 3:15pm | Build. "One hour to go" goes out on WhatsApp at 4:00pm |
-| 4:15pm | Final build and code upload |
-| **5:00pm** | **Code due.** What is on `main` at 5:00pm is what gets judged |
-| 5:00pm–5:45pm | **Judges' table visits**, five minutes per team: the problem, your solution, a live demo, then questions. Work on your showcase slides, not code |
-| 5:45pm | Judges decide. **Showcase slides due** (Google Slides, sent to Claudia at Creative HQ on WhatsApp) |
-| 6:00pm | Showcase with the Mayor at The Annex: a **three-minute pitch** per team. No product demos on stage; not judged |
-| About 6:30pm–6:45pm | Winner announced |
-| By 7:00pm | Close |
+| Time                | What                                                                                                                                             |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 8:30am              | Arrive and register at The Annex: name tags, join the WhatsApp group                                                                             |
+| 9:00am              | Welcome: the Mayor's video, shape of the day, code of conduct, how judging works, technical briefing                                             |
+| 9:30am              | Build. Meet your Council expert and agree your one-line focus in the first hour                                                                  |
+| 11:00am             | Morning tea                                                                                                                                      |
+| 11:15am             | Build                                                                                                                                            |
+| 12:30pm             | Lunch at The Annex                                                                                                                               |
+| 1:00pm              | **Share-back**: two minutes per team on what you have learned and the approach you are taking. Not a pitch                                       |
+| 1:30pm              | Build. Show your Council expert your build about once an hour                                                                                    |
+| 3:00pm              | Afternoon tea                                                                                                                                    |
+| 3:15pm              | Build. "One hour to go" goes out on WhatsApp at 4:00pm                                                                                           |
+| 4:15pm              | Final build and code upload                                                                                                                      |
+| **5:00pm**          | **Code due.** What is on `main` at 5:00pm is what gets judged                                                                                    |
+| 5:00pm–5:45pm       | **Judges' table visits**, five minutes per team: the problem, your solution, a live demo, then questions. Work on your showcase slides, not code |
+| 5:45pm              | Judges decide. **Showcase slides due** (Google Slides, sent to Claudia at Creative HQ on WhatsApp)                                               |
+| 6:00pm              | Showcase with the Mayor at The Annex: a **three-minute pitch** per team. No product demos on stage; not judged                                   |
+| About 6:30pm–6:45pm | Winner announced                                                                                                                                 |
+| By 7:00pm           | Close                                                                                                                                            |
 
 The run sheet and the experts' pack differ slightly on the last two times;
 Creative HQ will call it on the night.
@@ -247,12 +249,12 @@ pitches are not judged.
 Each judge scores four criteria from 1 to 10, for a total out of 40. From
 Creative HQ's briefing for the judges:
 
-| Criterion | What to look for |
-|---|---|
-| Better, faster, cheaper | Would this save Council time or money, or make a service noticeably better for Aucklanders? |
-| Solves the real problem | Does it deal with the problem as the Council team described it? |
-| Works on real data | A live demo running on real Council or open data |
-| Council could use it | Realistic to adopt (cost, existing systems, privacy, who would own it), and the team is clear about what's still missing |
+| Criterion               | What to look for                                                                                                         |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| Better, faster, cheaper | Would this save Council time or money, or make a service noticeably better for Aucklanders?                              |
+| Solves the real problem | Does it deal with the problem as the Council team described it?                                                          |
+| Works on real data      | A live demo running on real Council or open data                                                                         |
+| Council could use it    | Realistic to adopt (cost, existing systems, privacy, who would own it), and the team is clear about what's still missing |
 
 A tie goes to the team with the higher "better, faster, cheaper" score. The
 scores guide the panel, which has the final say.
@@ -297,7 +299,9 @@ Before 5:00pm, when code is due, make sure `main` has:
 Creative HQ's briefing pack for Council experts says:
 
 <!-- verbatim:start -->
+
 > Under the IP terms participants agreed to, what is built on the day belongs to Auckland Council and Auckland Startup Week, with a licence back to the participants.
+
 <!-- verbatim:end -->
 
 This is not an open-source project and there is no open-source licence.
@@ -333,7 +337,7 @@ bun dev
 
 Stop the database container with `bun db:down`. Data is kept in a Docker volume until you remove it.
 
-Check with `bun typecheck` and `bun run build`.
+Check with `bun run check` (oxlint + oxfmt + `tsc`) and `bun run build`. Pre-commit runs lint-staged (format + lint fix on staged files) and typecheck.
 
 The responsive **Unplug** landing page accepts a camera/photo upload, editable item
 description, and either a four-digit NZ postcode or device coordinates. Geolocation
@@ -354,6 +358,7 @@ identification can be inaccurate.
 Photo analyse does not persist until submit.
 
 ### Unplug update
+
 The app is now named Unplug and uses a centred single-column form. If OpenRouter is
 not configured, photo identification returns an explicit `status: "manual"`
 response and the UI keeps the attached photo with a prompt for a description.
@@ -364,9 +369,11 @@ Run `node scripts/check-photo-fallback.cjs` after dependency installation to che
 the actual route's missing-key response with the photo classifier stubbed out.
 
 ### Photo model availability
+
 Photo identification always uses [OpenRouter Free Models Router](https://openrouter.ai/openrouter/free), which selects a free model supporting image input. Free models have availability and usage limits; failures keep the manual-description path available. Photos are sent to OpenRouter and its selected provider. No paid model fallback is configured.
 
 ### Other Gemini calls
+
 The default is `gemini-3.8-flash`. Google restricts Gemini 2.5 models to projects
 that actively used them previously, which can cause a provider 404 for new projects.
 Set the optional server-only `GEMINI_MODEL` to override the model, then redeploy.
@@ -376,11 +383,11 @@ the provider; a successful live photo request still needs verification in Vercel
 
 ### Data sources (this build)
 
-| Layer | Source | Notes |
-|---|---|---|
-| Demo catalogue | `lib/catalogue/seed-data.ts` | **Synthetic sample** shaped like Council/community listings: 5 **items**, 3 **businesses**, join rows. Labelled in the UI. |
-| Future civic import | [akl-civic-data](https://github.com/Auckland-Hackathons/akl-civic-data) | RecycleMap markers, repair cafés, TechCollect, Council directory — not wired in this slice; replace/extend seed job. |
-| Postcode → map point | `lib/location/geocode.ts` | **Approximate** Auckland postcode centres for distance (not Google Maps). |
+| Layer                | Source                                                                  | Notes                                                                                                                      |
+| -------------------- | ----------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| Demo catalogue       | `lib/catalogue/seed-data.ts`                                            | **Synthetic sample** shaped like Council/community listings: 5 **items**, 3 **businesses**, join rows. Labelled in the UI. |
+| Future civic import  | [akl-civic-data](https://github.com/Auckland-Hackathons/akl-civic-data) | RecycleMap markers, repair cafés, TechCollect, Council directory — not wired in this slice; replace/extend seed job.       |
+| Postcode → map point | `lib/location/geocode.ts`                                               | **Approximate** Auckland postcode centres for distance (not Google Maps).                                                  |
 
 Publishers to credit when you add live feeds: Auckland Council, RecycleMap NZ,
 Repair Network Aotearoa, TechCollect, Enviro NZ (Constellation RRC), etc.
@@ -398,6 +405,7 @@ Drizzle (`lib/db/schema.ts`, local via `docker-compose.yml`). Domain terms: `GLO
 `docs/adr/0001-submission-photo-in-postgres.md`.
 
 ### Catalogue check and draft results
+
 `items` is a catalogue table, not an enum: id, source/external_id, title, keywords,
 hazard_alert, disposal_guidance and slug. `submission_items.item_id` records a match;
 `business_items.item_id` links it to accepting/servicing businesses. Phone and
@@ -456,6 +464,7 @@ When the database catalogue is available, the image classifier receives non-demo
 Catalogue text is sent to OpenRouter with the photo; no database credentials or resident location are sent. If the catalogue cannot load, the existing general-description and catalogue-check fallback remains, with manual review warnings. If the catalogue is available but the photo has no confident matching item, the user is asked for a manual description; no category is invented. Qualitative model confidence is not a calibrated probability.
 
 Checks: `node scripts/check-photo-catalogue.cjs`, `node scripts/check-openrouter-photo.cjs`, and the photo fallback/diagnostics/file-part scripts.
+
 ### Use my location fills the postcode
 
 The location button fills the postcode input using the nearest checked-in postcode centroid within 5 km, only when the browser reports accuracy within 2 km. The dataset is loaded on demand in the browser; no reverse-geocoding service or API key is used and device coordinates are not sent externally during lookup. Success leaves the status area empty. The field label identifies the postcode as estimated because centroid proximity cannot establish the exact postcode or boundary. Residents can correct the value manually.

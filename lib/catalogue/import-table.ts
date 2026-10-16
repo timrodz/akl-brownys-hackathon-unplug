@@ -125,10 +125,7 @@ async function importBusinessTypes(
   return count;
 }
 
-async function importItemTypes(
-  database: Db,
-  rows: Array<Record<string, string>>,
-): Promise<number> {
+async function importItemTypes(database: Db, rows: Array<Record<string, string>>): Promise<number> {
   let count = 0;
   for (const row of rows) {
     const mapped = mapItemTypeCsvRow(row);
@@ -255,18 +252,13 @@ async function importBusinessItems(
   rows: Array<Record<string, string>>,
   source: CatalogueDataSource,
 ): Promise<{ linked: number; skipped: number }> {
-  const { itemIdByExternal, businessIdByExternal } =
-    await loadExternalIdMaps(database, source);
+  const { itemIdByExternal, businessIdByExternal } = await loadExternalIdMaps(database, source);
 
-  const linksToInsert: Array<(typeof businessItems.$inferInsert)> = [];
+  const linksToInsert: Array<typeof businessItems.$inferInsert> = [];
   let skipped = 0;
 
   for (const row of rows) {
-    const mapped = mapBusinessItemCsvRow(
-      row,
-      itemIdByExternal,
-      businessIdByExternal,
-    );
+    const mapped = mapBusinessItemCsvRow(row, itemIdByExternal, businessIdByExternal);
     if ("missing" in mapped) {
       skipped++;
       continue;
@@ -274,12 +266,8 @@ async function importBusinessItems(
     linksToInsert.push(mapped.row);
   }
 
-  const pairKey = (p: { businessId: string; itemId: string }) =>
-    `${p.businessId}\0${p.itemId}`;
-  const uniqueByPair = new Map<
-    string,
-    (typeof linksToInsert)[number]
-  >();
+  const pairKey = (p: { businessId: string; itemId: string }) => `${p.businessId}\0${p.itemId}`;
+  const uniqueByPair = new Map<string, (typeof linksToInsert)[number]>();
   for (const link of linksToInsert) {
     uniqueByPair.set(pairKey(link), link);
   }
@@ -340,11 +328,7 @@ export async function importTableFromFile(
       if (!dataSourceEnum.enumValues.includes(source)) {
         throw new Error(`Invalid source: ${source}`);
       }
-      const { linked, skipped } = await importBusinessItems(
-        database,
-        rows,
-        source,
-      );
+      const { linked, skipped } = await importBusinessItems(database, rows, source);
       return {
         table: options.table,
         rows: linked,

@@ -3,10 +3,7 @@ import "server-only";
 import { db } from "@/lib/db";
 import { items } from "@/lib/db/schema";
 
-import {
-  type SeedCatalogueResult,
-  seedCatalogueWithDb,
-} from "./seed-core";
+import { type SeedCatalogueResult, seedCatalogueWithDb } from "./seed-core";
 
 export type { SeedCatalogueResult };
 

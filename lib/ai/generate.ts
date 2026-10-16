@@ -14,9 +14,7 @@ export type DemoGenerateResult =
   | { ok: true; data: z.infer<typeof demoOutputSchema> }
   | { ok: false; error: string };
 
-export const demoGenerate = async (
-  prompt: string,
-): Promise<DemoGenerateResult> => {
+export const demoGenerate = async (prompt: string): Promise<DemoGenerateResult> => {
   if (!hasGeminiApiKey()) {
     return { ok: false, error: "Gemini API key is not configured." };
   }

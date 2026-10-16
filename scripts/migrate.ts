@@ -52,9 +52,7 @@ async function baselinePushCreatedDb(sql: postgres.Sql): Promise<void> {
     INSERT INTO drizzle.__drizzle_migrations (hash, created_at)
     VALUES (${hash}, ${initial.when})
   `;
-  console.log(
-    `Baselined ${initial.tag} (schema already present from db:push).`,
-  );
+  console.log(`Baselined ${initial.tag} (schema already present from db:push).`);
 }
 
 async function run(): Promise<void> {

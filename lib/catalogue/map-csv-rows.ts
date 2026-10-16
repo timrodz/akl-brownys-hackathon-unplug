@@ -90,9 +90,7 @@ type BusinessItemInsert = Pick<
 >;
 
 /** `data/business_types.csv` */
-export function mapBusinessTypeCsvRow(
-  row: Record<string, string>,
-): BusinessTypeInsert | null {
+export function mapBusinessTypeCsvRow(row: Record<string, string>): BusinessTypeInsert | null {
   const businessTypeId = emptyToNull(row.business_type_id);
   const businessTypeName = emptyToNull(row.business_type_name);
   if (!businessTypeId || !businessTypeName) return null;
@@ -106,9 +104,7 @@ export function mapBusinessTypeCsvRow(
 }
 
 /** `data/item_types.csv` */
-export function mapItemTypeCsvRow(
-  row: Record<string, string>,
-): ItemTypeInsert | null {
+export function mapItemTypeCsvRow(row: Record<string, string>): ItemTypeInsert | null {
   const itemTypeId = emptyToNull(row.item_type_id);
   const itemTypeName = emptyToNull(row.item_type_name);
   if (!itemTypeId || !itemTypeName) return null;
@@ -121,9 +117,7 @@ export function mapItemTypeCsvRow(
 }
 
 /** `data/data_dictionary.csv` */
-export function mapDataDictionaryCsvRow(
-  row: Record<string, string>,
-): DataDictionaryInsert | null {
+export function mapDataDictionaryCsvRow(row: Record<string, string>): DataDictionaryInsert | null {
   const entity = emptyToNull(row.entity);
   const columnName = emptyToNull(row.column_name);
   if (!entity || !columnName) return null;
@@ -152,7 +146,10 @@ export function mapItemCsvRow(
   const keywords =
     keywordsRaw === null
       ? null
-      : keywordsRaw.split("|").map((k) => k.trim()).filter(Boolean);
+      : keywordsRaw
+          .split("|")
+          .map((k) => k.trim())
+          .filter(Boolean);
 
   return {
     source,
@@ -160,9 +157,7 @@ export function mapItemCsvRow(
     title,
     keywords: keywords && keywords.length > 0 ? keywords : null,
     hazardAlert: emptyToNull(row.hazard ?? row.hazardAlert),
-    disposalGuidance: emptyToNull(
-      row.disposal_guidance ?? row.disposalGuidance,
-    ),
+    disposalGuidance: emptyToNull(row.disposal_guidance ?? row.disposalGuidance),
     slug: emptyToNull(row.slug),
     approxCost: emptyToNull(row.approx_cost ?? row.approxCost ?? row.cost),
     costType: emptyToNull(row.cost_type ?? row.costType),
@@ -203,9 +198,7 @@ export function mapBusinessCsvRow(
     paymentMethods: emptyToNull(row.payment_methods ?? row.paymentMethods),
     paysForMaterial: emptyToNull(row.pays_for_material ?? row.paysForMaterial),
     offersCollection: null,
-    collectionCharge: emptyToNull(
-      row.collection_charge ?? row.collectionCharge,
-    ),
+    collectionCharge: emptyToNull(row.collection_charge ?? row.collectionCharge),
     openingHours: emptyToNull(row.opening_hours ?? row.openingHours),
     status: emptyToNull(row.status),
     sourceUrl: emptyToNull(row.source_url ?? row.sourceUrl),
@@ -221,9 +214,7 @@ export function mapBusinessItemCsvRow(
   const businessExternalId = emptyToNull(
     row.business_id ?? row.businessExternalId ?? row.businessId,
   );
-  const itemExternalId = emptyToNull(
-    row.item_id ?? row.itemExternalId ?? row.itemId,
-  );
+  const itemExternalId = emptyToNull(row.item_id ?? row.itemExternalId ?? row.itemId);
   if (!businessExternalId || !itemExternalId) {
     return { missing: "both" };
   }

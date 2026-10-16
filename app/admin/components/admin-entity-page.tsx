@@ -34,9 +34,7 @@ export function AdminEntityPage({
       <CardHeader>
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <CardTitle className="text-2xl font-semibold tracking-tight">
-              {glossaryLabel}
-            </CardTitle>
+            <CardTitle className="text-2xl font-semibold tracking-tight">{glossaryLabel}</CardTitle>
             <CardDescription className="flex flex-wrap items-center gap-2 mt-1">
               <Badge variant="secondary" className="font-mono">
                 {tableName}

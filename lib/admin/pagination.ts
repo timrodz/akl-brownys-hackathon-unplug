@@ -9,18 +9,12 @@ export function parseAdminPage(raw: string | string[] | undefined): number {
   return parsed;
 }
 
-export function parseOptionalUuid(
-  raw: string | string[] | undefined,
-): string | undefined {
+export function parseOptionalUuid(raw: string | string[] | undefined): string | undefined {
   const value = Array.isArray(raw) ? raw[0] : raw?.trim();
   if (!value) {
     return undefined;
   }
-  if (
-    !/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(
-      value,
-    )
-  ) {
+  if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value)) {
     return undefined;
   }
   return value;

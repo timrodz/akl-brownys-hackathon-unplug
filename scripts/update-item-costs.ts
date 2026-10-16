@@ -15,9 +15,7 @@ async function run(): Promise<void> {
   if (!url) {
     const paths = projectEnvFilePaths();
     console.error(
-      "DATABASE_URL is not set after loading:\n" +
-        `  ${paths.env}\n` +
-        `  ${paths.local}`,
+      "DATABASE_URL is not set after loading:\n" + `  ${paths.env}\n` + `  ${paths.local}`,
     );
     process.exit(1);
   }
@@ -54,8 +52,6 @@ async function run(): Promise<void> {
     for (let i = 1; i < lines.length; i++) {
       // Basic CSV line splitter respecting quoted fields
       const row = lines[i];
-      const match = row.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g);
-      // Fallback split if simple regex doesn't match all columns
       const parts = row.split(",");
       const externalId = parts[0]?.trim();
       const cost = parts[parts.length - 2]?.trim();

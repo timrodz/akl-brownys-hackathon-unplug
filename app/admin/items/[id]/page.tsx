@@ -26,11 +26,7 @@ export default async function EditItemPage({ params }: PageProps) {
 
   const { id } = await params;
 
-  const [item] = await db
-    .select()
-    .from(items)
-    .where(eq(items.id, id))
-    .limit(1);
+  const [item] = await db.select().from(items).where(eq(items.id, id)).limit(1);
 
   if (!item) {
     notFound();

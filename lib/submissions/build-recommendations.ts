@@ -1,12 +1,7 @@
 import type { InferSelectModel } from "drizzle-orm";
 
 import { haversineKm } from "@/lib/location/geocode";
-import type {
-  businesses,
-  businessItemRoleEnum,
-  items,
-  pathwayEnum,
-} from "@/lib/db/schema";
+import type { businesses, businessItemRoleEnum, items, pathwayEnum } from "@/lib/db/schema";
 
 type Pathway = (typeof pathwayEnum.enumValues)[number];
 type Role = (typeof businessItemRoleEnum.enumValues)[number];
@@ -26,13 +21,7 @@ export type RecommendationDraft = {
   distanceKm: number | null;
 };
 
-const PATHWAY_ORDER: Pathway[] = [
-  "reduce",
-  "reuse",
-  "repair",
-  "recycle",
-  "dispose",
-];
+const PATHWAY_ORDER: Pathway[] = ["reduce", "reuse", "repair", "recycle", "dispose"];
 
 const ROLE_TO_PATHWAY: Partial<Record<Role, Pathway>> = {
   reuse: "reuse",
@@ -60,8 +49,7 @@ export function buildRecommendations(
     pathway: "reduce",
     sortOrder: sortOrder++,
     title: "Use less, use longer",
-    body:
-      "Before disposing, check whether you still need a replacement. Keeping working items in use is often the lowest-impact option.",
+    body: "Before disposing, check whether you still need a replacement. Keeping working items in use is often the lowest-impact option.",
     businessId: null,
     distanceKm: null,
   });
@@ -79,15 +67,33 @@ export function buildRecommendations(
 
   // Callers supply exact item links, not businesses guessed from broad categories.
   // Missing household eligibility is unknown; explicit refusals/closed listings are excluded.
-  const eligible = linkedBusinesses.filter(row => row.business.acceptsHousehold !== false
-    && !["closed", "permanently closed", "temporarily closed", "inactive", "archived", "removed", "demo"].includes(row.business.status?.trim().toLowerCase() ?? "")
-    && !row.business.externalId?.startsWith("demo-"));
+  const eligible = linkedBusinesses.filter(
+    (row) =>
+      row.business.acceptsHousehold !== false &&
+      ![
+        "closed",
+        "permanently closed",
+        "temporarily closed",
+        "inactive",
+        "archived",
+        "removed",
+        "demo",
+      ].includes(row.business.status?.trim().toLowerCase() ?? "") &&
+      !row.business.externalId?.startsWith("demo-"),
+  );
   const distinct = new Map<string, BusinessWithRole>();
   for (const row of eligible) {
     const previous = distinct.get(row.business.id);
-    if (!previous) { distinct.set(row.business.id, { ...row }); continue; }
+    if (!previous) {
+      distinct.set(row.business.id, { ...row });
+      continue;
+    }
     const notes = [...new Set([previous.notes, row.notes].filter(Boolean))].join(" ") || null;
-    const best = pathwayRank((row.role && ROLE_TO_PATHWAY[row.role]) ?? "recycle") < pathwayRank((previous.role && ROLE_TO_PATHWAY[previous.role]) ?? "recycle") ? row : previous;
+    const best =
+      pathwayRank((row.role && ROLE_TO_PATHWAY[row.role]) ?? "recycle") <
+      pathwayRank((previous.role && ROLE_TO_PATHWAY[previous.role]) ?? "recycle")
+        ? row
+        : previous;
     distinct.set(row.business.id, { ...best, notes });
   }
   const withDistance = [...distinct.values()]
@@ -100,25 +106,20 @@ export function buildRecommendations(
         searchLng != null &&
         lat != null &&
         lng != null &&
-        Number.isFinite(lat) && Number.isFinite(lng) &&
-        Math.abs(lat) <= 90 && Math.abs(lng) <= 180 &&
+        Number.isFinite(lat) &&
+        Number.isFinite(lng) &&
+        Math.abs(lat) <= 90 &&
+        Math.abs(lng) <= 180 &&
         !(lat === 0 && lng === 0)
       ) {
         distanceKm = haversineKm(searchLat, searchLng, lat, lng);
       }
       return { ...row, distanceKm };
     })
-    .filter(
-      (row) =>
-        row.distanceKm === null || row.distanceKm <= maxDistanceKm,
-    )
+    .filter((row) => row.distanceKm === null || row.distanceKm <= maxDistanceKm)
     .sort((a, b) => {
-      const rankA = pathwayRank(
-        (a.role && ROLE_TO_PATHWAY[a.role]) ?? "recycle",
-      );
-      const rankB = pathwayRank(
-        (b.role && ROLE_TO_PATHWAY[b.role]) ?? "recycle",
-      );
+      const rankA = pathwayRank((a.role && ROLE_TO_PATHWAY[a.role]) ?? "recycle");
+      const rankB = pathwayRank((b.role && ROLE_TO_PATHWAY[b.role]) ?? "recycle");
       const distance = (a.distanceKm ?? Infinity) - (b.distanceKm ?? Infinity);
       if (!Number.isNaN(distance) && distance !== 0) return distance;
       if (rankA !== rankB) return rankA - rankB;
@@ -126,15 +127,10 @@ export function buildRecommendations(
     });
 
   for (const row of withDistance) {
-    const pathway =
-      (row.role && ROLE_TO_PATHWAY[row.role]) ?? "recycle";
+    const pathway = (row.role && ROLE_TO_PATHWAY[row.role]) ?? "recycle";
     const distanceText =
-      row.distanceKm != null
-        ? ` About ${row.distanceKm.toFixed(1)} km from your search area.`
-        : "";
-    const hours = row.business.openingHours
-      ? ` Hours: ${row.business.openingHours}.`
-      : "";
+      row.distanceKm != null ? ` About ${row.distanceKm.toFixed(1)} km from your search area.` : "";
+    const hours = row.business.openingHours ? ` Hours: ${row.business.openingHours}.` : "";
     const charges = row.business.chargesForDropOff
       ? ` Charges: ${row.business.chargesForDropOff}.`
       : "";

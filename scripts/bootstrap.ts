@@ -41,9 +41,7 @@ async function run(): Promise<void> {
   if (!url) {
     const paths = projectEnvFilePaths();
     console.error(
-      "DATABASE_URL is not set after loading:\n" +
-        `  ${paths.env}\n` +
-        `  ${paths.local}`,
+      "DATABASE_URL is not set after loading:\n" + `  ${paths.env}\n` + `  ${paths.local}`,
     );
     process.exit(1);
   }
@@ -58,9 +56,7 @@ async function run(): Promise<void> {
         step.skipped !== undefined && step.skipped > 0
           ? ` (${step.skipped} skipped: missing parent FK)`
           : "";
-      console.log(
-        `✓ ${step.table}: ${step.rows} row(s) from ${step.file}${skipped}`,
-      );
+      console.log(`✓ ${step.table}: ${step.rows} row(s) from ${step.file}${skipped}`);
     }
     console.log(`Done (source=${result.source}).`);
   } catch (error) {

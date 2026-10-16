@@ -37,15 +37,15 @@ original submission exists but subsequent processing failed.
 
 Fixed database classifications include:
 
-| Code | Meaning | Check |
-| --- | --- | --- |
-| `42P01` | Missing table | Apply the schema to the database this deployment actually uses |
-| `42703` | Missing column | Align migrations and deployed code |
-| `28P01` / `28000` | Authentication | Repair the database connection configuration |
-| `42501` | Permissions | Ensure the app role can read/insert/update the required tables |
-| `ENOTFOUND` | DNS failure | Check the database connection/hostname configuration |
-| `ECONNREFUSED` | Connection refused | Check database availability/connectivity |
-| `ETIMEDOUT` / `CONNECT_TIMEOUT` | Connection timeout | Check database networking and availability |
+| Code                            | Meaning            | Check                                                          |
+| ------------------------------- | ------------------ | -------------------------------------------------------------- |
+| `42P01`                         | Missing table      | Apply the schema to the database this deployment actually uses |
+| `42703`                         | Missing column     | Align migrations and deployed code                             |
+| `28P01` / `28000`               | Authentication     | Repair the database connection configuration                   |
+| `42501`                         | Permissions        | Ensure the app role can read/insert/update the required tables |
+| `ENOTFOUND`                     | DNS failure        | Check the database connection/hostname configuration           |
+| `ECONNREFUSED`                  | Connection refused | Check database availability/connectivity                       |
+| `ETIMEDOUT` / `CONNECT_TIMEOUT` | Connection timeout | Check database networking and availability                     |
 
 Unknown errors remain `unknown`; we do not print raw exceptions, SQL, parameters,
 connection strings, provider URLs/headers/bodies, images, user descriptions,

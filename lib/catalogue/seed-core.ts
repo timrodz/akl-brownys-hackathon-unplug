@@ -1,17 +1,9 @@
 import type { PostgresJsDatabase } from "drizzle-orm/postgres-js";
 
 import * as schema from "@/lib/db/schema";
-import {
-  businessItems,
-  businesses,
-  items,
-} from "@/lib/db/schema";
+import { businessItems, businesses, items } from "@/lib/db/schema";
 
-import {
-  SEED_BUSINESSES,
-  SEED_BUSINESS_ITEMS,
-  SEED_ITEMS,
-} from "./seed-data";
+import { SEED_BUSINESSES, SEED_BUSINESS_ITEMS, SEED_ITEMS } from "./seed-data";
 
 export type SeedCatalogueResult = {
   items: number;
@@ -21,9 +13,7 @@ export type SeedCatalogueResult = {
 
 type Db = PostgresJsDatabase<typeof schema>;
 
-export async function seedCatalogueWithDb(
-  database: Db,
-): Promise<SeedCatalogueResult> {
+export async function seedCatalogueWithDb(database: Db): Promise<SeedCatalogueResult> {
   const itemIdByExternal = new Map<string, string>();
   const businessIdByExternal = new Map<string, string>();
 
@@ -119,11 +109,7 @@ export async function seedCatalogueWithDb(
         notes: link.notes ?? null,
       })
       .onConflictDoNothing({
-        target: [
-          businessItems.businessId,
-          businessItems.itemId,
-          businessItems.role,
-        ],
+        target: [businessItems.businessId, businessItems.itemId, businessItems.role],
       });
     linkCount += 1;
   }

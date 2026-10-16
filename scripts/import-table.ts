@@ -54,16 +54,12 @@ function parseArgs(argv: string[]): {
   }
 
   if (!VALID_TABLES.includes(table)) {
-    console.error(
-      `Invalid --table "${table}". Use: ${VALID_TABLES.join(", ")}`,
-    );
+    console.error(`Invalid --table "${table}". Use: ${VALID_TABLES.join(", ")}`);
     process.exit(1);
   }
 
   if (!dataSourceEnum.enumValues.includes(source)) {
-    console.error(
-      `Invalid --source "${source}". Use: ${dataSourceEnum.enumValues.join(", ")}`,
-    );
+    console.error(`Invalid --source "${source}". Use: ${dataSourceEnum.enumValues.join(", ")}`);
     process.exit(1);
   }
 
@@ -106,9 +102,7 @@ async function run(): Promise<void> {
       result.skipped !== undefined && result.skipped > 0
         ? ` (${result.skipped} skipped: missing parent FK)`
         : "";
-    console.log(
-      `✓ ${result.table}: upserted ${result.rows} row(s) from ${file}${skipped}`,
-    );
+    console.log(`✓ ${result.table}: upserted ${result.rows} row(s) from ${file}${skipped}`);
   } catch (error) {
     console.error(error);
     process.exitCode = 1;

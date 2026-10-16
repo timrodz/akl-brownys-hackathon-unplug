@@ -3,10 +3,7 @@ import { notFound } from "next/navigation";
 import { SubmissionResults } from "@/app/components/submission-results";
 import { PublicResultsShell } from "@/app/components/public-results-shell";
 import { isDatabaseConfigured } from "@/lib/db";
-import {
-  getSubmissionResults,
-  isSubmissionId,
-} from "@/lib/submissions/get-submission-results";
+import { getSubmissionResults, isSubmissionId } from "@/lib/submissions/get-submission-results";
 
 type PageProps = {
   params: Promise<{ id: string }>;
@@ -31,11 +28,10 @@ export default async function ResultsByIdPage({ params }: PageProps) {
       <PublicResultsShell>
         <section className="form-card">
           <h2>Results unavailable</h2>
-          <p>
-            The database is not configured, so saved submissions cannot be
-            loaded by link yet.
-          </p>
-          <a href="/" className="results-link">Start a search →</a>
+          <p>The database is not configured, so saved submissions cannot be loaded by link yet.</p>
+          <a href="/" className="results-link">
+            Start a search →
+          </a>
         </section>
       </PublicResultsShell>
     );
