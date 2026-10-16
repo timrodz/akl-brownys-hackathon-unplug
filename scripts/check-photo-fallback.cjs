@@ -4,11 +4,12 @@ const assert = require('node:assert/strict');
 let ts;
 try { ts = require('typescript'); } catch { ts = require('../node_modules/.pnpm/typescript@5.9.3/node_modules/typescript'); }
 const source = fs.readFileSync('app/api/analyse/route.ts', 'utf8');
+const diagnosticModule={};vm.runInNewContext(ts.transpileModule(fs.readFileSync('lib/diagnostics.ts','utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText,{exports:diagnosticModule});
 const code = ts.transpileModule(source, {compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText;
 const routeExports = {};
-vm.runInNewContext(code, {exports:routeExports, Response, Request, File, FormData, AbortSignal, Uint8Array, require(name){
+vm.runInNewContext(code, {exports:routeExports, Response, Request, File, FormData, AbortSignal, Uint8Array, require(name){if(name==='@/lib/diagnostics')return diagnosticModule;
  if(name==='ai')return {generateText(){throw Error('Gemini must not be called without a key');}};
- if(name==='@/lib/ai')return {defaultModel:{},hasGeminiApiKey:()=>false};
+ if(name==='@/lib/ai')return {defaultModel:{},createAnalysisModel:()=>({}),hasGeminiApiKey:()=>false};
  if(name==='@/lib/forms/validation')return {photoError:()=>null};
  throw Error(name);
 }});

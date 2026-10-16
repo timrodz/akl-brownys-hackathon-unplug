@@ -76,7 +76,7 @@ export default function HomePage() {
       }
       if (edits.current === edit) setDescription(data.description);
       setPhotoMessage(
-        "Photo ready. Check the description and add any details.",
+        data.catalogueMatch ? `Catalogue item: ${data.catalogueMatch.title}. Please check this fits your photo.` : (data.catalogueWarning || "No catalogue match yet. Check the description and use a specific item name."),
       );
     } catch (error) {
       if (request === version.current) {
@@ -159,7 +159,6 @@ export default function HomePage() {
       <main id="main" className="landing">
         <section className="form-card" aria-labelledby="form-heading">
           <div className="card-top">
-            <span>LET’S START WITH YOUR ITEM</span>
             <span className="pill">About 1 min</span>
           </div>
           <h2 id="form-heading">What have you got?</h2>
@@ -272,8 +271,7 @@ export default function HomePage() {
             <p className="feedback submission" role="status">{message}</p>
           </form>
           <div className="prototype-note">
-            ● Demo catalogue (5 items, 3 businesses). Live civic imports can
-            replace seed data later.
+            Options are matched against the item and business records in our database.
           </div>
         </section>
       </main>

@@ -1,0 +1,16 @@
+item_type_id,item_type_name,description
+ET01,Computers & IT,"Computers, printers, networking gear and data storage."
+ET02,Phones & tablets,"Mobile phones, tablets, e-readers and landline phones."
+ET03,Screens & TVs,Televisions and computer monitors.
+ET04,"Audio, cameras & wearables","Speakers, headphones, cameras, smartwatches and music devices."
+ET05,Small kitchen appliances,Countertop appliances for food and drink.
+ET06,Personal care appliances,Hair and grooming devices.
+ET07,Home & cleaning appliances,"Household appliances for cleaning, sewing and comfort."
+ET08,Heating & cooling,"Heaters, fans, dehumidifiers and air conditioning."
+ET09,Power tools & garden,Corded and cordless tools and electric garden equipment.
+ET10,Large appliances (whiteware),"Fridges, freezers, washers, dryers, ovens and stoves."
+ET11,Lighting,"Light bulbs, tubes and lamps."
+ET12,"Cables, chargers & accessories","Cords, chargers, keyboards, mice and other small accessories."
+ET13,Batteries,"Loose batteries of all chemistries, including car and e-bike batteries."
+ET14,Vapes & e-cigarettes,Disposable and rechargeable vapes.
+ET15,"Gaming, toys & other electronics","Game consoles, electronic toys, safety devices and energy equipment."

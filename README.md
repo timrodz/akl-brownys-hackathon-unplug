@@ -1,5 +1,10 @@
 # Auckland CivicTech Hackathon · Waste B: Reuse, repair and recycling finder
 
+**Current live flow:** [submission flow and configuration](docs/submission-flow.md).
+Requests now use database records only; automatic demo seeding, placeholder
+results, and hard-coded postcode coordinates have been removed from the live flow.
+The historical prototype notes below may still describe the earlier demo.
+
 **Browny's Hackathon, hosted by Mayor Wayne Brown · Auckland Council · facilitated by Creative HQ · closing Auckland Startup Week**
 Friday 16 October 2026 · The Annex, 10 Madden Street, Wynyard Quarter, and Media Design School
 
@@ -303,17 +308,32 @@ Do not add a LICENSE file. See [NOTICE](NOTICE).
 
 ## EasyRe prototype (persist + 4R recommendations)
 
-### Run locally
+## Setup
+
+Local Postgres runs in Docker (not Neon). CLI scripts (`db:push`, `db:seed`, Drizzle Studio) load **`.env`** then **`.env.local`** (local wins).
+
+**Prerequisites:** [Docker](https://docs.docker.com/get-docker/) running, [Bun](https://bun.sh/) 1.4.2 (see `packageManager` in `package.json`).
+
+**First time** (start Postgres + schema + demo data):
 
 ```bash
-cp .env.example .env.local   # set DATABASE_URL (Neon) and optional GEMINI_API_KEY
-pnpm install --frozen-lockfile
-pnpm db:push                 # when DATABASE_URL is set
-pnpm db:seed                 # optional: load 5 demo items + 3 businesses
-pnpm dev                     # http://localhost:3000
+cp .env.example .env.local   # DATABASE_URL=postgresql://easyre:easyre@localhost:5432/easyre
+bun install
+bun db:up                    # Postgres 16 on localhost:5432 (user/db/password: easyre)
+bun db:setup                 # drizzle push + seed (exits when done)
+bun dev                      # http://localhost:3000
 ```
 
-Check with `pnpm typecheck` and `pnpm build`.
+**Already running** (`docker compose` up and `DATABASE_URL` set in `.env.local` or the shell):
+
+```bash
+bun db:setup                 # or: bun db:push && bun db:seed
+bun dev
+```
+
+Stop the database container with `bun db:down`. Data is kept in a Docker volume until you remove it.
+
+Check with `bun typecheck` and `bun run build`.
 
 The responsive **Unplug** landing page accepts a camera/photo upload, editable item
 description, and either a four-digit NZ postcode or device coordinates. Geolocation
@@ -334,15 +354,22 @@ identification can be inaccurate.
 Photo analyse does not persist until submit.
 
 ### Unplug update
+The app is now named Unplug and uses a centred single-column form. If Gemini is
+not configured, photo identification returns an explicit `status: "manual"`
+response and the UI keeps the attached photo with a prompt for a description.
+This replaces the earlier missing-key HTTP 503; it does not simulate AI analysis.
+Configure a non-empty Gemini key in the deployment environment and redeploy to
+activate identification. Empty aliases no longer shadow another configured key.
+Run `node scripts/check-photo-fallback.cjs` after dependency installation to check
+the actual route's missing-key response with the Gemini provider stubbed out.
 
-The app is named **Unplug** and uses a centred single-column form. If Gemini is not
-configured, photo identification returns an explicit `status: "manual"` response and
-the UI keeps the attached photo with a prompt for a description. This replaces the
-earlier missing-key HTTP 503; it does not simulate AI analysis. Configure a
-non-empty Gemini key in the deployment environment and redeploy to activate
-identification. Empty aliases no longer shadow another configured key. Run
-`node scripts/check-photo-fallback.cjs` after dependency installation to check the
-actual route's missing-key response with the Gemini provider stubbed out.
+### Gemini model availability
+The default is `gemini-3.8-flash`. Google restricts Gemini 2.5 models to projects
+that actively used them previously, which can cause a provider 404 for new projects.
+Set the optional server-only `GEMINI_MODEL` to override the model, then redeploy.
+Reference: https://ai.google.dev/gemini-api/docs/deprecations
+Local configuration regression: `node scripts/check-gemini-model.cjs`. This stubs
+the provider; a successful live photo request still needs verification in Vercel.
 
 ### Data sources (this build)
 
@@ -363,6 +390,32 @@ Repair Network Aotearoa, TechCollect, Enviro NZ (Constellation RRC), etc.
 - No resident accounts, submission history UI, or admin editor.
 - `GOOGLE_MAPS_API_KEY` is reserved for a future geocoder; not used here.
 
-Stack: Next.js App Router, React, Tailwind, Gemini via Vercel AI SDK, Neon Postgres +
-Drizzle (`lib/db/schema.ts`). Domain terms: `GLOSSARY.md`. Photo storage: ADR
+Stack: Next.js App Router, React, Tailwind, Gemini via Vercel AI SDK, Postgres +
+Drizzle (`lib/db/schema.ts`, local via `docker-compose.yml`). Domain terms: `GLOSSARY.md`. Photo storage: ADR
 `docs/adr/0001-submission-photo-in-postgres.md`.
+
+### Catalogue check and draft results
+`items` is a catalogue table, not an enum: id, source/external_id, title, keywords,
+hazard_alert, disposal_guidance and slug. `submission_items.item_id` records a match;
+`business_items.item_id` links it to accepting/servicing businesses. Phone and
+coordinates live on `businesses`; distance is stored on each recommendation.
+After image identification, `/api/analyse` reads the database catalogue and returns
+a suggested catalogue match for review. It never creates categories from AI text.
+Unavailable/empty catalogues and ambiguous descriptions are explicitly unmatched.
+Submission processing reruns the same matcher against the current edited description.
+Generic condition terms and partial words no longer steer the match; ties remain
+unmatched. This is a conservative keyword heuristic, not semantic certainty.
+
+`/results` is a draft results page. Without a submission it shows clearly labelled
+placeholder rows; after submission it shows up to three distinct matched businesses,
+ranked in existing pathway order and then distance within each pathway. The table
+contains rank, business name, straight-line distance and telephone. Demo phone numbers
+are displayed as sample contacts, not presented as verified call targets. Missing
+phones/distances are labelled. Results are held in tab-local sessionStorage for the
+page transition (without image bytes or coordinates); start a new submission to refresh.
+The postcode form already offers `Use my location`, which requests browser permission
+on click and falls back to manual postcode entry if denied, timed out or unavailable.
+
+Checks: `node scripts/check-item-matching.cjs`, `node scripts/check-photo-fallback.cjs`,
+and `node scripts/check-gemini-model.cjs`. Full dependency installation, build and
+browser verification remain blocked by the local dependency release-age policy.

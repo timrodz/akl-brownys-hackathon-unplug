@@ -70,7 +70,7 @@ export function buildRecommendations(
     drafts.push({
       pathway: "dispose",
       sortOrder: sortOrder++,
-      title: `Council-style guidance: ${item.title}`,
+      title: `Item guidance: ${item.title}`,
       body: item.disposalGuidance,
       businessId: null,
       distanceKm: null,
@@ -86,7 +86,10 @@ export function buildRecommendations(
         searchLat != null &&
         searchLng != null &&
         lat != null &&
-        lng != null
+        lng != null &&
+        Number.isFinite(lat) && Number.isFinite(lng) &&
+        Math.abs(lat) <= 90 && Math.abs(lng) <= 180 &&
+        !(lat === 0 && lng === 0)
       ) {
         distanceKm = haversineKm(searchLat, searchLng, lat, lng);
       }
@@ -103,11 +106,10 @@ export function buildRecommendations(
       const rankB = pathwayRank(
         (b.role && ROLE_TO_PATHWAY[b.role]) ?? "recycle",
       );
+      const distance = (a.distanceKm ?? Infinity) - (b.distanceKm ?? Infinity);
+      if (!Number.isNaN(distance) && distance !== 0) return distance;
       if (rankA !== rankB) return rankA - rankB;
-      if (a.distanceKm != null && b.distanceKm != null) {
-        return a.distanceKm - b.distanceKm;
-      }
-      return 0;
+      return a.business.name.localeCompare(b.business.name);
     });
 
   for (const row of withDistance) {
@@ -134,7 +136,7 @@ export function buildRecommendations(
         hours,
         charges,
         distanceText,
-        "Source: demo catalogue (labelled sample data).",
+        row.business.sourceUrl ? `Source: ${row.business.sourceUrl}` : "",
       ]
         .filter(Boolean)
         .join(" ")
@@ -145,6 +147,11 @@ export function buildRecommendations(
   }
 
   drafts.sort((a, b) => {
+    if (Boolean(a.businessId) !== Boolean(b.businessId)) return a.businessId ? 1 : -1;
+    if (a.businessId && b.businessId) {
+      const distance = (a.distanceKm ?? Infinity) - (b.distanceKm ?? Infinity);
+      if (!Number.isNaN(distance) && distance !== 0) return distance;
+    }
     const p = pathwayRank(a.pathway) - pathwayRank(b.pathway);
     if (p !== 0) return p;
     return a.sortOrder - b.sortOrder;

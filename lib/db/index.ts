@@ -1,14 +1,9 @@
 import "server-only";
 
-import { neon } from "@neondatabase/serverless";
-import { drizzle } from "drizzle-orm/neon-http";
-
-import * as schema from "./schema";
+import { createDb } from "./create-client";
 
 const databaseUrl = process.env.DATABASE_URL;
 
-export const db = databaseUrl
-  ? drizzle(neon(databaseUrl), { schema })
-  : null;
+export const db = databaseUrl ? createDb(databaseUrl) : null;
 
 export const isDatabaseConfigured = (): boolean => Boolean(databaseUrl);
