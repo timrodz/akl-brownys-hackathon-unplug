@@ -250,6 +250,7 @@ export async function processSubmission(
               phone: business.phone,
               website: business.website,
               sourceUrl: business.sourceUrl,
+              cost: business.chargesForDropOff,
               streetAddress: business.streetAddress,
               latitude: business.latitude,
               longitude: business.longitude,
