@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { isValidNzPostcode, POSTCODE_ERROR } from "@/lib/location/valid-postcode";
 import { useRef, useState, type FormEvent } from "react";
 import { RESULTS_STORAGE_KEY } from "@/lib/results-storage";
 
@@ -76,7 +77,7 @@ export default function HomePage() {
       }
       if (edits.current === edit) setDescription(data.description);
       setPhotoMessage(
-        data.catalogueMatch ? `Catalogue item: ${data.catalogueMatch.title}. Please check this fits your photo.` : (data.catalogueWarning || "No catalogue match yet. Check the description and use a specific item name."),
+        data.catalogueMatch ? `Suggested catalogue item: ${data.catalogueMatch.title}${data.suggestedItemType ? ` · ${data.suggestedItemType.name}` : ""}. Please check this fits your photo.` : (data.catalogueWarning || "No catalogue match yet. Check the description and use a specific item name."),
       );
     } catch (error) {
       if (request === version.current) {
@@ -121,6 +122,11 @@ export default function HomePage() {
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (postcode && !isValidNzPostcode(postcode)) {
+      setLocationMessage(POSTCODE_ERROR);
+      document.getElementById("postcode")?.focus();
+      return;
+    }
     setSending(true);
     setMessage("");
     try {
@@ -203,10 +209,13 @@ export default function HomePage() {
               <span className="plus">+</span>
             </label>
             <p className="help">
-              JPG, PNG or WebP · Up to 5 MB. Photos are sent to Google Gemini
+              JPG, PNG or WebP · Up to 5 MB. Photos are sent to OpenRouter
               for identification.
             </p>
-            <p className="feedback" role="status">{photoMessage}</p>
+            <p className={`feedback${analysing ? " photo-identifying" : ""}`} role="status" aria-live="polite">
+              {analysing ? <span className="photo-spinner" aria-hidden="true" /> : null}
+              {photoMessage}
+            </p>
             <label className="field-label" htmlFor="description">
               Your item <span>— or just describe it</span>
             </label>
@@ -244,20 +253,23 @@ export default function HomePage() {
               inputMode="numeric"
               pattern="[0-9]{4}"
               maxLength={4}
+              aria-describedby="postcode-help postcode-feedback"
+              aria-invalid={postcode.length === 4 && !isValidNzPostcode(postcode)}
               required={!coordinates}
               value={postcode}
               disabled={sending}
               onChange={(e) => {
-                setPostcode(e.target.value);
+                const value = e.target.value.replace(/\D/g, "").slice(0, 4);
+                setPostcode(value);
                 setCoordinates(null);
-                setLocationMessage("");
+                setLocationMessage(value.length === 4 && !isValidNzPostcode(value) ? POSTCODE_ERROR : "");
               }}
             />
-            <p className="help">
+            <p className="help" id="postcode-help">
               So we can look for options near you. Your location is only shared
               when you press Go.
             </p>
-            <p className="feedback" role="status">{locationMessage}</p>
+            <p className="feedback" id="postcode-feedback" role="status">{locationMessage}</p>
             <button
               className="go-button"
               disabled={analysing || locating || sending}

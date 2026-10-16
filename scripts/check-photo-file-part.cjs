@@ -2,7 +2,7 @@ const fs=require('node:fs');const vm=require('node:vm');const assert=require('no
 const diagnosticModule={};vm.runInNewContext(ts.transpileModule(fs.readFileSync('lib/diagnostics.ts','utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText,{exports:diagnosticModule});
 const code=ts.transpileModule(fs.readFileSync('app/api/analyse/route.ts','utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText;
 const route={};let sent;let catalogueFails=false;
-vm.runInNewContext(code,{exports:route,Response,Request,File,FormData,AbortSignal,Uint8Array,require(name){if(name==='@/lib/diagnostics')return diagnosticModule;
+vm.runInNewContext(code,{exports:route,Response,Request,File,FormData,AbortSignal,Uint8Array,require(name){if(name==='@/lib/catalogue/load-photo-catalogue')return {loadPhotoCatalogue:async()=>null};if(name==='@/lib/catalogue/photo-selection'){const result={};vm.runInNewContext(ts.transpileModule(fs.readFileSync('lib/catalogue/photo-selection.ts','utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText,{exports:result});return result;}if(name==='@/lib/diagnostics')return diagnosticModule;
  if(name==='ai')return {generateText:async options=>{sent=options;return {text:'A toaster'};}};
  if(name==='@/lib/ai/classify-photo')return {classifyPhoto:async(photo)=>{sent=photo;return "A toaster";},hasImageApiKey:()=>true};
  if(name==='@/lib/forms/validation')return {photoError:()=>null};

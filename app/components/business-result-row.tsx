@@ -35,6 +35,7 @@ export function BusinessResultRow({ recommendation, rank }: {
           <span>{expanded ? "Hide location −" : "View location +"}</span>
         </button>
         <small>{recommendation.pathway} · {business.suburb ?? "Area not supplied"}</small>
+        {recommendation.acceptanceNote ? <small className="acceptance-note">{recommendation.acceptanceNote}</small> : null}
         {business.website ? <a className="results-link" href={business.website} target="_blank" rel="noopener noreferrer">Website ↗</a> : null}
       </td>
       <td>{recommendation.distanceKm == null ? "Not available" : `Approx. ${recommendation.distanceKm.toFixed(1)} km`}</td>

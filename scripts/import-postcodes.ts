@@ -28,6 +28,7 @@ async function run() {
   const sourceSha256 = createHash("sha256").update(raw).digest("hex");
   const dataset = { sourceUrl, attribution: "Matthew Proctor — community-maintained NZ postcodes, public domain", sourceSha256, generatedAt: new Date().toISOString(), sourceRows: result.sourceRows, validRows: result.validRows, rejectedRows: result.rejectedRows, centroids: result.centroids };
   await writeFile(new URL("nz-postcode-centroids.json", directory), JSON.stringify(dataset, null, 2) + "\n");
+  await writeFile(new URL("valid-postcodes.json", directory), JSON.stringify(result.centroids.map(row => row.postcode)) + "\n");
   console.log(JSON.stringify({ sourceRows: result.sourceRows, validRows: result.validRows, rejectedRows: result.rejectedRows, postcodes: result.centroids.length, sourceSha256 }));
   if (!process.argv.includes("--apply")) { console.log("Validated and generated sourced JSON. Add --apply to import into DATABASE_URL."); return; }
   const url = process.env.DATABASE_URL_UNPOOLED || process.env.DATABASE_URL;

@@ -142,6 +142,12 @@ export async function getSubmissionResults(
       title: rec.title,
       body: rec.body,
       distanceKm: rec.distanceKm,
+      acceptanceNote: business ? [
+        `Saved catalogue recommendation for ${itemSummary?.title ?? "your item"}.`,
+        business.acceptsHousehold === true ? "Household items accepted according to the catalogue." : "Household acceptance is not confirmed; check before travelling.",
+        // The saved body retains the item-link restrictions used for this recommendation.
+        rec.body,
+      ].filter(Boolean).join(" ") : undefined,
       business: business
         ? {
             id: business.id,

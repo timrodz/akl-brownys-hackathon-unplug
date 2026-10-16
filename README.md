@@ -423,6 +423,20 @@ Checks: `node scripts/check-item-matching.cjs`, `node scripts/check-photo-fallba
 and `node scripts/check-gemini-model.cjs`. Full dependency installation, build and
 browser verification remain blocked by the local dependency release-age policy.
 
+### Valid postcodes and acceptance-first business matching
+
+The form and submission API accept a postcode only when it occurs in the checked-in postcode JSON (1,722 source-derived NZ codes). Leading zeroes are preserved. Unknown four-digit values are rejected, including when coordinates are also supplied; device location alone remains supported. This is membership in our community-maintained dataset, not a guarantee of current NZ Post coverage.
+
+`data/postcodes/valid-postcodes.json` is the compact browser membership index derived from `nz-postcode-centroids.json`. `bun run db:import-postcodes` regenerates both; the regression check verifies they match exactly.
+
+Business matching uses the item selected by the existing conservative keyword matcher, then retrieves only explicit `business_items` links for that item. It excludes explicit household refusals, known closed/inactive/archived/removed/demo statuses and demo IDs. Duplicate business links become one business, preserving link notes. Eligible businesses are then sorted by approximate distance from the postcode centroid (or supplied device location), with unknown coordinates last. Existing 80 km filtering remains; results display up to three distinct businesses. Pathway is only a distance tie-breaker. No paid service or AI inference is used for business eligibility.
+
+Results state why a business is listed and display available acceptance/drop-off notes. Unknown household eligibility is labelled for the resident to confirm. CSV imports now preserve explicit household/commercial yes/no flags when present; the current CSV has neither flag.
+
+Data review: checked-in files contain 214 businesses and 2,407 acceptance links covering 60 item types. Links represent listed acceptance, not verified capacity or condition-specific acceptance. No explicit negative item links or machine-readable condition exclusions exist. An absent link means no evidence of acceptance, not a confirmed refusal. Free-text notes are displayed rather than interpreted as reliable eligibility rules. Broad business-type descriptions do not establish acceptance of an individual item. Local database access was connection-refused during this review, so these counts describe the repository files, not verified live database contents.
+
+Validation: `node scripts/check-postcode-acceptance.cjs`, `node scripts/check-submission-flow.cjs`, `node scripts/check-postcode-lookup.cjs`, and `bun scripts/check-distance-ranking.cjs`.
+
 ### Business location maps
 
 Results show Rank, Business name (including pathway, suburb and website), Distance from you, and Telephone. Click a business row or activate its View location button to expand the street address, a map pin and an Open directions link. Each row expands independently; website and telephone links keep their normal actions.
@@ -432,3 +446,13 @@ Business addresses and coordinates are passed from the existing database fields.
 Missing or invalid coordinates show a map-unavailable message. Existing stored results without location fields remain usable; submit a new search for maps. Catalogue pins are not independently verified; check addresses before travelling. Business coordinates are included in tab-local stored results.
 
 Checks: `node scripts/check-business-maps.cjs` and `node scripts/check-submission-flow.cjs`.
+
+### Photo progress and catalogue classification
+
+Photo identification displays an animated spinner beside the status below the image; reduced-motion preferences disable rotation. The status ends on success, manual fallback or error. Selecting a newer photo keeps older requests from replacing its result, and editing the description protects the resident's own text.
+
+When the database catalogue is available, the image classifier receives non-demo Items (IDs, names and keywords) and Item Types (IDs, names and descriptions). It chooses the most likely existing Item and may suggest an existing Item Type. These tables currently have no item-to-type foreign key, so the type is a model suggestion, not a stored relationship. The server validates both returned IDs and rejects low-confidence, unknown or malformed selections. A valid selection fills the editable description with the canonical catalogue name. Submission processing still matches the final edited description against the current catalogue.
+
+Catalogue text is sent to OpenRouter with the photo; no database credentials or resident location are sent. If the catalogue cannot load, the existing general-description and catalogue-check fallback remains, with manual review warnings. If the catalogue is available but the photo has no confident matching item, the user is asked for a manual description; no category is invented. Qualitative model confidence is not a calibrated probability.
+
+Checks: `node scripts/check-photo-catalogue.cjs`, `node scripts/check-openrouter-photo.cjs`, and the photo fallback/diagnostics/file-part scripts.
