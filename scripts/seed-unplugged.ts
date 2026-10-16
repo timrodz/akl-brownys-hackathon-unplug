@@ -1,10 +1,20 @@
 /**
- * Seed the complete Auckland Unplugged catalogue (60 items, 214 businesses, 2407 links) into PostgreSQL.
+ * Seed Auckland Unplugged catalogue from data/*.csv (items → businesses → links).
  * Usage: pnpm db:seed:unplugged (or tsx scripts/seed-unplugged.ts)
  */
-import { seedUnpluggedCatalogueWithDb } from "../lib/catalogue/seed-unplugged-core";
+import path from "node:path";
+
+import { importTableFromFile } from "../lib/catalogue/import-table";
 import { createScriptDb } from "../lib/db/create-client";
-import { loadProjectEnv } from "./load-env";
+import { loadProjectEnv, projectRoot } from "./load-env";
+
+const DATA_DIR = path.resolve(projectRoot, "data");
+
+const IMPORT_ORDER = [
+  { table: "items" as const, file: "items.csv" },
+  { table: "businesses" as const, file: "businesses.csv" },
+  { table: "business_items" as const, file: "business_items.csv" },
+];
 
 async function run(): Promise<void> {
   loadProjectEnv();
@@ -18,10 +28,16 @@ async function run(): Promise<void> {
   const { db, close } = createScriptDb(url);
 
   try {
-    const result = await seedUnpluggedCatalogueWithDb(db);
-    console.log(
-      `Seeded ${result.items} items, ${result.businesses} businesses, ${result.businessItems} business-item links from Auckland Unplugged dataset.`,
-    );
+    for (const step of IMPORT_ORDER) {
+      const filePath = path.join(DATA_DIR, step.file);
+      const result = await importTableFromFile(db, {
+        table: step.table,
+        filePath,
+      });
+      console.log(
+        `✓ ${result.table}: ${result.rows} row(s) from ${step.file}`,
+      );
+    }
   } catch (error) {
     console.error(error);
     process.exitCode = 1;
