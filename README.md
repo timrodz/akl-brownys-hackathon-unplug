@@ -365,7 +365,7 @@ response and the UI keeps the attached photo with a prompt for a description.
 This replaces the earlier missing-key HTTP 503; it does not simulate AI analysis.
 Configure a non-empty `OPENROUTER` key in the deployment environment and redeploy to
 activate identification. Empty aliases no longer shadow another configured key.
-Run `node scripts/check-photo-fallback.cjs` after dependency installation to check
+Run `node tests/regression/check-photo-fallback.cjs` after dependency installation to check
 the actual route's missing-key response with the photo classifier stubbed out.
 
 ### Photo model availability
@@ -378,7 +378,7 @@ The default is `gemini-3.8-flash`. Google restricts Gemini 2.5 models to project
 that actively used them previously, which can cause a provider 404 for new projects.
 Set the optional server-only `GEMINI_MODEL` to override the model, then redeploy.
 Reference: https://ai.google.dev/gemini-api/docs/deprecations
-Local configuration regression: `node scripts/check-gemini-model.cjs`. This stubs
+Local configuration regression: `node tests/regression/check-gemini-model.cjs`. This stubs
 the provider; a successful live photo request still needs verification in Vercel.
 
 ### Data sources (this build)
@@ -427,9 +427,11 @@ page transition (without image bytes or resident coordinates); start a new submi
 The postcode form already offers `Use my location`, which requests browser permission
 on click and falls back to manual postcode entry if denied, timed out or unavailable.
 
-Checks: `node scripts/check-item-matching.cjs`, `node scripts/check-photo-fallback.cjs`,
-and `node scripts/check-gemini-model.cjs`. Full dependency installation, build and
-browser verification remain blocked by the local dependency release-age policy.
+Checks live under `tests/regression/` (vm-based regressions, not app or DB scripts). Run all:
+`bun run test:regression`. Individual checks: `node tests/regression/check-item-matching.cjs`,
+`node tests/regression/check-photo-fallback.cjs`, and `node tests/regression/check-gemini-model.cjs`.
+Full dependency installation, build and browser verification remain blocked by the local
+dependency release-age policy.
 
 ### Valid postcodes and acceptance-first business matching
 
@@ -443,7 +445,7 @@ Results state why a business is listed and display available acceptance/drop-off
 
 Data review: checked-in files contain 214 businesses and 2,407 acceptance links covering 60 item types. Links represent listed acceptance, not verified capacity or condition-specific acceptance. No explicit negative item links or machine-readable condition exclusions exist. An absent link means no evidence of acceptance, not a confirmed refusal. Free-text notes are displayed rather than interpreted as reliable eligibility rules. Broad business-type descriptions do not establish acceptance of an individual item. Local database access was connection-refused during this review, so these counts describe the repository files, not verified live database contents.
 
-Validation: `node scripts/check-postcode-acceptance.cjs`, `node scripts/check-submission-flow.cjs`, `node scripts/check-postcode-lookup.cjs`, and `bun scripts/check-distance-ranking.cjs`.
+Validation: `node tests/regression/check-postcode-acceptance.cjs`, `node tests/regression/check-submission-flow.cjs`, `node tests/regression/check-postcode-lookup.cjs`, and `bun tests/regression/check-distance-ranking.cjs`.
 
 ### Business location maps
 
@@ -453,7 +455,7 @@ Business addresses and coordinates are passed from the existing database fields.
 
 Missing or invalid coordinates show a map-unavailable message. Existing stored results without location fields remain usable; submit a new search for maps. Catalogue pins are not independently verified; check addresses before travelling. Business coordinates are included in tab-local stored results.
 
-Checks: `node scripts/check-business-maps.cjs` and `node scripts/check-submission-flow.cjs`.
+Checks: `node tests/regression/check-business-maps.cjs` and `node tests/regression/check-submission-flow.cjs`.
 
 ### Photo progress and catalogue classification
 
@@ -463,7 +465,7 @@ When the database catalogue is available, the image classifier receives non-demo
 
 Catalogue text is sent to OpenRouter with the photo; no database credentials or resident location are sent. If the catalogue cannot load, the existing general-description and catalogue-check fallback remains, with manual review warnings. If the catalogue is available but the photo has no confident matching item, the user is asked for a manual description; no category is invented. Qualitative model confidence is not a calibrated probability.
 
-Checks: `node scripts/check-photo-catalogue.cjs`, `node scripts/check-openrouter-photo.cjs`, and the photo fallback/diagnostics/file-part scripts.
+Checks: `node tests/regression/check-photo-catalogue.cjs`, `node tests/regression/check-openrouter-photo.cjs`, and the photo fallback/diagnostics/file-part scripts.
 
 ### Use my location fills the postcode
 
@@ -471,4 +473,4 @@ The location button fills the postcode input using the nearest checked-in postco
 
 Permission denial, unavailable geolocation, poor accuracy, missing nearby centroids and lookup failures show an error and retain manual postcode entry. A delayed lookup cannot overwrite a manual edit. Successful lookup retains device coordinates for distance ranking on Go; editing the postcode clears those coordinates and uses the entered postcode instead.
 
-Check: `node scripts/check-location-postcode.cjs` covers the actual form handlers with browser geolocation fixtures, sourced postcode lookup, silent success, delayed-response handling and failures. Real device permissions and visual browser rendering are not exercised by this check.
+Check: `node tests/regression/check-location-postcode.cjs` covers the actual form handlers with browser geolocation fixtures, sourced postcode lookup, silent success, delayed-response handling and failures. Real device permissions and visual browser rendering are not exercised by this check.

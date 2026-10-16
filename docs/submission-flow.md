@@ -39,11 +39,11 @@ that a particular Google model is accessible to the deployed account.
 
 Checks:
 
-- `node scripts/check-submission-flow.cjs` exercises the actual route, processor,
+- `node tests/regression/check-submission-flow.cjs` exercises the actual route, processor,
   matcher and ranking against an in-memory database adapter with test-only fixtures.
-- `node scripts/check-photo-file-part.cjs` checks the photo payload and successful
+- `node tests/regression/check-photo-file-part.cjs` checks the photo payload and successful
   identification surviving an unavailable catalogue module.
-- `node scripts/check-photo-diagnostics.cjs` checks safe provider failure logging.
+- `node tests/regression/check-photo-diagnostics.cjs` checks safe provider failure logging.
 - `bun run typecheck` and `bun run build` check the full app.
 
 Live Postgres and Gemini verification requires deployment configuration; local

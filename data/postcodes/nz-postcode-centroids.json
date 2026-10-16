@@ -1,8 +1,8 @@
 {
   "sourceUrl": "https://raw.githubusercontent.com/matthewproctor/australianpostcodes/master/newzealand_postcodes.json",
   "attribution": "Matthew Proctor — community-maintained NZ postcodes, public domain",
-  "sourceSha256": "044d80401f770a45d5d901d3f9fa7c552ff5861aebae6e558374ab4239d860aa",
-  "generatedAt": "2026-10-16T00:39:10.834Z",
+  "sourceSha256": "31d94525f7fbdfc818cb7e47a029db5061b61876ba280be67665566f39598e89",
+  "generatedAt": "2026-10-16T10:13:45.120Z",
   "sourceRows": 2699,
   "validRows": 2699,
   "rejectedRows": 0,

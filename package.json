@@ -13,6 +13,7 @@
     "format:check": "oxfmt --check .",
     "typecheck": "tsc --noEmit",
     "check": "bun run lint && bun run format:check && bun run typecheck",
+    "test:regression": "node tests/regression/run-all.cjs",
     "prepare": "husky",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "tsx scripts/migrate.ts",

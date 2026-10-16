@@ -123,7 +123,7 @@ function load(file) {
         return { matchItemByTextAi: async () => ({ item: null, confidence: 0, method: null }) };
       if (name === "@/lib/catalogue/seed") throw Error("Automatic seeding must not be used");
       if (name === "@/data/postcodes/valid-postcodes.json")
-        return require("../data/postcodes/valid-postcodes.json");
+        return require("../../data/postcodes/valid-postcodes.json");
       if (name.startsWith("@/")) return load(name.slice(2) + ".ts");
       if (name.startsWith(".")) return load(path.join(path.dirname(file), name) + ".ts");
       return require(name);

@@ -54,8 +54,8 @@ postcodes or coordinates. Inspecting sensitive raw logs is not required.
 The source postcode dataset does not contain `1020`. That is not a reason for a
 500: a well-formed unknown postcode is saved, with a warning and no distances.
 
-Regression checks: `node scripts/check-request-diagnostics.cjs`,
-`node scripts/check-submission-flow.cjs`, and `node scripts/check-photo-diagnostics.cjs`.
+Regression checks: `node tests/regression/check-request-diagnostics.cjs`,
+`node tests/regression/check-submission-flow.cjs`, and `node tests/regression/check-photo-diagnostics.cjs`.
 These simulate provider/database failures, including nested SQL errors, and verify
 reference correlation and exclusion of sensitive fixture strings. They cannot prove
 the live database or Gemini account is configured correctly.

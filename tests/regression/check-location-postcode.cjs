@@ -2,7 +2,7 @@ const fs = require("node:fs");
 const vm = require("node:vm");
 const assert = require("node:assert/strict");
 const ts = require("typescript");
-const dataset = require("../data/postcodes/nz-postcode-centroids.json");
+const dataset = require("../../data/postcodes/nz-postcode-centroids.json");
 function compile(file) {
   return ts.transpileModule(fs.readFileSync(file, "utf8"), {
     compilerOptions: {

@@ -2,8 +2,8 @@ const fs = require("node:fs");
 const vm = require("node:vm");
 const assert = require("node:assert/strict");
 const ts = require("typescript");
-const dataset = require("../data/postcodes/nz-postcode-centroids.json");
-const codes = require("../data/postcodes/valid-postcodes.json");
+const dataset = require("../../data/postcodes/nz-postcode-centroids.json");
+const codes = require("../../data/postcodes/valid-postcodes.json");
 assert.deepEqual(
   codes,
   dataset.centroids.map((row) => row.postcode),

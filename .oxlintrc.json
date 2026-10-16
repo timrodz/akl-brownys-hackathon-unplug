@@ -25,7 +25,7 @@
   "rules": {},
   "overrides": [
     {
-      "files": ["scripts/check-submission-flow.cjs"],
+      "files": ["tests/regression/check-submission-flow.cjs"],
       "rules": {
         "unicorn/no-thenable": "off"
       }

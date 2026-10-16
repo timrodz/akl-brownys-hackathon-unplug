@@ -1,7 +1,7 @@
 // Test-only business fixtures: never imported into the application database.
 const assert = require("assert/strict");
 (async () => {
-  const { buildRecommendations } = await import("../lib/submissions/build-recommendations.ts");
+  const { buildRecommendations } = await import("../../lib/submissions/build-recommendations.ts");
   const business = (id, latitude, longitude) => ({
     id,
     name: id,

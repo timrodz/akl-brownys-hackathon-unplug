@@ -5,7 +5,7 @@ let ts;
 try {
   ts = require("typescript");
 } catch {
-  ts = require("../node_modules/.pnpm/typescript@5.9.3/node_modules/typescript");
+  ts = require("../../node_modules/.pnpm/typescript@5.9.3/node_modules/typescript");
 }
 const source = fs.readFileSync("app/api/analyse/route.ts", "utf8");
 const diagnosticModule = {};
