@@ -17,6 +17,7 @@ import {
   pointFromCoordinates,
 } from "@/lib/location/geocode";
 import { buildRecommendations } from "./build-recommendations";
+import { matchItemByTextAi } from "./match-item-by-text";
 import { matchItemByKeywords } from "./match-item";
 import type {
   RecommendationSummary,
@@ -90,8 +91,21 @@ export async function processSubmission(
   try {
   input.onStage?.("load_catalogue");
   const catalogue = (await db.select().from(items)).filter(item => !item.externalId.startsWith("demo-"));
-  const match = matchItemByKeywords(input.description, catalogue);
-  input.onStage?.("item_matched",{catalogueCount:catalogue.length,matched:Boolean(match.item)});
+  let match = matchItemByKeywords(input.description, catalogue);
+  if (!match.item && !input.photo) {
+    input.onStage?.("item_text_ai_attempt", { keywordMiss: true });
+    const aiMatch = await matchItemByTextAi(
+      input.description,
+      catalogue,
+      input.reference,
+    );
+    if (aiMatch.item) match = aiMatch;
+    input.onStage?.("item_text_ai", { matched: Boolean(aiMatch.item) });
+  }
+  input.onStage?.("item_matched", {
+    catalogueCount: catalogue.length,
+    matched: Boolean(match.item),
+  });
 
   if (!match.item) {
     await db

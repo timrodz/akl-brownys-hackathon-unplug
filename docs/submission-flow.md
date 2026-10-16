@@ -1,8 +1,14 @@
 # Live submission flow
 
-The form saves to the existing `submissions` table. Valid text-only input does
-not need Gemini. It inserts the submission before reading the catalogue, matches
-the current description against database `items`, follows `business_items` to
+The form saves to the existing `submissions` table. It inserts the submission
+before reading the catalogue, keyword-matches the description against database
+`items`, and when there is **no photo on submit** and keywords do not match,
+runs a **Gemini structured catalogue match** (items and item types, same catalogue
+shape as photo analyse) so spelling variants like `powerbank` can resolve to
+`Power bank`. Photo submissions skip this step because identification already
+ran at analyse time. Valid text-only input does not need OpenRouter. Text AI
+matching requires `GEMINI_API_KEY` (or `GOOGLE_GENERATIVE_AI_API_KEY`). It then
+follows `business_items` to
 eligible businesses, calculates straight-line distances when a location is
 available, and persists the match and recommendations.
 
