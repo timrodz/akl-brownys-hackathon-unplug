@@ -70,7 +70,7 @@ export function buildRecommendations(
     drafts.push({
       pathway: "dispose",
       sortOrder: sortOrder++,
-      title: `Council-style guidance: ${item.title}`,
+      title: `Item guidance: ${item.title}`,
       body: item.disposalGuidance,
       businessId: null,
       distanceKm: null,
@@ -134,7 +134,7 @@ export function buildRecommendations(
         hours,
         charges,
         distanceText,
-        "Source: demo catalogue (labelled sample data).",
+        row.business.sourceUrl ? `Source: ${row.business.sourceUrl}` : "",
       ]
         .filter(Boolean)
         .join(" ")

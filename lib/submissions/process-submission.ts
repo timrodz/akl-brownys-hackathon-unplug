@@ -2,7 +2,6 @@ import "server-only";
 
 import { eq, inArray } from "drizzle-orm";
 
-import { seedCatalogue } from "@/lib/catalogue/seed";
 import { db } from "@/lib/db";
 import {
   businessItems,
@@ -38,8 +37,6 @@ export async function processSubmission(
     throw new Error("DATABASE_NOT_CONFIGURED");
   }
 
-  await seedCatalogue();
-
   const locationSource = input.coordinates ? "geolocation" : "postcode";
   let latitude = input.coordinates?.latitude ?? null;
   let longitude = input.coordinates?.longitude ?? null;
@@ -50,7 +47,7 @@ export async function processSubmission(
       input.coordinates.latitude,
       input.coordinates.longitude,
     );
-    if (!point.inAucklandRegion) {
+    if (point.inAucklandRegion === false) {
       warnings.push(
         "Your location looks outside the Auckland region — distances may be less relevant.",
       );
@@ -58,7 +55,7 @@ export async function processSubmission(
     latitude = point.latitude;
     longitude = point.longitude;
   } else if (input.postcode) {
-    const point = geocodePostcode(input.postcode);
+    const point = await geocodePostcode(input.postcode);
     if (!point) {
       warnings.push(
         "We could not map that postcode to a search point — showing options without distance.",
@@ -84,7 +81,8 @@ export async function processSubmission(
     })
     .returning();
 
-  const catalogue = await db.select().from(items);
+  try {
+  const catalogue = (await db.select().from(items)).filter(item => !item.externalId.startsWith("demo-"));
   const match = matchItemByKeywords(input.description, catalogue);
 
   if (!match.item) {
@@ -143,7 +141,7 @@ export async function processSubmission(
 
   const drafts = buildRecommendations(
     match.item,
-    links,
+    links.filter(row => row.business.status !== "demo" && !row.business.externalId.startsWith("demo-")),
     latitude,
     longitude,
   );
@@ -232,4 +230,10 @@ export async function processSubmission(
     recommendations: recommendationSummaries,
     warnings,
   };
+  } catch {
+    // Submission is saved even if the catalogue or recommendations cannot load.
+    try { await db.update(submissions).set({status: "failed", errorMessage: "Catalogue processing failed."}).where(eq(submissions.id, submission.id)); } catch { /* Keep the saved ID if updating status also fails. */ }
+    console.error("[submission]", {stage: "catalogue", submissionId: submission.id, errorType: "ProcessingFailed"});
+    return {submissionId: submission.id, status: "failed", item: null, recommendations: [], warnings: [...warnings, "Your submission was saved, but we couldn't load local options. Please try again shortly."]};
+  }
 }

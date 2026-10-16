@@ -72,7 +72,8 @@ export async function POST(request: Request) {
     });
 
     return Response.json(result, {
-      status: result.status === "failed" ? 422 : 200,
+      // An unmatched item is a saved submission outcome, not an invalid request.
+      status: 200,
     });
   } catch (error) {
     if (error instanceof Error && error.message === "DATABASE_NOT_CONFIGURED") {

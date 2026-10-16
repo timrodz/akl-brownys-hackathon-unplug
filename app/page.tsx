@@ -137,7 +137,7 @@ export default function HomePage() {
       const data = await response.json();
       if (!response.ok) throw new Error(data.error);
       setResult(data as SubmissionSuccessResponse);
-      try { sessionStorage.setItem("unplug-results", JSON.stringify(data)); router.push("/results"); } catch { /* Keep inline results if browser storage is unavailable. */ }
+      try { sessionStorage.setItem("unplug-live-results", JSON.stringify(data)); router.push("/results"); } catch { /* Keep inline results if browser storage is unavailable. */ }
       if (data.status === "results_ready") {
         setMessage("Here are your next steps, ordered by pathway.");
       } else {
@@ -164,7 +164,6 @@ export default function HomePage() {
       <main id="main" className="landing">
         <section className="form-card" aria-labelledby="form-heading">
           <div className="card-top">
-            <span>LET’S START WITH YOUR ITEM</span>
             <span className="pill">About 1 min</span>
           </div>
           <h2 id="form-heading">What have you got?</h2>
@@ -278,8 +277,7 @@ export default function HomePage() {
             {result ? <SubmissionResults result={result} /> : null}
           </form>
           <div className="prototype-note">
-            ● Demo catalogue (5 items, 3 businesses). Live civic imports can
-            replace seed data later.
+            Options are matched against the item and business records in our database.
           </div>
         </section>
       </main>

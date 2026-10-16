@@ -37,9 +37,15 @@ export async function POST(request: Request) {
         if (!text.trim()) throw Object.assign(new Error(), { name: "AI_NoOutputGeneratedError" });
         stage = "catalogue";
         const description = text.trim().slice(0, 1000);
-        const { checkCatalogueDescription } = await import("@/lib/catalogue/check-description");
-        const catalogueCheck = await checkCatalogueDescription(description);
-        return Response.json({ description, ...catalogueCheck });
+        try {
+            const { checkCatalogueDescription } = await import("@/lib/catalogue/check-description");
+            const catalogueCheck = await checkCatalogueDescription(description);
+            return Response.json({ description, ...catalogueCheck });
+        } catch (cause) {
+            console.error("[analyse]", {reference, stage, ...failureDetails(cause)});
+            // Identification succeeded: do not lose the description if the DB module fails.
+            return Response.json({description, catalogueMatch: null, catalogueWarning: "Photo identified. Catalogue checking is temporarily unavailable; please review the description."});
+        }
     }
     catch (cause) {
         const details = failureDetails(cause);
