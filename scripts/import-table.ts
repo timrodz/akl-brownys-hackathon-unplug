@@ -16,6 +16,9 @@ import { createScriptDb } from "../lib/db/create-client";
 import { loadProjectEnv, projectEnvFilePaths } from "./load-env";
 
 const VALID_TABLES: ImportableTable[] = [
+  "business_types",
+  "item_types",
+  "data_dictionary",
   "items",
   "businesses",
   "business_items",
@@ -99,7 +102,13 @@ async function run(): Promise<void> {
       filePath: file,
       source,
     });
-    console.log(`✓ ${result.table}: upserted ${result.rows} row(s) from ${file}`);
+    const skipped =
+      result.skipped !== undefined && result.skipped > 0
+        ? ` (${result.skipped} skipped: missing parent FK)`
+        : "";
+    console.log(
+      `✓ ${result.table}: upserted ${result.rows} row(s) from ${file}${skipped}`,
+    );
   } catch (error) {
     console.error(error);
     process.exitCode = 1;
