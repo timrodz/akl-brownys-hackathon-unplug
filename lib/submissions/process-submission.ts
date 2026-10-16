@@ -1,4 +1,5 @@
 import "server-only";
+import { safeFailure } from "@/lib/diagnostics";
 
 import { eq, inArray } from "drizzle-orm";
 
@@ -24,6 +25,8 @@ import type {
 } from "./types";
 
 export type ProcessSubmissionInput = {
+  reference?: string;
+  onStage?: (stage: string, metadata?: Record<string, number | boolean>) => void;
   description: string;
   postcode?: string;
   coordinates?: { latitude: number; longitude: number };
@@ -37,6 +40,7 @@ export async function processSubmission(
     throw new Error("DATABASE_NOT_CONFIGURED");
   }
 
+  input.onStage?.("resolve_location");
   const locationSource = input.coordinates ? "geolocation" : "postcode";
   let latitude = input.coordinates?.latitude ?? null;
   let longitude = input.coordinates?.longitude ?? null;
@@ -66,6 +70,7 @@ export async function processSubmission(
     }
   }
 
+  input.onStage?.("save_submission",{hasPhoto:Boolean(input.photo),locationResolved:latitude!==null&&longitude!==null});
   const [submission] = await db
     .insert(submissions)
     .values({
@@ -81,9 +86,12 @@ export async function processSubmission(
     })
     .returning();
 
+  input.onStage?.("submission_saved");
   try {
+  input.onStage?.("load_catalogue");
   const catalogue = (await db.select().from(items)).filter(item => !item.externalId.startsWith("demo-"));
   const match = matchItemByKeywords(input.description, catalogue);
+  input.onStage?.("item_matched",{catalogueCount:catalogue.length,matched:Boolean(match.item)});
 
   if (!match.item) {
     await db
@@ -129,6 +137,7 @@ export async function processSubmission(
     .set({ status: "matched" })
     .where(eq(submissions.id, submission.id));
 
+  input.onStage?.("load_linked_businesses");
   const links = await db
     .select({
       business: businesses,
@@ -146,6 +155,7 @@ export async function processSubmission(
     longitude,
   );
 
+  input.onStage?.("save_recommendations",{businessLinks:links.length,recommendations:drafts.length});
   const insertedRecs = await db
     .insert(recommendations)
     .values(
@@ -230,10 +240,10 @@ export async function processSubmission(
     recommendations: recommendationSummaries,
     warnings,
   };
-  } catch {
+  } catch (error) {
     // Submission is saved even if the catalogue or recommendations cannot load.
     try { await db.update(submissions).set({status: "failed", errorMessage: "Catalogue processing failed."}).where(eq(submissions.id, submission.id)); } catch { /* Keep the saved ID if updating status also fails. */ }
-    console.error("[submission]", {stage: "catalogue", submissionId: submission.id, errorType: "ProcessingFailed"});
+    console.error("[submission]", {event:"processing_failed_after_save",reference:input.reference,submissionId:submission.id,...safeFailure(error)});
     return {submissionId: submission.id, status: "failed", item: null, recommendations: [], warnings: [...warnings, "Your submission was saved, but we couldn't load local options. Please try again shortly."]};
   }
 }
