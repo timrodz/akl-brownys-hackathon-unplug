@@ -415,10 +415,20 @@ ranked in existing pathway order and then distance within each pathway. The tabl
 contains rank, business name, straight-line distance and telephone. Demo phone numbers
 are displayed as sample contacts, not presented as verified call targets. Missing
 phones/distances are labelled. Results are held in tab-local sessionStorage for the
-page transition (without image bytes or coordinates); start a new submission to refresh.
+page transition (without image bytes or resident coordinates); start a new submission to refresh.
 The postcode form already offers `Use my location`, which requests browser permission
 on click and falls back to manual postcode entry if denied, timed out or unavailable.
 
 Checks: `node scripts/check-item-matching.cjs`, `node scripts/check-photo-fallback.cjs`,
 and `node scripts/check-gemini-model.cjs`. Full dependency installation, build and
 browser verification remain blocked by the local dependency release-age policy.
+
+### Business location maps
+
+Results show Rank, Business name (including pathway, suburb and website), Distance from you, and Telephone. Click a business row or activate its View location button to expand the street address, a map pin and an Open directions link. Each row expands independently; website and telephone links keep their normal actions.
+
+Business addresses and coordinates are passed from the existing database fields. Maps load only when expanded, using [OpenStreetMap embeds](https://wiki.openstreetmap.org/wiki/Export_tab); no map API key or geocoding is required. Map attribution is displayed. The external embed receives business coordinates, not the resident's location. Directions open Google Maps with the business destination only.
+
+Missing or invalid coordinates show a map-unavailable message. Existing stored results without location fields remain usable; submit a new search for maps. Catalogue pins are not independently verified; check addresses before travelling. Business coordinates are included in tab-local stored results.
+
+Checks: `node scripts/check-business-maps.cjs` and `node scripts/check-submission-flow.cjs`.

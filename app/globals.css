@@ -19,4 +19,4 @@
   body {
     @apply bg-background text-foreground;}
   html {
-    @apply font-sans;}}
+    @apply font-sans;}}.business-result-row{cursor:pointer}.business-result-row:hover,.business-result-row.is-expanded{background:#f7f9f2}.business-map-toggle{display:block;text-align:left;padding:0;border:0;background:transparent;color:inherit}.business-map-toggle span{display:block;font-size:11px;color:#214f40;margin-top:7px;font-weight:600}.business-location-row[hidden]{display:none}.results-table .business-location-row td{padding:18px;background:#f7f9f2}.business-location p{margin:0 0 12px;line-height:1.6}.business-location iframe{display:block;width:100%;height:300px;border:1px solid var(--border);border-radius:8px;background:#edf1e6}.business-location .help{margin-top:10px;max-width:620px}.business-location .results-link{display:inline-block;min-height:32px}@media(max-width:720px){.business-location iframe{height:240px}}
