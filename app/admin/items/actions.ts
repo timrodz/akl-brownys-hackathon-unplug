@@ -30,6 +30,8 @@ export async function createItem(formData: FormData) {
   const categoryName = String(formData.get("categoryName") || "").trim();
   const hazardAlert = String(formData.get("hazardAlert") || "").trim() || null;
   const disposalGuidance = String(formData.get("disposalGuidance") || "").trim() || null;
+  const approxCost = String(formData.get("approxCost") || "").trim() || null;
+  const costType = String(formData.get("costType") || "").trim() || null;
 
   const rawKeywords = String(formData.get("keywords") || "").trim();
   const keywordsSet = new Set<string>();
@@ -51,6 +53,8 @@ export async function createItem(formData: FormData) {
     keywords: Array.from(keywordsSet),
     hazardAlert,
     disposalGuidance,
+    approxCost,
+    costType,
     slug: slugify(title),
   });
 
@@ -69,6 +73,8 @@ export async function updateItem(id: string, formData: FormData) {
   const categoryName = String(formData.get("categoryName") || "").trim();
   const hazardAlert = String(formData.get("hazardAlert") || "").trim() || null;
   const disposalGuidance = String(formData.get("disposalGuidance") || "").trim() || null;
+  const approxCost = String(formData.get("approxCost") || "").trim() || null;
+  const costType = String(formData.get("costType") || "").trim() || null;
 
   const rawKeywords = String(formData.get("keywords") || "").trim();
   const keywordsSet = new Set<string>();
@@ -92,6 +98,8 @@ export async function updateItem(id: string, formData: FormData) {
       keywords: Array.from(keywordsSet),
       hazardAlert,
       disposalGuidance,
+      approxCost,
+      costType,
       slug: slugify(title),
       updatedAt: new Date(),
     })

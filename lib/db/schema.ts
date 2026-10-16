@@ -150,6 +150,8 @@ export const items = pgTable(
     hazardAlert: text("hazard_alert"),
     disposalGuidance: text("disposal_guidance"),
     slug: text("slug"),
+    approxCost: text("approx_cost"),
+    costType: text("cost_type"),
     createdAt: timestamp("created_at", { withTimezone: true })
       .defaultNow()
       .notNull(),
