@@ -17,6 +17,8 @@ type Props = {
   tableName: string;
   basePath: string;
   result: AdminListResult;
+  headerAction?: React.ReactNode;
+  rowActionHref?: (row: Record<string, unknown>) => string;
 };
 
 export function AdminEntityPage({
@@ -24,22 +26,33 @@ export function AdminEntityPage({
   tableName,
   basePath,
   result,
+  headerAction,
+  rowActionHref,
 }: Props) {
   return (
     <Card className="mx-auto max-w-[1400px]">
       <CardHeader>
-        <CardTitle className="text-2xl font-semibold tracking-tight">
-          {glossaryLabel}
-        </CardTitle>
-        <CardDescription className="flex flex-wrap items-center gap-2">
-          <Badge variant="secondary" className="font-mono">
-            {tableName}
-          </Badge>
-          <span>Read-only</span>
-        </CardDescription>
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <CardTitle className="text-2xl font-semibold tracking-tight">
+              {glossaryLabel}
+            </CardTitle>
+            <CardDescription className="flex flex-wrap items-center gap-2 mt-1">
+              <Badge variant="secondary" className="font-mono">
+                {tableName}
+              </Badge>
+              {headerAction ? (
+                <span className="text-xs text-muted-foreground">Manageable</span>
+              ) : (
+                <span>Read-only</span>
+              )}
+            </CardDescription>
+          </div>
+          {headerAction && <div>{headerAction}</div>}
+        </div>
       </CardHeader>
       <CardContent>
-        <AdminDataTable result={result} />
+        <AdminDataTable result={result} rowActionHref={rowActionHref} />
       </CardContent>
       <CardFooter className="border-t">
         <AdminPagination result={result} basePath={basePath} />

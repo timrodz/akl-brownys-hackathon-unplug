@@ -15,6 +15,9 @@ export type BusinessSummary = {
   phone: string | null;
   website: string | null;
   sourceUrl: string | null;
+  streetAddress: string | null;
+  latitude: number | null;
+  longitude: number | null;
 };
 
 export type RecommendationSummary = {

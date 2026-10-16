@@ -345,8 +345,8 @@ optional photo bytes), keyword-matches one catalogue **item**, writes ordered
 **recommendations**, and returns JSON for the UI. The first successful submit also
 upserts the demo catalogue if the database is empty.
 
-`POST /api/analyse` uses Gemini to identify the photo; the user can correct its text.
-Set `GEMINI_API_KEY` in `.env.local` (`GOOGLE_GENERATIVE_AI_API_KEY` also works).
+`POST /api/analyse` uses OpenRouter `openrouter/free` to identify the photo; the user can correct its text.
+Set the server-only `OPENROUTER` API key in Vercel for the deployment environment and redeploy. For local development, set `OPENROUTER` in `.env.local`. The Vercel value is not automatically available locally.
 Never expose keys with `NEXT_PUBLIC_`. No key is needed for text-only form submission;
 missing identification configuration has a visible manual-description fallback. AI
 identification can be inaccurate.
@@ -354,16 +354,19 @@ identification can be inaccurate.
 Photo analyse does not persist until submit.
 
 ### Unplug update
-The app is now named Unplug and uses a centred single-column form. If Gemini is
+The app is now named Unplug and uses a centred single-column form. If OpenRouter is
 not configured, photo identification returns an explicit `status: "manual"`
 response and the UI keeps the attached photo with a prompt for a description.
 This replaces the earlier missing-key HTTP 503; it does not simulate AI analysis.
-Configure a non-empty Gemini key in the deployment environment and redeploy to
+Configure a non-empty `OPENROUTER` key in the deployment environment and redeploy to
 activate identification. Empty aliases no longer shadow another configured key.
 Run `node scripts/check-photo-fallback.cjs` after dependency installation to check
-the actual route's missing-key response with the Gemini provider stubbed out.
+the actual route's missing-key response with the photo classifier stubbed out.
 
-### Gemini model availability
+### Photo model availability
+Photo identification always uses [OpenRouter Free Models Router](https://openrouter.ai/openrouter/free), which selects a free model supporting image input. Free models have availability and usage limits; failures keep the manual-description path available. Photos are sent to OpenRouter and its selected provider. No paid model fallback is configured.
+
+### Other Gemini calls
 The default is `gemini-3.8-flash`. Google restricts Gemini 2.5 models to projects
 that actively used them previously, which can cause a provider 404 for new projects.
 Set the optional server-only `GEMINI_MODEL` to override the model, then redeploy.
@@ -412,7 +415,7 @@ ranked in existing pathway order and then distance within each pathway. The tabl
 contains rank, business name, straight-line distance and telephone. Demo phone numbers
 are displayed as sample contacts, not presented as verified call targets. Missing
 phones/distances are labelled. Results are held in tab-local sessionStorage for the
-page transition (without image bytes or coordinates); start a new submission to refresh.
+page transition (without image bytes or resident coordinates); start a new submission to refresh.
 The postcode form already offers `Use my location`, which requests browser permission
 on click and falls back to manual postcode entry if denied, timed out or unavailable.
 
@@ -433,3 +436,13 @@ Results state why a business is listed and display available acceptance/drop-off
 Data review: checked-in files contain 214 businesses and 2,407 acceptance links covering 60 item types. Links represent listed acceptance, not verified capacity or condition-specific acceptance. No explicit negative item links or machine-readable condition exclusions exist. An absent link means no evidence of acceptance, not a confirmed refusal. Free-text notes are displayed rather than interpreted as reliable eligibility rules. Broad business-type descriptions do not establish acceptance of an individual item. Local database access was connection-refused during this review, so these counts describe the repository files, not verified live database contents.
 
 Validation: `node scripts/check-postcode-acceptance.cjs`, `node scripts/check-submission-flow.cjs`, `node scripts/check-postcode-lookup.cjs`, and `bun scripts/check-distance-ranking.cjs`.
+
+### Business location maps
+
+Results show Rank, Business name (including pathway, suburb and website), Distance from you, and Telephone. Click a business row or activate its View location button to expand the street address, a map pin and an Open directions link. Each row expands independently; website and telephone links keep their normal actions.
+
+Business addresses and coordinates are passed from the existing database fields. Maps load only when expanded, using [OpenStreetMap embeds](https://wiki.openstreetmap.org/wiki/Export_tab); no map API key or geocoding is required. Map attribution is displayed. The external embed receives business coordinates, not the resident's location. Directions open Google Maps with the business destination only.
+
+Missing or invalid coordinates show a map-unavailable message. Existing stored results without location fields remain usable; submit a new search for maps. Catalogue pins are not independently verified; check addresses before travelling. Business coordinates are included in tab-local stored results.
+
+Checks: `node scripts/check-business-maps.cjs` and `node scripts/check-submission-flow.cjs`.

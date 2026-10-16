@@ -16,9 +16,10 @@ import { cn } from "@/lib/utils";
 
 type Props = {
   result: AdminListResult;
+  rowActionHref?: (row: Record<string, unknown>) => string;
 };
 
-export function AdminDataTable({ result }: Props) {
+export function AdminDataTable({ result, rowActionHref }: Props) {
   const { rows, columns, filterId } = result;
 
   if (rows.length === 0) {
@@ -33,6 +34,11 @@ export function AdminDataTable({ result }: Props) {
     <Table>
       <TableHeader>
         <TableRow>
+          {rowActionHref && (
+            <TableHead className="font-mono text-xs w-[80px]">
+              Actions
+            </TableHead>
+          )}
           {columns.map((column) => (
             <TableHead key={column} className="font-mono text-xs">
               {column}
@@ -49,6 +55,16 @@ export function AdminDataTable({ result }: Props) {
               key={rowId}
               data-state={highlighted ? "selected" : undefined}
             >
+              {rowActionHref && (
+                <TableCell className="align-top py-2">
+                  <Link
+                    href={rowActionHref(row)}
+                    className="inline-flex items-center justify-center rounded px-2 py-1 text-xs font-semibold bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
+                  >
+                    Edit
+                  </Link>
+                </TableCell>
+              )}
               {columns.map((column) => {
                 const value = row[column];
                 const href = adminLinkForColumn(column, value);
